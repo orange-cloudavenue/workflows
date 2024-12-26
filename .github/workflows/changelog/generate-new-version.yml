@@ -1,0 +1,49 @@
+name: "Generate new version"
+on:
+  workflow_call:
+    secrets:
+        CHANGELOG_PAT:
+          required: true
+    inputs:
+        tag:
+            description: 'Tag version number (Eg: v0.1.0)'
+            required: true
+            type: string
+            
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        name: Checkout 
+        with:
+          token: ${{ secrets.CHANGELOG_PAT }}
+          fetch-depth: 0
+          ref: main
+      - name: Update Changelog Header
+        run: |
+          CHANGELOG_FILE_NAME="CHANGELOG.md"
+          RELEASE_TAG=${{ needs.pre-check.outputs.TAG_NAME }}
+          # PREVIOUS_RELEASE_TAG=${{ github.ref_name }}
+
+          # Add Release Date
+          RELEASE_DATE=`date +%B' '%e', '%Y`
+          sed -i -e "1 s/.*Unreleased.*/## ${RELEASE_TAG#v} ($RELEASE_DATE)/" $CHANGELOG_FILE_NAME
+
+          # Prepend next release line
+          echo Release is: $RELEASE_TAG
+
+          NEW_RELEASE_LINE=$(echo $RELEASE_TAG | awk -F. '{
+              $1 = substr($1,2)
+              $2 += 1
+              printf("%s.%01d.0\n\n", $1, $2);
+          }')
+
+          echo New minor version is: v$NEW_RELEASE_LINE
+
+          echo -e "## $NEW_RELEASE_LINE (Unreleased)\n$(cat $CHANGELOG_FILE_NAME)" > $CHANGELOG_FILE_NAME
+      - name: Commit and push changes
+        uses: orange-cloudavenue/workflows/.github/workflows/git/bot-commit.yml@main
+        inputs:
+          commit-message: "chore: Update CHANGELOG.md after ${{ github.ref_name }}"
+            file-pattern: CHANGELOG.md

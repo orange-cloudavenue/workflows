@@ -1,0 +1,32 @@
+name: "Check Tag"
+on:
+  workflow_call:
+    secrets:
+        CHANGELOG_PAT:
+          required: true
+    inputs:
+        tag:
+            description: 'Tag version number (Eg: v0.1.0)'
+            required: true
+            type: string
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        name: Checkout 
+        with:
+          token: ${{ secrets.CHANGELOG_PAT }}
+      - name: Check if tag is valid
+        run : |
+          # Check if the tag start with 'v', if not, add it
+          if [[ ! ${{ inputs.tag }} =~ ^v.* ]]; then
+            echo "Error tag format is invalid. The format is vx.x.x" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+      - name: Check if tag not already exists
+        run: |
+          if git rev-parse ${{ inputs.tag }} >/dev/null 2>&1; then
+            echo "Tag ${{ inputs.tag }} already exists" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi

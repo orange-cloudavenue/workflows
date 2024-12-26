@@ -1,0 +1,25 @@
+name: "Create Tag"
+on:
+  workflow_call:
+    secrets:
+        CHANGELOG_PAT:
+          required: true
+    inputs:
+        tag:
+            description: 'Tag version number (Eg: v0.1.0)'
+            required: true
+            type: string
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        name: Checkout 
+        with:
+          token: ${{ secrets.CHANGELOG_PAT }}
+      - uses: rickstaa/action-create-tag@v1
+        id: "tag_create"
+        with:
+          tag: ${{ inputs.tag }}
+          tag_exists_error: true
+          message: "Release ${{ inputs.tag }}"

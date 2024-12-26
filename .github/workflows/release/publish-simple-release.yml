@@ -1,0 +1,37 @@
+name: "Publish release"
+on:
+  workflow_call:
+    secrets:
+        CHANGELOG_PAT:
+          required: true
+    inputs:
+        artifact_name:
+            description: 'Release note artifact name'
+            required: true
+            type: string
+        tag:
+            description: 'Tag version number (Eg: v0.1.0)'
+            required: true
+            type: string
+jobs:
+  publish-release:
+    runs-on: ubuntu-latest
+    steps:
+      - id: checkout
+        uses: actions/checkout@v4
+        name: Checkout 
+        with:
+          token: ${{ secrets.CHANGELOG_PAT }}
+          fetch-depth: 0
+          ref: ${{ inputs.tag }}
+      - id: release-notes-download
+        name: Release Notes Download
+        uses: actions/download-artifact@v4
+        with:
+            name: ${{ inputs.artifact_name }}
+            path: /tmp
+      - id: release-action
+        name: Publish Release
+        uses: ncipollo/release-action@v1.14.0
+        with:
+            bodyFile: "${{ steps.release-notes-download.outputs.download-path }}/${{ inputs.artifact_name }}" 
