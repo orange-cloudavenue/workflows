@@ -2,7 +2,7 @@ name: "Generate new version"
 on:
   workflow_call:
     secrets:
-        CHANGELOG_PAT:
+        TOKEN:
           required: true
     inputs:
         tag:
@@ -17,14 +17,13 @@ jobs:
       - uses: actions/checkout@v4
         name: Checkout 
         with:
-          token: ${{ secrets.CHANGELOG_PAT }}
+          token: ${{ secrets.TOKEN }}
           fetch-depth: 0
           ref: main
       - name: Update Changelog Header
         run: |
           CHANGELOG_FILE_NAME="CHANGELOG.md"
-          RELEASE_TAG=${{ needs.pre-check.outputs.TAG_NAME }}
-          # PREVIOUS_RELEASE_TAG=${{ github.ref_name }}
+          RELEASE_TAG=${{ inputs.tag }}
 
           # Add Release Date
           RELEASE_DATE=`date +%B' '%e', '%Y`
@@ -43,7 +42,11 @@ jobs:
 
           echo -e "## $NEW_RELEASE_LINE (Unreleased)\n$(cat $CHANGELOG_FILE_NAME)" > $CHANGELOG_FILE_NAME
       - name: Commit and push changes
-        uses: orange-cloudavenue/workflows/.github/workflows/git/bot-commit.yml@main
-        inputs:
-          commit-message: "chore: Update CHANGELOG.md after ${{ github.ref_name }}"
-            file-pattern: CHANGELOG.md
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: Update CHANGELOG.md"
+          commit_options: '--no-verify --signoff'
+          file_pattern: CHANGELOG.md
+          commit_user_name: github-actions[bot]
+          commit_user_email: github-actions[bot]@users.noreply.github.com
+          commit_author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>

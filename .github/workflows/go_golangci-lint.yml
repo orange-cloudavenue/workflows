@@ -1,0 +1,43 @@
+name: "GolangCI Lint"
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  check-lint-requirements:
+    runs-on: ubuntu-latest
+    outputs:
+      need-lint: ${{ steps.filter.outputs.go }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            go:
+              - '**/*.go'
+
+  golangci-lint:
+    if: ${{ needs.check-lint-requirements.outputs.need-lint == 'true' }}
+    needs: check-lint-requirements
+    strategy:
+        matrix:
+          os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    name: "GolangCI Lint (${{ matrix.os }})"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: 'go.mod'
+      - name: Install dependencies
+        shell: bash 
+        run: go mod download
+      - name: Run linters (${{ matrix.os }})
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: latest

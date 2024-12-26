@@ -1,0 +1,31 @@
+---
+name: "Generate CHANGELOG"
+
+on:
+  workflow_call:
+    secrets:
+      TOKEN:
+        required: true
+
+jobs:
+  generate-changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.TOKEN }}
+          fetch-depth: 0
+          submodules: false
+          ref: main
+      - name: Generate Changelog
+        uses: orange-cloudavenue/generate-changelog-action@v0.1.9
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          branch: main
+          commit_message: "chore: Update CHANGELOG.md"
+          commit_options: '--no-verify --signoff'
+          file_pattern: CHANGELOG.md
+          commit_user_name: github-actions[bot]
+          commit_user_email: github-actions[bot]@users.noreply.github.com
+          commit_author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>

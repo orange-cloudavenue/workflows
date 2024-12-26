@@ -2,7 +2,7 @@ name: "Generate release note"
 on:
   workflow_call:
     secrets:
-        CHANGELOG_PAT:
+        TOKEN:
           required: true
     inputs:
         tag:
@@ -10,20 +10,20 @@ on:
             required: true
             type: string
     outputs:
-        release_note_artifact_name:
+        artifact-name:
             description: 'Release note artifact name'
-            value: ${{ jobs.generate-release-note.outputs.releasenoteartifact }}
+            value: ${{ jobs.generate.outputs.artifact-name }}
 jobs:
-  generate-release-note:
+  generate:
     runs-on: ubuntu-latest
     outputs:
-      artifact_name: ${{ steps.generate-release-notes.outputs.releasenoteartifact }}
+      artifact-name: ${{ steps.generate-release-notes.outputs.releasenoteartifact }}
     steps:
       - id: checkout
         uses: actions/checkout@v4
         name: Checkout 
         with:
-          token: ${{ secrets.CHANGELOG_PAT }}
+          token: ${{ secrets.TOKEN }}
           fetch-depth: 0
           ref: ${{ inputs.tag }}
       - id: generate-release-notes

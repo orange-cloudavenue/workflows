@@ -2,7 +2,7 @@ name: "Check Tag"
 on:
   workflow_call:
     secrets:
-        CHANGELOG_PAT:
+        TOKEN:
           required: true
     inputs:
         tag:
@@ -10,13 +10,13 @@ on:
             required: true
             type: string
 jobs:
-  check:
+  check-tag-already-exists:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         name: Checkout 
         with:
-          token: ${{ secrets.CHANGELOG_PAT }}
+          token: ${{ secrets.TOKEN }}
       - name: Check if tag is valid
         run : |
           # Check if the tag start with 'v', if not, add it

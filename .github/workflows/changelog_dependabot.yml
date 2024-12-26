@@ -1,0 +1,41 @@
+name: "Changelog Dependabot"
+on:
+  workflow_call:
+    secrets:
+      TOKEN:
+        required: true
+
+jobs:
+  changelog-dependabot:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.pull_request.user.login == 'dependabot[bot]' }}
+    steps:
+      - name: Fetch dependabot metadata
+        id: dependabot-metadata
+        uses: dependabot/fetch-metadata@v2
+      - uses: actions/checkout@v4
+        name: Checkout 
+        with:
+          token: ${{ secrets.TOKEN }}
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Update Changelog Header
+        run: |
+          cat << EOF > .changelog/$PR_NUMBER.txt
+          \`\`\`release-note:dependency
+          deps: bumps $DEP_NAME from $DEP_PREV_VERSION to $DEP_NEXT_VERSION
+          \`\`\`
+          EOF
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          DEP_NAME: ${{ steps.dependabot-metadata.outputs.dependency-names }}
+          DEP_PREV_VERSION: ${{ steps.dependabot-metadata.outputs.previous-version }}
+          DEP_NEXT_VERSION: ${{ steps.dependabot-metadata.outputs.new-version }}
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: Add changelog for #${{ github.event.pull_request.number }}"
+          commit_options: '--no-verify --signoff'
+          file_pattern: .changelog/${{ github.event.pull_request.number }}.txt
+          commit_user_name: github-actions[bot]
+          commit_user_email: github-actions[bot]@users.noreply.github.com
+          commit_author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>

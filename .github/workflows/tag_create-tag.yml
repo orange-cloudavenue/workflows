@@ -2,7 +2,7 @@ name: "Create Tag"
 on:
   workflow_call:
     secrets:
-        CHANGELOG_PAT:
+        TOKEN:
           required: true
     inputs:
         tag:
@@ -10,13 +10,13 @@ on:
             required: true
             type: string
 jobs:
-  check:
+  create:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         name: Checkout 
         with:
-          token: ${{ secrets.CHANGELOG_PAT }}
+          token: ${{ secrets.TOKEN }}
       - uses: rickstaa/action-create-tag@v1
         id: "tag_create"
         with:

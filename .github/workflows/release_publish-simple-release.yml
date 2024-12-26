@@ -2,10 +2,10 @@ name: "Publish release"
 on:
   workflow_call:
     secrets:
-        CHANGELOG_PAT:
+        TOKEN:
           required: true
     inputs:
-        artifact_name:
+        artifact-name:
             description: 'Release note artifact name'
             required: true
             type: string
@@ -21,17 +21,19 @@ jobs:
         uses: actions/checkout@v4
         name: Checkout 
         with:
-          token: ${{ secrets.CHANGELOG_PAT }}
+          token: ${{ secrets.TOKEN }}
           fetch-depth: 0
           ref: ${{ inputs.tag }}
       - id: release-notes-download
         name: Release Notes Download
         uses: actions/download-artifact@v4
         with:
-            name: ${{ inputs.artifact_name }}
+            name: ${{ inputs.artifact-name }}
             path: /tmp
       - id: release-action
         name: Publish Release
         uses: ncipollo/release-action@v1.14.0
         with:
-            bodyFile: "${{ steps.release-notes-download.outputs.download-path }}/${{ inputs.artifact_name }}" 
+            tag: ${{ inputs.tag }}
+            bodyFile: "${{ steps.release-notes-download.outputs.download-path }}/${{ inputs.artifact-name }}"
+            token: ${{ secrets.TOKEN }}
