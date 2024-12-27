@@ -1,0 +1,25 @@
+{% include '../common/header.tmpl' %}
+
+name: PR Close
+on:
+  pull_request:
+    types: [closed]
+  workflow_dispatch:
+
+concurrency:
+  {#- raw is used to avoid conflicts with the templating engine and github action #}
+  group: {% raw %}${{ github.ref }}-${{ github.head_ref }}-changelog{% endraw %}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  GenerateChangelog:
+    if: github.event.pull_request.merged || github.event_name == 'workflow_dispatch'
+    name: "Generate CHANGELOG"
+    uses: orange-cloudavenue/workflows/.github/workflows/changelog_generate-changelog.yml@main
+    secrets:
+      {#- raw is used to avoid conflicts with the templating engine and github action #}
+      TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}

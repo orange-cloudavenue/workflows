@@ -1,0 +1,30 @@
+{% include '../common/header.tmpl' %}
+
+name: PR Open
+
+on:
+  pull_request:
+
+concurrency:
+  {#- raw is used to avoid conflicts with the templating engine and github action #}
+  group: {% raw %}${{ github.ref }}-${{ github.head_ref }}-changelog{% endraw %}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  changelog-dependabot:
+    name: "Changelog Dependabot"
+    uses: orange-cloudavenue/workflows/.github/workflows/changelog_dependabot.yml@main
+    secrets:
+      {#- raw is used to avoid conflicts with the templating engine and github action #}
+      TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
+
+{% if golang %}
+  golang-ci-lint:
+    {% include './common/golang/lint.tmpl' %}
+
+  tests:
+    {% include './common/golang/unit-test.tmpl' %}
+{% endif %}

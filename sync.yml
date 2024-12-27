@@ -1,17 +1,44 @@
 group:
   # Golang repositories
   - files:
+      # GolangCI Lint
       - source: shared-files/golang/.golangci.yml.njk
         template: true
         dest: .golangci.yml
+      # Pre-commit
       - source: shared-files/pre-commit/.pre-commit-config.yaml.njk
         template: 
           golang: true
         dest: .pre-commit-config.yaml
+      - source: shared-files/pre-commit/scripts/go-mod.sh.njk
+        template: true
+        dest: .pre-commit/go-mod
+      # Dependabot
       - source: shared-files/dependabot/dependabot.yml.njk
         template: 
           golang: true
         dest: .github/dependabot.yml
+    repos: |
+      orange-cloudavenue/terraform-plugin-framework-validators
+      orange-cloudavenue/terraform-plugin-framework-planmodifiers
+
+  # Github actions (Simple golang repository)
+  - files:
+      # * Release
+      - source: shared-files/github-actions/release_simple.yml.njk
+        template: 
+          golang: true
+        dest: .github/workflows/release.yml
+      # * PR Open
+      - source: shared-files/github-actions/pr_open.yml.njk
+        template: 
+          golang: true
+        dest: .github/workflows/pr_open.yml
+      # * PR Close
+      - source: shared-files/github-actions/pr_close.yml.njk
+        template: 
+          golang: true
+        dest: .github/workflows/pr_close.yml
     repos: |
       orange-cloudavenue/terraform-plugin-framework-validators
       orange-cloudavenue/terraform-plugin-framework-planmodifiers
