@@ -1,7 +1,7 @@
 group:
   # Golang repositories
   - files:
-      - source: shared-files/golang/.golangci.yml
+      - source: shared-files/golang/.golangci.yml.njk
         template: true
         dest: .golangci.yml
       - source: shared-files/pre-commit/.pre-commit-config.yaml.njk
