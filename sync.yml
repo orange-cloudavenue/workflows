@@ -2,6 +2,7 @@ group:
   # GolangCI-Lint workflow
   - files:
       - source: shared-files/golang/.golangci.yml
+        template: true
         dest: .golangci.yml
     repos: |
       orange-cloudavenue/terraform-plugin-framework-validators

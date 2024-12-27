@@ -2,7 +2,7 @@ name: Sync Files
 on:
   push:
     branches:
-      - master
+      - main
   workflow_dispatch:
 jobs:
   sync:
@@ -10,8 +10,12 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@master
+        # Use specific commit SHA because the PR is not merged yet (https://github.com/BetaHuhn/repo-file-sync-action/pull/303)
       - name: Run Repo File Sync Action
-        uses: BetaHuhn/repo-file-sync-action@v1
+        uses: BetaHuhn/repo-file-sync-action@2da9fa866f117b06abec3e4c61c5e96ef86c142f
         with:
           GH_PAT: ${{ secrets.CHANGELOG_PAT }}
           CONFIG_PATH: sync.yml
+          COMMIT_PREFIX: "chore:"
+          GIT_EMAIL: "github-actions[bot]@users.noreply.github.com"
+          GIT_USERNAME: "github-actions[bot]"
