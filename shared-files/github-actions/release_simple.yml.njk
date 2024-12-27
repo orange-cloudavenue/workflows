@@ -1,4 +1,4 @@
-{% include '../common/header.tmpl' %}
+{% include '../common/header.yml.tmpl' %}
 
 name: Release
 
@@ -31,7 +31,11 @@ jobs:
 
   tests:
     needs: [pre-check]
+    {% if terraform_provider %}
+    {% include './common/golang/unit-test-tf-provider.tmpl' %}
+    {% else %}
     {% include './common/golang/unit-test.tmpl' %}
+    {% endif %}
 {% endif %}
 
   tag:

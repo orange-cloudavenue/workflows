@@ -1,5 +1,5 @@
 group:
-  # Golang repositories
+  # ALL Golang repositories
   - files:
       # GolangCI Lint
       - source: shared-files/golang/.golangci.yml.njk
@@ -21,9 +21,36 @@ group:
     repos: |
       orange-cloudavenue/terraform-plugin-framework-validators
       orange-cloudavenue/terraform-plugin-framework-planmodifiers
+      orange-cloudavenue/terraform-provider-cloudavenue
 
-  # Github actions (Simple golang repository)
+  # Terraform provider repositories
   - files:
+      # * Snippet changelog
+      - source: shared-files/changelog/vscode/changelog.code-snippets.njk
+        template: 
+          terraform_provider: true
+        dest: .vscode/changelog.code-snippets
+      # * PR Open
+      - source: shared-files/github-actions/pr_open.yml.njk
+        template: 
+          golang: true
+          terraform_provider: true
+        dest: .github/workflows/pr_open.yml
+      # * PR Close
+      - source: shared-files/github-actions/pr_close.yml.njk
+        template: 
+          golang: true
+          terraform_provider: true
+        dest: .github/workflows/pr_close.yml
+    repos: |
+      orange-cloudavenue/terraform-provider-cloudavenue
+      
+  # Generic repositories
+  - files:
+      # * Snippet changelog
+      - source: shared-files/changelog/vscode/changelog.code-snippets.njk
+        template: true
+        dest: .vscode/changelog.code-snippets
       # * Release
       - source: shared-files/github-actions/release_simple.yml.njk
         template: 
@@ -42,3 +69,4 @@ group:
     repos: |
       orange-cloudavenue/terraform-plugin-framework-validators
       orange-cloudavenue/terraform-plugin-framework-planmodifiers
+    

@@ -1,0 +1,45 @@
+name: "Golang Unit Test Terraform Provider"
+
+on:
+  workflow_call:
+    secrets:
+      CLOUDAVENUE_ORG:
+        required: true
+      CLOUDAVENUE_USER:
+        required: true
+      CLOUDAVENUE_PASSWORD:
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  check-test-requirements:
+    runs-on: ubuntu-latest
+    outputs:
+      need-test: ${{ steps.filter.outputs.go }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            go:
+              - '**/*.go'
+              - 'go.mod'
+
+  testsunit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: 'go.mod'
+      - run: go mod download
+      - name: Run Go unit tests
+        env:
+          TEST_CLOUDAVENUE_ORG: ${{ secrets.CLOUDAVENUE_ORG }}
+          TEST_CLOUDAVENUE_USERNAME: ${{ secrets.CLOUDAVENUE_USER }}
+          TEST_CLOUDAVENUE_PASSWORD: ${{ secrets.CLOUDAVENUE_PASSWORD }}
+        run: |
+          go test $(go list ./... | grep -v /internal/testsacc)
