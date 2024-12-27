@@ -40,4 +40,5 @@ jobs:
       - name: Run linters (${{ matrix.os }})
         uses: golangci/golangci-lint-action@v6
         with:
+          args: --timeout=10m 
           version: latest

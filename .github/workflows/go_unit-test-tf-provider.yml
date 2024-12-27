@@ -9,6 +9,8 @@ on:
         required: true
       CLOUDAVENUE_PASSWORD:
         required: true
+      CLOUDAVENUE_VDC:
+        required: true
 
 permissions:
   contents: read
@@ -29,6 +31,8 @@ jobs:
               - 'go.mod'
 
   testsunit:
+    needs: check-test-requirements
+    if: ${{ needs.check-test-requirements.outputs.need-test == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -41,5 +45,6 @@ jobs:
           TEST_CLOUDAVENUE_ORG: ${{ secrets.CLOUDAVENUE_ORG }}
           TEST_CLOUDAVENUE_USERNAME: ${{ secrets.CLOUDAVENUE_USER }}
           TEST_CLOUDAVENUE_PASSWORD: ${{ secrets.CLOUDAVENUE_PASSWORD }}
+          TEST_CLOUDAVENUE_VDC: ${{ secrets.CLOUDAVENUE_VDC }}
         run: |
           go test $(go list ./... | grep -v /internal/testsacc)
