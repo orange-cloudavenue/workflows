@@ -1,11 +1,17 @@
 group:
-  # GolangCI-Lint workflow
+  # Golang repositories
   - files:
       - source: shared-files/golang/.golangci.yml
         template: true
         dest: .golangci.yml
+      - source: shared-files/pre-commit/.pre-commit-config.yaml.njk
+        template: 
+          golang: true
+        dest: .pre-commit-config.yaml
+      - source: shared-files/dependabot/dependabot.yml.njk
+        template: 
+          golang: true
+        dest: .github/dependabot.yml
     repos: |
       orange-cloudavenue/terraform-plugin-framework-validators
       orange-cloudavenue/terraform-plugin-framework-planmodifiers
-
-## TODO: Add depandabot
