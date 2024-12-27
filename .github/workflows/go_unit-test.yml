@@ -2,6 +2,11 @@ name: "Golang Unit Test"
 
 on:
   workflow_call:
+    inputs:
+      send-covegage:
+        description: 'Send coverage to coveralls'
+        required: false
+        type: boolean
 
 permissions:
   contents: read
@@ -41,7 +46,8 @@ jobs:
         shell: bash 
         run: go mod download
       - run: go test -v -coverprofile=profile.cov ./...
-      - name: Send coverage
+      - if: inputs.send-covegage == 'true'
+        name: Send coverage
         uses: shogo82148/actions-goveralls@v1
         with:
           path-to-profile: profile.cov
@@ -50,6 +56,7 @@ jobs:
 
   # notifies that all test jobs are finished.
   coverage-finish:
+    if: inputs.send-covegage == 'true'
     needs: coverage
     runs-on: ubuntu-latest
     steps:

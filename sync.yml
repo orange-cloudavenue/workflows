@@ -1,0 +1,10 @@
+group:
+  # GolangCI-Lint workflow
+  - files:
+      - source: shared-files/golang/.golangci.yml
+        dest: .golangci.yml
+    repos: |
+      orange-cloudavenue/terraform-plugin-framework-validators
+      orange-cloudavenue/terraform-plugin-framework-planmodifiers
+
+## TODO: Add depandabot
