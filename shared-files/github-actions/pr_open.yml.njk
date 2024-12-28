@@ -11,7 +11,8 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  contents: read
+  contents: write
+  pull-requests: write
 
 jobs:
   changelog-dependabot:
@@ -19,7 +20,7 @@ jobs:
     uses: orange-cloudavenue/workflows/.github/workflows/changelog_dependabot.yml@main
     secrets:
       {#- raw is used to avoid conflicts with the templating engine and github action #}
-      TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
+      TOKEN: {% raw %}${{ secrets.GITHUB_TOKEN }}{% endraw %}
 
 {% if golang %}
   golang-ci-lint:

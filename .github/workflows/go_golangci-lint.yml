@@ -9,6 +9,7 @@ permissions:
 jobs:
   check-lint-requirements:
     runs-on: ubuntu-latest
+    name: "Check Lint Requirements"
     outputs:
       need-lint: ${{ steps.filter.outputs.go }}
     steps:
