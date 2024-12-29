@@ -33,6 +33,10 @@ jobs:
     name: "PR Size"
     uses: orange-cloudavenue/workflows/.github/workflows/pr_label_size.yml@main
 
+  pr-conventional-commits:
+    name: "Conventional Commits"
+    uses: orange-cloudavenue/workflows/.github/workflows/pr_conventional_commits.yml@main
+
 {% if golang %}
   golang-ci-lint:
     {% include './common/golang/lint.tmpl' %}

@@ -8,6 +8,7 @@ permissions:
 
 jobs:
   auto-label-size:
+    name: "Calculate PR Size"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
