@@ -22,12 +22,16 @@ jobs:
       {#- raw is used to avoid conflicts with the templating engine and github action #}
       TOKEN: {% raw %}${{ secrets.GITHUB_TOKEN }}{% endraw %}
 
-  changelog-validation:
+  {# changelog-validation:
     name: "Changelog Validation"
     uses: orange-cloudavenue/workflows/.github/workflows/changelog_validation.yml@main
     secrets:
       {#- raw is used to avoid conflicts with the templating engine and github action #}
-      TOKEN: {% raw %}${{ secrets.GITHUB_TOKEN }}{% endraw %}
+      {#TOKEN: {% raw %}${{ secrets.GITHUB_TOKEN }}{% endraw %} #}
+
+  pr-size:
+    name: "PR Size"
+    uses: orange-cloudavenue/workflows/.github/workflows/pr_label_size.yml@main
 
 {% if golang %}
   golang-ci-lint:

@@ -18,6 +18,9 @@ group:
         template: 
           golang: true
         dest: .github/dependabot.yml
+      # PR Size
+      - source: shared-files/pr-size/pull-request-size.yml
+        dest: .github/pull-request-size.yml
     repos: |
       orange-cloudavenue/terraform-plugin-framework-validators
       orange-cloudavenue/terraform-plugin-framework-planmodifiers
