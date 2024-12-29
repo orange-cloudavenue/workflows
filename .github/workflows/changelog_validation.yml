@@ -1,0 +1,81 @@
+name: "Check CHANGELOG entry"
+
+on:
+  workflow_call:
+    secrets:
+      TOKEN:
+        required: true
+
+jobs:
+  check-changelog-is-present:
+    runs-on: ubuntu-latest
+    name: "Check Changelog is present"
+    outputs:
+      is-present: ${{ steps.filter.outputs.changelog }}
+      changelog_files: ${{ steps.filter.outputs.changelog_files }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          list-files: json
+          filters: |
+            changelog:
+              - added|modified: '.changelog/*.txt'
+  
+  notFound:
+    if: ${{ needs.check-changelog-is-present.outputs.is-present == 'false' }}
+    needs: check-changelog-is-present
+    runs-on: ubuntu-latest
+    name: "Changelog not found"
+    steps:
+      - name: Comment on PR
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          message: |
+            Changelog file not found. Please add a changelog file to the PR
+          comment-tag: changelog
+      - run: exit 1
+  validate:
+    if: ${{ needs.check-changelog-is-present.outputs.is-present == 'true' }}
+    needs: check-changelog-is-present
+    strategy:
+      matrix:
+        file: ${{ fromJSON(needs.check-changelog-is-present.outputs.changelog_files) }}
+    runs-on: ubuntu-latest
+    name: "Check changelog format"
+    steps:
+      - uses: actions/checkout@v4 # v3.5.3
+        with:
+          token: ${{ secrets.TOKEN }}
+          fetch-depth: 0
+          submodules: true
+      - uses: actions/setup-go@v5
+        with:
+          go-version: 'stable'
+      - name: Install changelog-check
+        run: go install github.com/hashicorp/go-changelog/cmd/changelog-check@latest
+      - name: Run changelog-check
+        continue-on-error: true
+        # If no output, then the changelog is valid
+        run: |
+          msg="$(changelog-check ${{ matrix.file }})"
+          echo "errormsg=$msg">> $GITHUB_ENV
+      # If the previous step fails, then the changelog is invalid and publish the error message
+      - name: Comment on PR
+        if: ${{ env.errormsg != '' }}
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          file-path: /.changelog/${{ matrix.file }}
+          message: |
+            Changelog format is invalid !
+            ${{ env.errormsg }}
+          comment-tag: changelog
+      - if : ${{ env.errormsg != '' }}
+        run: exit 1
+      - name: Delete comment on PR
+        if: ${{ env.errormsg == '' }}
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          mode: delete
+          comment-tag: changelog

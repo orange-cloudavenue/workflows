@@ -1,6 +1,5 @@
----
 name: "Generate CHANGELOG"
-
+    
 on:
   workflow_call:
     secrets:
