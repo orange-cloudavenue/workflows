@@ -32,10 +32,16 @@ jobs:
   pr-size:
     name: "PR Size"
     uses: orange-cloudavenue/workflows/.github/workflows/pr_label_size.yml@main
+    secrets:
+      {#- raw is used to avoid conflicts with the templating engine and github action #}
+      TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
 
   pr-conventional-commits:
     name: "Conventional Commits"
     uses: orange-cloudavenue/workflows/.github/workflows/pr_conventional_commits.yml@main
+    secrets:
+      {#- raw is used to avoid conflicts with the templating engine and github action #}
+      TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
 
 {% if golang %}
   golang-ci-lint:

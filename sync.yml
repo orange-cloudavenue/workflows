@@ -24,6 +24,7 @@ group:
     repos: |
       orange-cloudavenue/terraform-plugin-framework-validators
       orange-cloudavenue/terraform-plugin-framework-planmodifiers
+      orange-cloudavenue/terraform-plugin-framework-supertypes
       orange-cloudavenue/terraform-provider-cloudavenue
       orange-cloudavenue/cloudavenue-sdk-go
 
@@ -73,5 +74,6 @@ group:
     repos: |
       orange-cloudavenue/terraform-plugin-framework-validators
       orange-cloudavenue/terraform-plugin-framework-planmodifiers
+      orange-cloudavenue/terraform-plugin-framework-supertypes
       orange-cloudavenue/cloudavenue-sdk-go
     
