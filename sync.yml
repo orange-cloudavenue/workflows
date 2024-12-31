@@ -1,4 +1,15 @@
 group:
+  # Repositories with centralized documentation
+  - files:
+      # * PR Close
+      - source: shared-files/github-actions/push_main.yml.njk
+        template: true
+        dest: .github/workflows/push_main.yml
+    repos: |
+      orange-cloudavenue/terraform-plugin-framework-validators
+      orange-cloudavenue/terraform-plugin-framework-planmodifiers
+      orange-cloudavenue/terraform-plugin-framework-superschema
+
   # ALL Golang repositories
   - files:
       # GolangCI Lint

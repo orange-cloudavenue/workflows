@@ -1,0 +1,24 @@
+{% include '../common/header.yml.tmpl' %}
+
+name: Push main
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  {#- raw is used to avoid conflicts with the templating engine and github action #}
+  group: {% raw %}${{ github.ref }}-${{ github.head_ref }}-main{% endraw %}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  request-doc-update:
+    name: "Request doc update"
+    uses: orange-cloudavenue/workflows/.github/workflows/doc_request-update.yml@main
+    secrets:
+      {#- raw is used to avoid conflicts with the templating engine and github action #}
+      TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
