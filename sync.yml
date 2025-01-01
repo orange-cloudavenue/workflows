@@ -9,6 +9,7 @@ group:
       orange-cloudavenue/terraform-plugin-framework-validators
       orange-cloudavenue/terraform-plugin-framework-planmodifiers
       orange-cloudavenue/terraform-plugin-framework-superschema
+      orange-cloudavenue/orange-cloudavenue.github.io
 
   # ALL Golang repositories
   - files:
