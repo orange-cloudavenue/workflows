@@ -1,5 +1,5 @@
-group:
-  # Repositories with centralized documentation
+group:  
+  # Repositories with documentation
   - files:
       # * PR Close
       - source: shared-files/github-actions/push_main.yml.njk
@@ -13,11 +13,11 @@ group:
 
   # ALL Golang repositories
   - files:
-      # GolangCI Lint
+      # * GolangCI Lint
       - source: shared-files/golang/.golangci.yml.njk
         template: true
         dest: .golangci.yml
-      # Pre-commit
+      # * Pre-commit
       - source: shared-files/pre-commit/.pre-commit-config.yaml.njk
         template: 
           golang: true
@@ -25,12 +25,12 @@ group:
       - source: shared-files/pre-commit/scripts/go-mod.sh.njk
         template: true
         dest: .pre-commit/go-mod
-      # Dependabot
+      # * Dependabot
       - source: shared-files/dependabot/dependabot.yml.njk
         template: 
           golang: true
         dest: .github/dependabot.yml
-      # PR Size
+      # * PR Size
       - source: shared-files/pr-size/pull-request-size.yml
         dest: .github/pull-request-size.yml
     repos: |
@@ -66,10 +66,17 @@ group:
           golang: true
           terraform_provider: true
         dest: .github/workflows/pr_close.yml
+      # * Labeler
+      - source: shared-files/labeler/labels.yml.njk
+        template: 
+          terraform_provider: true
+        dest: .github/labels.yml
+      - source: shared-files/github-actions/labeler.yml
+        dest: .github/workflows/labeler.yml
     repos: |
       orange-cloudavenue/terraform-provider-cloudavenue
       
-  # Generic repositories
+  # Generic golang repositories
   - files:
       # * Snippet changelog
       - source: shared-files/changelog/vscode/changelog.code-snippets.njk
@@ -95,6 +102,12 @@ group:
         template: 
           golang: true
         dest: .github/workflows/pr_close.yml
+      # * Labeler
+      - source: shared-files/labeler/labels.yml.njk
+        template: true 
+        dest: .github/labels.yml
+      - source: shared-files/github-actions/labeler.yml
+        dest: .github/workflows/labeler.yml
     repos: |
       orange-cloudavenue/terraform-plugin-framework-validators
       orange-cloudavenue/terraform-plugin-framework-planmodifiers
@@ -102,3 +115,32 @@ group:
       orange-cloudavenue/terraform-plugin-framework-superschema
       orange-cloudavenue/cloudavenue-sdk-go
     
+    # Generic repositories
+  - files:
+      # * Snippet changelog
+      - source: shared-files/changelog/vscode/changelog.code-snippets.njk
+        template: true
+        dest: .vscode/changelog.code-snippets
+      # * PR Open
+      - source: shared-files/github-actions/pr_open.yml.njk
+        template: true
+        dest: .github/workflows/pr_open.yml
+      # * PR All events
+      - source: shared-files/github-actions/pr.yml.njk
+        template: true
+        dest: .github/workflows/pr.yml
+      # * PR Close
+      - source: shared-files/github-actions/pr_close.yml.njk
+        template: true
+        dest: .github/workflows/pr_close.yml
+      # * Labeler
+      - source: shared-files/labeler/labels.yml.njk
+        template: true 
+        dest: .github/labels.yml
+      - source: shared-files/github-actions/labeler.yml
+        dest: .github/workflows/labeler.yml
+      # * PR Size
+      - source: shared-files/pr-size/pull-request-size.yml
+        dest: .github/pull-request-size.yml
+    repos: |
+      orange-cloudavenue/orange-cloudavenue.github.io
