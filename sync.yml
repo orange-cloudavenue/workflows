@@ -40,6 +40,7 @@ group:
       orange-cloudavenue/terraform-plugin-framework-superschema
       orange-cloudavenue/terraform-provider-cloudavenue
       orange-cloudavenue/cloudavenue-sdk-go
+      orange-cloudavenue/terraform-resource-templates
 
   # Terraform provider repositories
   - files:
@@ -114,6 +115,8 @@ group:
       orange-cloudavenue/terraform-plugin-framework-supertypes
       orange-cloudavenue/terraform-plugin-framework-superschema
       orange-cloudavenue/cloudavenue-sdk-go
+      orange-cloudavenue/terraform-resource-templates
+
     
     # Generic repositories
   - files:
