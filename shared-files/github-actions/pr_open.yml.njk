@@ -1,9 +1,10 @@
 {% include '../common/header.yml.tmpl' %}
 
-name: PR Open
+name: PR Open/Reopen
 
 on:
-  pull_request:
+  pull_request_target:
+    types: [ opened, reopened ]
 
 concurrency:
   {#- raw is used to avoid conflicts with the templating engine and github action #}
@@ -15,42 +16,6 @@ permissions:
   pull-requests: write
 
 jobs:
-  changelog-dependabot:
-    name: "Changelog Dependabot"
-    uses: orange-cloudavenue/workflows/.github/workflows/changelog_dependabot.yml@main
-    secrets:
-      {#- raw is used to avoid conflicts with the templating engine and github action #}
-      TOKEN: {% raw %}${{ secrets.GITHUB_TOKEN }}{% endraw %}
-
-  {# changelog-validation:
-    name: "Changelog Validation"
-    uses: orange-cloudavenue/workflows/.github/workflows/changelog_validation.yml@main
-    secrets:
-      {#- raw is used to avoid conflicts with the templating engine and github action #}
-      {#TOKEN: {% raw %}${{ secrets.GITHUB_TOKEN }}{% endraw %} #}
-
-  pr-size:
-    name: "PR Size"
-    uses: orange-cloudavenue/workflows/.github/workflows/pr_label_size.yml@main
-    secrets:
-      {#- raw is used to avoid conflicts with the templating engine and github action #}
-      TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
-
-  pr-conventional-commits:
-    name: "Conventional Commits"
-    uses: orange-cloudavenue/workflows/.github/workflows/pr_conventional_commits.yml@main
-    secrets:
-      {#- raw is used to avoid conflicts with the templating engine and github action #}
-      TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
-
-{% if golang %}
-  golang-ci-lint:
-    {% include './common/golang/lint.tmpl' %}
-
-  tests:
-    {% if terraform_provider %}
-    {% include './common/golang/unit-test-tf-provider.tmpl' %}
-    {% else %}
-    {% include './common/golang/unit-test.tmpl' %}
-    {% endif %}
-{% endif %}
+  auto-assign:
+    name: "Auto Assign"
+    uses: orange-cloudavenue/workflows/.github/workflows/pr_auto_assign.yml@main

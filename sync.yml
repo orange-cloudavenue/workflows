@@ -54,6 +54,12 @@ group:
           golang: true
           terraform_provider: true
         dest: .github/workflows/pr_open.yml
+      # * PR All events
+      - source: shared-files/github-actions/pr.yml.njk
+        template: 
+          golang: true
+          terraform_provider: true
+        dest: .github/workflows/pr.yml
       # * PR Close
       - source: shared-files/github-actions/pr_close.yml.njk
         template: 
@@ -79,6 +85,11 @@ group:
         template: 
           golang: true
         dest: .github/workflows/pr_open.yml
+      # * PR All events
+      - source: shared-files/github-actions/pr.yml.njk
+        template: 
+          golang: true
+        dest: .github/workflows/pr.yml
       # * PR Close
       - source: shared-files/github-actions/pr_close.yml.njk
         template: 
