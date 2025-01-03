@@ -1,14 +1,31 @@
 # Documentation of sync (https://github.com/BetaHuhn/repo-file-sync-action)
 
-# ! Repository sync
-orange-cloudavenue/orange-cloudavenue.github.io:
-  - source: shared-files/github-actions/push_main.yml.njk
-    dest: .github/workflows/push_main.yml
-    template: true
-
-
 # ! Group of repositories sync
-group:  
+group:
+  # MIT License
+  - files:
+      # * License
+      - source: shared-files/license/licenses/MIT/LICENSE
+        dest: LICENSE
+      # * License Header
+      - source: shared-files/license/licenses/MIT/HEADER
+        dest: .github/LICENSE_HEADER
+      # * LicenseRC
+      - source: shared-files/license/licenserc.toml.njk
+        dest: licenserc.toml
+        template: true
+    repos: |
+      orange-cloudavenue/terraform-plugin-framework-validators
+      orange-cloudavenue/terraform-plugin-framework-planmodifiers
+      orange-cloudavenue/terraform-plugin-framework-supertypes
+      orange-cloudavenue/terraform-plugin-framework-superschema
+      orange-cloudavenue/terraform-provider-cloudavenue
+      orange-cloudavenue/cloudavenue-sdk-go
+      orange-cloudavenue/terraform-resource-templates
+      orange-cloudavenue/terraform-provider-cloudavenue
+      orange-cloudavenue/orange-cloudavenue.github.io
+
+
   # ALL Golang repositories
   - files:
       # * GolangCI Lint

@@ -43,6 +43,10 @@ jobs:
       {#- raw is used to avoid conflicts with the templating engine and github action #}
       TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
 
+  pr-license:
+    name: "License Check"
+    uses: orange-cloudavenue/workflows/.github/workflows/pr_license.yml@main
+
 {% if golang %}
   golang-ci-lint:
     {% include './common/golang/lint.tmpl' %}

@@ -1,0 +1,35 @@
+name: "License Check"
+
+on:
+  workflow_call:
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  header-license:
+    name: "Check License Header"
+    runs-on: [self-hosted, Linux]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4 
+      - name: Format License Header
+        uses: addnab/docker-run-action@v3
+        continue-on-error: true
+        with:
+          image: ghcr.io/korandoru/hawkeye:latest
+          options: --volume ${{ github.workspace }}:/github/workspace:rw
+          run: hawkeye format
+
+      - uses: technote-space/get-diff-action@v6
+        id: git_diff
+
+      - name: Commit and push changes
+        if: steps.git_diff.outputs.diff
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: Update License Headers"
+          commit_user_name: github-actions[bot]
+          commit_user_email: github-actions[bot]@users.noreply.github.com
+          commit_author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
