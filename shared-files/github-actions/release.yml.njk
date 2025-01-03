@@ -60,6 +60,21 @@ jobs:
       {#- raw is used to avoid conflicts with the templating engine and github action #}
       TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
 
+{% if terraform_provider %}
+  make-release:
+    needs: [release-notes]
+    uses: orange-cloudavenue/workflows/.github/workflows/release_publish-terraform-provider.yml@main
+    with:
+      {#- raw is used to avoid conflicts with the templating engine and github action #}
+      tag: {% raw %}${{ github.event.inputs.tag }}{% endraw %}
+      artifact-name: {% raw %}${{ needs.release-notes.outputs.artifact-name }}{% endraw %}
+    secrets:
+      TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
+      GPG_PRIVATE_KEY: {% raw %}${{ secrets.GPG_PRIVATE_KEY }}{% endraw %}
+      PASSPHRASE: {% raw %}${{ secrets.PASSPHRASE }}{% endraw %}
+      METRICS_TARGET: {% raw %}${{ secrets.METRICS_TARGET }}{% endraw %}
+      METRICS_TOKEN: {% raw %}${{ secrets.METRICS_TOKEN }}{% endraw %} 
+{% else %}
   make-release:
     needs: [release-notes]
     uses: orange-cloudavenue/workflows/.github/workflows/release_publish-simple-release.yml@main
@@ -69,6 +84,7 @@ jobs:
       artifact-name: {% raw %}${{ needs.release-notes.outputs.artifact-name }}{% endraw %}
     secrets:
       TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
+{% endif %}
 
   changelog-newversion:
     needs: [make-release]

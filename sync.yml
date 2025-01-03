@@ -72,6 +72,12 @@ group:
           terraform_provider: true
       - source: shared-files/github-actions/labeler.yml
         dest: .github/workflows/labeler.yml
+      # * Release
+      - source: shared-files/github-actions/release.yml.njk
+        dest: .github/workflows/release.yml
+        template: 
+          golang: true
+          terraform_provider: true
     repos: |
       orange-cloudavenue/terraform-provider-cloudavenue
       
@@ -82,7 +88,7 @@ group:
         dest: .vscode/changelog.code-snippets
         template: true
       # * Release
-      - source: shared-files/github-actions/release_simple.yml.njk
+      - source: shared-files/github-actions/release.yml.njk
         dest: .github/workflows/release.yml
         template: 
           golang: true

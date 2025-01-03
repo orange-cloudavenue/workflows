@@ -1,0 +1,69 @@
+name: "Publish release"
+on:
+  workflow_call:
+    secrets:
+        TOKEN:
+          required: true
+        GPG_PRIVATE_KEY:
+          required: true
+        PASSPHRASE:
+          required: true
+        METRICS_TARGET:
+          required: true
+        METRICS_TOKEN:
+          required: true
+    inputs:
+        artifact-name:
+            description: 'Release note artifact name'
+            required: true
+            type: string
+        tag:
+            description: 'Tag version number (Eg: v0.1.0)'
+            required: true
+            type: string
+jobs:
+  publish-release:
+    runs-on: [self-hosted, Linux]
+    steps:
+      - id: checkout
+        uses: actions/checkout@v4
+        name: Checkout 
+        with:
+          token: ${{ secrets.TOKEN }}
+          fetch-depth: 0
+          ref: ${{ inputs.tag }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: 'go.mod'
+
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v6
+        id: import_gpg
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+
+      - id: release-notes-download
+        name: Release Notes Download
+        uses: actions/download-artifact@v4
+        with:
+            name: ${{ inputs.artifact-name }}
+            path: /tmp
+
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v6.1.0
+        if: success()
+        with:
+          distribution: goreleaser
+          version: latest
+          args: release --clean -f .goreleaser.yml --release-notes=${{ steps.release-notes-download.outputs.download-path }}/${{ inputs.artifact-name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
+          METRICS_TARGET: ${{ secrets.METRICS_TARGET }}
+          METRICS_TOKEN: ${{ secrets.METRICS_TOKEN }}
