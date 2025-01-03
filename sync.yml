@@ -1,35 +1,33 @@
-group:  
-  # Repositories with documentation
-  - files:
-      # * PR Close
-      - source: shared-files/github-actions/push_main.yml.njk
-        template: true
-        dest: .github/workflows/push_main.yml
-    repos: |
-      orange-cloudavenue/terraform-plugin-framework-validators
-      orange-cloudavenue/terraform-plugin-framework-planmodifiers
-      orange-cloudavenue/terraform-plugin-framework-superschema
-      orange-cloudavenue/orange-cloudavenue.github.io
+# Documentation of sync (https://github.com/BetaHuhn/repo-file-sync-action)
 
+# ! Repository sync
+orange-cloudavenue/orange-cloudavenue.github.io:
+  - source: shared-files/github-actions/push_main.yml.njk
+    dest: .github/workflows/push_main.yml
+    template: true
+
+
+# ! Group of repositories sync
+group:  
   # ALL Golang repositories
   - files:
       # * GolangCI Lint
       - source: shared-files/golang/.golangci.yml.njk
-        template: true
         dest: .golangci.yml
+        template: true
       # * Pre-commit
       - source: shared-files/pre-commit/.pre-commit-config.yaml.njk
+        dest: .pre-commit-config.yaml
         template: 
           golang: true
-        dest: .pre-commit-config.yaml
       - source: shared-files/pre-commit/scripts/go-mod.sh.njk
-        template: true
         dest: .pre-commit/go-mod
+        template: true
       # * Dependabot
       - source: shared-files/dependabot/dependabot.yml.njk
+        dest: .github/dependabot.yml
         template: 
           golang: true
-        dest: .github/dependabot.yml
       # * PR Size
       - source: shared-files/pr-size/pull-request-size.yml
         dest: .github/pull-request-size.yml
@@ -46,32 +44,32 @@ group:
   - files:
       # * Snippet changelog
       - source: shared-files/changelog/vscode/changelog.code-snippets.njk
+        dest: .vscode/changelog.code-snippets
         template: 
           terraform_provider: true
-        dest: .vscode/changelog.code-snippets
       # * PR Open
       - source: shared-files/github-actions/pr_open.yml.njk
+        dest: .github/workflows/pr_open.yml
         template: 
           golang: true
           terraform_provider: true
-        dest: .github/workflows/pr_open.yml
       # * PR All events
       - source: shared-files/github-actions/pr.yml.njk
+        dest: .github/workflows/pr.yml
         template: 
           golang: true
           terraform_provider: true
-        dest: .github/workflows/pr.yml
       # * PR Close
       - source: shared-files/github-actions/pr_close.yml.njk
+        dest: .github/workflows/pr_close.yml
         template: 
           golang: true
           terraform_provider: true
-        dest: .github/workflows/pr_close.yml
       # * Labeler
       - source: shared-files/labeler/labels.yml.njk
+        dest: .github/labels.yml
         template: 
           terraform_provider: true
-        dest: .github/labels.yml
       - source: shared-files/github-actions/labeler.yml
         dest: .github/workflows/labeler.yml
     repos: |
@@ -81,34 +79,38 @@ group:
   - files:
       # * Snippet changelog
       - source: shared-files/changelog/vscode/changelog.code-snippets.njk
-        template: true
         dest: .vscode/changelog.code-snippets
+        template: true
       # * Release
       - source: shared-files/github-actions/release_simple.yml.njk
+        dest: .github/workflows/release.yml
         template: 
           golang: true
-        dest: .github/workflows/release.yml
       # * PR Open
       - source: shared-files/github-actions/pr_open.yml.njk
+        dest: .github/workflows/pr_open.yml
         template: 
           golang: true
-        dest: .github/workflows/pr_open.yml
       # * PR All events
       - source: shared-files/github-actions/pr.yml.njk
+        dest: .github/workflows/pr.yml
         template: 
           golang: true
-        dest: .github/workflows/pr.yml
       # * PR Close
       - source: shared-files/github-actions/pr_close.yml.njk
+        dest: .github/workflows/pr_close.yml
         template: 
           golang: true
-        dest: .github/workflows/pr_close.yml
       # * Labeler
       - source: shared-files/labeler/labels.yml.njk
-        template: true 
         dest: .github/labels.yml
+        template: true 
       - source: shared-files/github-actions/labeler.yml
         dest: .github/workflows/labeler.yml
+      # * After release created
+      - source: shared-files/github-actions/release_created-golang.yml.njk
+        dest: .github/workflows/release_created.yml
+        template: true
     repos: |
       orange-cloudavenue/terraform-plugin-framework-validators
       orange-cloudavenue/terraform-plugin-framework-planmodifiers
@@ -122,24 +124,24 @@ group:
   - files:
       # * Snippet changelog
       - source: shared-files/changelog/vscode/changelog.code-snippets.njk
-        template: true
         dest: .vscode/changelog.code-snippets
+        template: true
       # * PR Open
       - source: shared-files/github-actions/pr_open.yml.njk
-        template: true
         dest: .github/workflows/pr_open.yml
+        template: true
       # * PR All events
       - source: shared-files/github-actions/pr.yml.njk
-        template: true
         dest: .github/workflows/pr.yml
+        template: true
       # * PR Close
       - source: shared-files/github-actions/pr_close.yml.njk
-        template: true
         dest: .github/workflows/pr_close.yml
+        template: true
       # * Labeler
       - source: shared-files/labeler/labels.yml.njk
-        template: true 
         dest: .github/labels.yml
+        template: true 
       - source: shared-files/github-actions/labeler.yml
         dest: .github/workflows/labeler.yml
       # * PR Size

@@ -1,4 +1,4 @@
-name: "Update Documentation"
+name: "Publish documentation on GitHub Pages"
 
 on:
   workflow_call:
@@ -20,13 +20,10 @@ jobs:
       need-publish: ${{ steps.filter.outputs.doc }}
     steps:
       - uses: actions/checkout@v4
-      - uses: dorny/paths-filter@v3
-        id: filter
+      - name: 'Check File Existence'
+        uses: andstor/file-existence-action@v3
         with:
-          filters: |
-            doc:
-              - docs/**'
-              - 'mkdocs.yml'
+          files: 'mkdocs.yml'    
 
   publish-doc:
     if: ${{ needs.check-publish-requirements.outputs.need-publish == 'true' || github.event_name == 'workflow_dispatch' }}

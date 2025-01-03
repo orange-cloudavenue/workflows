@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   check-test-requirements:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux]
     outputs:
       need-test: ${{ steps.filter.outputs.go }}
     steps:
@@ -29,7 +29,7 @@ jobs:
   coverage:
     needs: check-test-requirements
     if: ${{ needs.check-test-requirements.outputs.need-test == 'true' }}
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux]
     strategy:
       fail-fast: false
       matrix:
@@ -58,7 +58,7 @@ jobs:
   coverage-finish:
     if: inputs.send-covegage == 'true'
     needs: coverage
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux]
     steps:
       - uses: shogo82148/actions-goveralls@v1
         with:

@@ -11,7 +11,7 @@ permissions:
 jobs:
   validate-pr-title:
     name: "Validate"
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux]
     steps:
       - name: PR Conventional Commit Validation
         uses:  ytanikin/pr-conventional-commits@1.4.0

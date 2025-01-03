@@ -8,7 +8,7 @@ permissions:
 
 jobs:
   check-lint-requirements:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux]
     name: "Check Lint Requirements"
     outputs:
       need-lint: ${{ steps.filter.outputs.go }}
@@ -24,12 +24,9 @@ jobs:
   golangci-lint:
     if: ${{ needs.check-lint-requirements.outputs.need-lint == 'true' }}
     needs: check-lint-requirements
-    strategy:
-        matrix:
-          os: [ubuntu-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: [self-hosted, Linux]
     timeout-minutes: 10
-    name: "GolangCI Lint (${{ matrix.os }})"
+    name: "GolangCI Lint"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
@@ -38,7 +35,7 @@ jobs:
       - name: Install dependencies
         shell: bash 
         run: go mod download
-      - name: Run linters (${{ matrix.os }})
+      - name: Run linters
         uses: golangci/golangci-lint-action@v6
         with:
           args: --timeout=10m 

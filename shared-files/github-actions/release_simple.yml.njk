@@ -79,3 +79,9 @@ jobs:
     secrets:
       {#- raw is used to avoid conflicts with the templating engine and github action #}
       TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
+  
+  publish-doc:
+    {#- Publish documentation if mkdocs.yml exists #}
+    needs: [make-release]
+    name: "Publish Documentation"
+    uses: orange-cloudavenue/workflows/.github/workflows/doc_publish.yml@main

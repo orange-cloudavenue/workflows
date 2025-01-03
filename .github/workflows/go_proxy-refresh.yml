@@ -1,0 +1,14 @@
+name: "Refresh Go Proxy"
+
+on:
+  workflow_call:
+  
+permissions:
+  contents: read
+  
+jobs:
+  refresh:
+    runs-on: [self-hosted, Linux]
+    name: "Refresh Go Proxy"
+    steps:
+      - uses: andrewslotin/go-proxy-pull-action@master
