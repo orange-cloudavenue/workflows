@@ -3,7 +3,9 @@
 name: PR All events
 
 on:
-  pull_request:
+  pull_request_target:
+    types: [ synchronize ]
+
 
 concurrency:
   {#- raw is used to avoid conflicts with the templating engine and github action #}
