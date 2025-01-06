@@ -4,7 +4,7 @@ name: PR All events
 
 on:
   pull_request_target:
-    types: [ synchronize ]
+    types: [ opened, reopened, synchronize ]
 
 
 concurrency:
@@ -45,9 +45,9 @@ jobs:
       {#- raw is used to avoid conflicts with the templating engine and github action #}
       TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
 
-  {# pr-license:
+  pr-license:
     name: "License Check"
-    uses: orange-cloudavenue/workflows/.github/workflows/pr_license.yml@main #}
+    uses: orange-cloudavenue/workflows/.github/workflows/pr_license.yml@main
 
 {% if golang %}
   golang-ci-lint:

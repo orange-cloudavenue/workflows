@@ -11,22 +11,27 @@ jobs:
   header-license:
     name: "Check License Header"
     runs-on: [self-hosted, Linux]
+    if: github.event.pull_request.draft == false
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4 
-      - name: Format License Header
-        uses: addnab/docker-run-action@v3
-        continue-on-error: true
         with:
-          image: ghcr.io/korandoru/hawkeye:latest
-          options: --volume ${{ github.workspace }}:/github/workspace:rw
-          run: hawkeye format
+          ref: ${{ github.event.pull_request.head.ref }}
+      - uses: actions/setup-go@v5
+        with:
+          go-version: 1.18
 
-      - uses: technote-space/get-diff-action@v6
-        id: git_diff
+      - run: go install github.com/apache/skywalking-eyes/cmd/license-eye@latest
+
+      - run: license-eye header fix
+
+      - name: Check if any files changed
+        id: changed-files
+        run: |
+          git diff --exit-code || echo "::set-output name=any_changed::true"
 
       - name: Commit and push changes
-        if: steps.git_diff.outputs.diff
+        if: steps.changed-files.outputs.any_changed == 'true'
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: Update License Headers"
