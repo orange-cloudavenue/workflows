@@ -9,7 +9,7 @@ on:
 
 concurrency:
   {#- raw is used to avoid conflicts with the templating engine and github action #}
-  group: {% raw %}${{ github.ref }}-${{ github.head_ref }}-changelog{% endraw %}
+  group: {% raw %}${{ github.ref }}-${{ github.head_ref }}-pr-all{% endraw %}
   cancel-in-progress: true
 
 permissions:
