@@ -14,11 +14,11 @@ group:
           license: MPL-2.0
     repos: |
       orange-cloudavenue/terraform-plugin-framework-validators
+      orange-cloudavenue/cloudavenue-sdk-go
       # orange-cloudavenue/terraform-plugin-framework-planmodifiers
       # orange-cloudavenue/terraform-plugin-framework-supertypes
       # orange-cloudavenue/terraform-plugin-framework-superschema
       # orange-cloudavenue/terraform-provider-cloudavenue
-      # orange-cloudavenue/cloudavenue-sdk-go
       # orange-cloudavenue/terraform-resource-templates
       # orange-cloudavenue/terraform-provider-cloudavenue
       # orange-cloudavenue/orange-cloudavenue.github.io
