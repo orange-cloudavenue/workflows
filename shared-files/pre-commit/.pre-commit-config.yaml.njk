@@ -25,6 +25,17 @@ repos:
       pass_filenames: false
 {% endif %}
 
+{% if terraform %}
+## TERRAFORM
+- repo: https://github.com/antonbabenko/pre-commit-terraform
+  rev: v1.96.3
+  hooks:
+    - id: terraform_fmt
+    - id: terraform_docs
+    - id: terraform_tflint
+    # - id: terraform_tfsec
+    - id: terraform_validate
+{% endif %}
 ## GIT
 - repo: https://github.com/compilerla/conventional-pre-commit
   rev: v3.2.0
@@ -38,15 +49,3 @@ repos:
   rev: v8.19.2
   hooks:
     - id: gitleaks
-
-{% if terraform %}
-## TERRAFORM
-- repo: https://github.com/antonbabenko/pre-commit-terraform
-  rev: v1.96.3
-  hooks:
-    - id: terraform_fmt
-    - id: terraform_docs
-    - id: terraform_tflint
-    # - id: terraform_tfsec
-    - id: terraform_validate
-{% endif %}
