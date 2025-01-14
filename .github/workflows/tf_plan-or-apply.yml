@@ -1,0 +1,109 @@
+name: "Terraform"
+
+on:
+  workflow_call:
+    secrets:
+        # GITHUB TOKEN
+        TOKEN:
+          required: true
+        # Terraform Cloud Variables
+        TF_VAR_cloudavenue_org:
+          required: true
+        TF_VAR_cloudavenue_user:
+          required: true
+        TF_VAR_cloudavenue_password:
+          required: true
+        # S3 Bucket Variables
+        TF_VAR_s3_key:
+          required: true
+        TF_VAR_s3_secret_key:
+          required: true
+        TF_VAR_s3_bucket:
+          required: true
+        TF_VAR_s3_access_key:
+          required: true
+        TF_VAR_s3_endpoint:
+          required: true
+        # TAILSCALE Variables
+        TF_VAR_TAILSCALE_API_KEY:
+          required: true
+
+jobs:
+  terraform:
+    name: "Terraform"
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    env:
+      TF_VAR_cloudavenue_org: ${{ secrets.TF_VAR_cloudavenue_org }}
+      TF_VAR_cloudavenue_user: ${{ secrets.TF_VAR_cloudavenue_user }}
+      TF_VAR_cloudavenue_password: ${{ secrets.TF_VAR_cloudavenue_password }}
+      TF_VAR_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      TF_VAR_s3_key: ${{ secrets.TF_VAR_s3_key }}
+      TF_VAR_s3_secret_key: ${{ secrets.TF_VAR_s3_secret_key }}
+      TF_VAR_s3_bucket: ${{ secrets.TF_VAR_s3_bucket }}
+      TF_VAR_s3_access_key: ${{ secrets.TF_VAR_s3_access_key }}
+      TF_VAR_s3_endpoint: ${{ secrets.TF_VAR_s3_endpoint }}
+      TF_VAR_TAILSCALE_API_KEY: ${{ secrets.TF_VAR_TAILSCALE_API_KEY }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Terraform Format
+        id: fmt
+        run: terraform fmt -check
+
+      - name: Terraform Init
+        id: init
+        run: terraform init
+      
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+
+      - name: Terraform Plan
+        id: plan
+        if: github.event_name == 'pull_request'
+        run: terraform plan -no-color -input=false
+        continue-on-error: true
+
+      - name: Update Pull Request
+        uses: actions/github-script@v6
+        if: github.event_name == 'pull_request'
+        env:
+          PLAN: ${{ steps.plan.outputs.stdout }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+
+            <details><summary>Show Plan</summary>
+
+            \`\`\`terraform\n
+            ${process.env.PLAN}
+            \`\`\`
+
+            </details>
+
+            *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+
+      - name: Terraform Plan Status
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
+
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform apply -auto-approve -input=false
