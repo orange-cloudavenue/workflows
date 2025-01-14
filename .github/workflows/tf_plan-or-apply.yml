@@ -27,6 +27,9 @@ on:
         # TAILSCALE Variables
         TF_VAR_TAILSCALE_API_KEY:
           required: true
+        # Private Key
+        TF_VAR_ssh_private_key:
+          required: true
 
 jobs:
   terraform:
@@ -45,6 +48,7 @@ jobs:
       TF_VAR_s3_access_key: ${{ secrets.TF_VAR_s3_access_key }}
       TF_VAR_s3_endpoint: ${{ secrets.TF_VAR_s3_endpoint }}
       TF_VAR_TAILSCALE_API_KEY: ${{ secrets.TF_VAR_TAILSCALE_API_KEY }}
+      TF_VAR_ssh_private_key: ${{ secrets.TF_VAR_ssh_private_key }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
