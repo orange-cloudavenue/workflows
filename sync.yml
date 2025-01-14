@@ -168,3 +168,13 @@ group:
         dest: .github/pull-request-size.yml
     repos: |
       orange-cloudavenue/orange-cloudavenue.github.io
+
+  # Generic terraform repositories
+  - files:
+     # * Pre-commit
+      - source: shared-files/pre-commit/.pre-commit-config.yaml.njk
+        dest: .pre-commit-config.yaml
+        template: 
+          terraform: true
+    repos: |
+      orange-cloudavenue/k0s-infra
