@@ -30,6 +30,12 @@ on:
         # Private Key
         TF_VAR_ssh_private_key:
           required: true
+    inputs:
+      TERRAFORM_APPLY:
+        description: 'Apply the Terraform changes'
+        required: true
+        type: string
+      
 
 jobs:
   terraform:
@@ -41,7 +47,7 @@ jobs:
       TF_VAR_cloudavenue_org: ${{ secrets.TF_VAR_cloudavenue_org }}
       TF_VAR_cloudavenue_user: ${{ secrets.TF_VAR_cloudavenue_user }}
       TF_VAR_cloudavenue_password: ${{ secrets.TF_VAR_cloudavenue_password }}
-      TF_VAR_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      TF_VAR_GITHUB_TOKEN: ${{ secrets.TOKEN }}
       TF_VAR_s3_key: ${{ secrets.TF_VAR_s3_key }}
       TF_VAR_s3_secret_key: ${{ secrets.TF_VAR_s3_secret_key }}
       TF_VAR_s3_bucket: ${{ secrets.TF_VAR_s3_bucket }}
@@ -70,6 +76,8 @@ jobs:
               skip_metadata_api_check = true
               skip_region_validation = true
               skip_requesting_account_id = true
+              use_path_style = true
+              skip_s3_checksum = true
               key = "${{ secrets.TF_VAR_S3_KEY }}"
               region = "region01"
               bucket = "${{ secrets.TF_VAR_S3_BUCKET }}"
@@ -81,7 +89,8 @@ jobs:
             }
           }
           EOF
-          terraform init -backend-config=backend.tf
+          terraform fmt
+          terraform init
       
       - name: Terraform Validate
         id: validate
@@ -90,14 +99,42 @@ jobs:
       - name: Terraform Plan
         id: plan
         if: github.event_name == 'pull_request'
-        run: terraform plan -no-color -input=false
-        continue-on-error: true
+        run: |
+          cat > backend.tf << EOF
+          terraform {
+            backend "s3" {
+              skip_credentials_validation = true
+              skip_metadata_api_check = true
+              skip_region_validation = true
+              skip_requesting_account_id = true
+              use_path_style = true
+              skip_s3_checksum = true
+              key = "${{ secrets.TF_VAR_S3_KEY }}"
+              region = "region01"
+              bucket = "${{ secrets.TF_VAR_S3_BUCKET }}"
+              endpoints = {
+                s3 = "${{ secrets.TF_VAR_S3_ENDPOINT }}"
+              }
+              access_key = "${{ secrets.TF_VAR_S3_ACCESS_KEY }}"
+              secret_key = "${{ secrets.TF_VAR_S3_SECRET_KEY }}"
+            }
+          }
+          EOF
+          terraform fmt
+          terraform init
+          terraform plan -no-color > tfplan.txt
+          ## Save the plan as an environment variable multiline string 
+          ## ref: (https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/workflow-commands-for-github-actions#multiline-strings)
+          {
+            echo "tfplan<<EOF"
+            cat tfplan.txt
+            echo EOF
+          } >> "$GITHUB_OUTPUT"
+        continue-on-error: false
 
       - name: Update Pull Request
         uses: actions/github-script@v6
-        if: github.event_name == 'pull_request'
-        env:
-          PLAN: ${{ steps.plan.outputs.stdout }}
+        # if: github.event_name == 'pull_request'
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -109,7 +146,7 @@ jobs:
             <details><summary>Show Plan</summary>
 
             \`\`\`terraform\n
-            ${process.env.PLAN}
+            ${{ steps.plan.outputs.tfplan }}\n
             \`\`\`
 
             </details>
@@ -128,5 +165,28 @@ jobs:
         run: exit 1
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform apply -auto-approve -input=false
+        if: ${{ github.event.inputs.TERRAFORM_APPLY == 'true' }}
+        run: |
+          cat > backend.tf << EOF
+          terraform {
+            backend "s3" {
+              skip_credentials_validation = true
+              skip_metadata_api_check = true
+              skip_region_validation = true
+              skip_requesting_account_id = true
+              use_path_style = true
+              skip_s3_checksum = true
+              key = "${{ secrets.TF_VAR_S3_KEY }}"
+              region = "region01"
+              bucket = "${{ secrets.TF_VAR_S3_BUCKET }}"
+              endpoints = {
+                s3 = "${{ secrets.TF_VAR_S3_ENDPOINT }}"
+              }
+              access_key = "${{ secrets.TF_VAR_S3_ACCESS_KEY }}"
+              secret_key = "${{ secrets.TF_VAR_S3_SECRET_KEY }}"
+            }
+          }
+          EOF
+          terraform fmt
+          terraform init
+          terraform apply -auto-approve -input=false
