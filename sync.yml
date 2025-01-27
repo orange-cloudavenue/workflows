@@ -44,6 +44,7 @@ group:
       # * PR Size
       - source: shared-files/pr-size/pull-request-size.yml
         dest: .github/pull-request-size.yml
+        template: true
     repos: |
       orange-cloudavenue/terraform-plugin-framework-validators
       orange-cloudavenue/terraform-plugin-framework-planmodifiers
@@ -85,6 +86,7 @@ group:
           terraform_provider: true
       - source: shared-files/github-actions/labeler.yml
         dest: .github/workflows/labeler.yml
+        template: true
       # * Release
       - source: shared-files/github-actions/release.yml.njk
         dest: .github/workflows/release.yml
@@ -126,6 +128,7 @@ group:
         template: true 
       - source: shared-files/github-actions/labeler.yml
         dest: .github/workflows/labeler.yml
+        template: true
       # * After release created
       - source: shared-files/github-actions/release_created-golang.yml.njk
         dest: .github/workflows/release_created.yml
@@ -163,9 +166,11 @@ group:
         template: true 
       - source: shared-files/github-actions/labeler.yml
         dest: .github/workflows/labeler.yml
+        template: true
       # * PR Size
       - source: shared-files/pr-size/pull-request-size.yml
         dest: .github/pull-request-size.yml
+        template: true
     repos: |
       orange-cloudavenue/orange-cloudavenue.github.io
 
@@ -193,9 +198,11 @@ group:
         template: true 
       - source: shared-files/github-actions/labeler.yml
         dest: .github/workflows/labeler.yml
+        template: true
       # * PR Size
       - source: shared-files/pr-size/pull-request-size.yml
         dest: .github/pull-request-size.yml
+        template: true
     repos: |
       orange-cloudavenue/terraform-module-template
 
