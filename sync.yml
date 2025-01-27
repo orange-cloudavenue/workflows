@@ -20,7 +20,7 @@ group:
       orange-cloudavenue/terraform-plugin-framework-superschema
       orange-cloudavenue/terraform-provider-cloudavenue
       orange-cloudavenue/terraform-resource-templates
-
+      orange-cloudavenue/terraform-module-template
 
   # ALL Golang repositories
   - files:
@@ -168,6 +168,36 @@ group:
         dest: .github/pull-request-size.yml
     repos: |
       orange-cloudavenue/orange-cloudavenue.github.io
+
+  # Generic terraform modules repositories
+  - files:
+      # * Snippet changelog
+      - source: shared-files/changelog/vscode/changelog.code-snippets.njk
+        dest: .vscode/changelog.code-snippets
+        template: true
+      # * PR Open
+      - source: shared-files/github-actions/pr_open.yml.njk
+        dest: .github/workflows/pr_open.yml
+        template: true
+      # * PR All events
+      - source: shared-files/github-actions/pr.yml.njk
+        dest: .github/workflows/pr.yml
+        template: true
+      # * PR Close
+      - source: shared-files/github-actions/pr_close.yml.njk
+        dest: .github/workflows/pr_close.yml
+        template: true
+      # * Labeler
+      - source: shared-files/labeler/labels.yml.njk
+        dest: .github/labels.yml
+        template: true 
+      - source: shared-files/github-actions/labeler.yml
+        dest: .github/workflows/labeler.yml
+      # * PR Size
+      - source: shared-files/pr-size/pull-request-size.yml
+        dest: .github/pull-request-size.yml
+    repos: |
+      orange-cloudavenue/terraform-module-template
 
   # Generic terraform repositories
   - files:
