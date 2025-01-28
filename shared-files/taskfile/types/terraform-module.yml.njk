@@ -4,9 +4,6 @@
 ---
 version: "3"
 
-vars:
-  PROJECT_NAME: cloudavenue
-
 # * Import
 includes: 
   license: ".taskfiles/license.yml"
@@ -34,9 +31,3 @@ tasks:
     cmds:
       - task: license:lint
       - task: tf:lint
-
-  generate:
-    desc: Generate code and docs
-    cmds:
-      - task: go:run
-      - task: license:run

@@ -37,14 +37,17 @@ tasks:
           APP: '{{.ITEM}}'
       - task: install:module
   
-  # install:module:
-  #   desc: Install terraform module
-  #   cmds:
-  #     - if: IS_MODULE == "true"
-  #       then:
-  #         - terraform init
-  #       else:
-  #         - echo "This is not a terraform module"
+  install:module:
+    desc: Install terraform module
+    internal: true
+    cmds:
+      - for: [
+          tflint,
+        ]
+        task: internal:tools:brew:optional
+        vars:
+          APP: '{{.ITEM}}'
+          INSTALL_REQUIRED: '{{.IS_MODULE}}'
   
   # * Lint 
   lint:
