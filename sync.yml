@@ -22,6 +22,7 @@ group:
       orange-cloudavenue/terraform-resource-templates
       orange-cloudavenue/terraform-module-template
       orange-cloudavenue/terraform-cloudavenue-vdc
+      orange-cloudavenue/orange-cloudavenue.github.io
 
 
   # ALL Golang repositories
@@ -216,6 +217,11 @@ group:
       # * Pre-commit
       - source: shared-files/pre-commit/.pre-commit-config.yaml.njk
         dest: .pre-commit-config.yaml
+        template: 
+          terraform: true
+      # * Dependabot
+      - source: shared-files/dependabot/dependabot.yml.njk
+        dest: .github/dependabot.yml
         template: 
           terraform: true
       # * Terraform docs
