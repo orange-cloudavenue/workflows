@@ -42,7 +42,7 @@ group:
         template: 
           golang: true
       # * PR Size
-      - source: shared-files/pr-size/pull-request-size.yml
+      - source: shared-files/pr-size/pull-request-size.yml.njk
         dest: .github/pull-request-size.yml
         template: true
     repos: |
@@ -84,7 +84,7 @@ group:
         dest: .github/labels.yml
         template: 
           terraform_provider: true
-      - source: shared-files/github-actions/labeler.yml
+      - source: shared-files/github-actions/labeler.yml.njk
         dest: .github/workflows/labeler.yml
         template: true
       # * Release
@@ -126,7 +126,7 @@ group:
       - source: shared-files/labeler/labels.yml.njk
         dest: .github/labels.yml
         template: true 
-      - source: shared-files/github-actions/labeler.yml
+      - source: shared-files/github-actions/labeler.yml.njk
         dest: .github/workflows/labeler.yml
         template: true
       # * After release created
@@ -164,11 +164,11 @@ group:
       - source: shared-files/labeler/labels.yml.njk
         dest: .github/labels.yml
         template: true 
-      - source: shared-files/github-actions/labeler.yml
+      - source: shared-files/github-actions/labeler.yml.njk
         dest: .github/workflows/labeler.yml
         template: true
       # * PR Size
-      - source: shared-files/pr-size/pull-request-size.yml
+      - source: shared-files/pr-size/pull-request-size.yml.njk
         dest: .github/pull-request-size.yml
         template: true
     repos: |
@@ -193,18 +193,41 @@ group:
         dest: .github/workflows/pr_close.yml
         template: true
       # * Labeler
+      # ? Config file
       - source: shared-files/labeler/labels.yml.njk
         dest: .github/labels.yml
         template: true 
-      - source: shared-files/github-actions/labeler.yml
+      # ? Github action
+      - source: shared-files/github-actions/labeler.yml.njk
         dest: .github/workflows/labeler.yml
         template: true
       # * PR Size
-      - source: shared-files/pr-size/pull-request-size.yml
+      - source: shared-files/pr-size/pull-request-size.yml.njk
         dest: .github/pull-request-size.yml
         template: true
+      # * TaskFile
+      - source: shared-files/taskfile/types/terraform-module.yml.njk
+        dest: Taskfile.yml
+        template: true
+      # * Pre-commit
+      - source: shared-files/pre-commit/.pre-commit-config.yaml.njk
+        dest: .pre-commit-config.yaml
+        template: 
+          terraform: true
+      # * Terraform docs
+      - source: shared-files/terraform/terraform-docs.yml.njk
+        dest: .terraform-docs.yml
+        template: true
+      # * Tflint
+      # ? Config file
+      - source: shared-files/terraform/tflint.hcl.njk
+        dest: .tflint.hcl
+        template: true
+      # ? Github action
+      # TODO
     repos: |
       orange-cloudavenue/terraform-module-template
+      orange-cloudavenue/terraform-cloudavenue-vdc
 
   # Generic terraform repositories
   - files:

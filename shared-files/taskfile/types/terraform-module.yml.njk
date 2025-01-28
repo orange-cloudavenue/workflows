@@ -1,0 +1,42 @@
+{% include '../../common/header.yml.tmpl' %}
+
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+---
+version: "3"
+
+vars:
+  PROJECT_NAME: cloudavenue
+
+# * Import
+includes: 
+  license: ".taskfiles/license.yml"
+  pre-commit: ".taskfiles/pre-commit.yml"
+  tf: ".taskfiles/terraform.yml"
+
+# * Tasks
+tasks:
+  install:
+    desc: Install required tools
+    cmds:
+      - task: license:install
+      - task: pre-commit:install
+      - task: tf:install
+
+  init:
+    desc: Initialize the project
+    cmds:
+      - task: license:init
+      - task: pre-commit:init
+      - task: tf:init
+
+  lint:
+    desc: Run linters
+    cmds:
+      - task: license:lint
+      - task: tf:lint
+
+  generate:
+    desc: Generate code and docs
+    cmds:
+      - task: go:run
+      - task: license:run
