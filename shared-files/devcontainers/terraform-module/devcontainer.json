@@ -1,0 +1,47 @@
+{
+	"name": "Cloudavenue Terraform",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	"customizations": {
+		// Configure properties specific to VS Code.
+		"vscode": {
+			// Set *default* container specific settings.json values on container create.
+			"settings": {},
+			"extensions": [
+				"hashicorp.terraform"
+			]
+		}
+	},
+	"runArgs": [
+		"--platform=linux/amd64"
+	],
+	"postStartCommand": "task install ; task init",
+	"remoteUser": "vscode",
+	"containerUser": "vscode",
+	"containerEnv": {
+		"HOME": "/home/vscode",
+		// Username
+		"CLOUDAVENUE_USER": "${localEnv:CLOUDAVENUE_USER}",
+		// Password
+		"CLOUDAVENUE_PASSWORD": "${localEnv:CLOUDAVENUE_PASSWORD}",
+		// Organization
+		"CLOUDAVENUE_ORG": "${localEnv:CLOUDAVENUE_ORG}",
+		// Netbackup user
+		"NETBACKUP_USER": "${localEnv:NETBACKUP_USER}",
+		// Netbackup password
+		"NETBACKUP_PASSWORD": "${localEnv:NETBACKUP_PASSWORD}",
+		// HTTP_PROXY
+		"HTTP_PROXY": "${localEnv:HTTP_PROXY}",
+		// HTTPS_PROXY
+		"HTTPS_PROXY": "${localEnv:HTTPS_PROXY}",
+		// NO_PROXY
+		"NO_PROXY": "${localEnv:NO_PROXY}",
+		// http_proxy
+		"http_proxy": "${localEnv:HTTP_PROXY}",
+		// https_proxy
+		"https_proxy": "${localEnv:HTTPS_PROXY}"
+	},
+	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+	"workspaceFolder": "/workspace"
+}

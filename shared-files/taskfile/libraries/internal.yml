@@ -1,7 +1,4 @@
-{% include '../../common/header.yml.tmpl' %}
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
-{#- raw is used to avoid conflicts with the templating engine and go-task #}
-{% raw %}
 version: "3"
 
 tasks:
@@ -30,4 +27,3 @@ tasks:
           brew tap {{.APP}} --quiet && \
             echo "✅ {{.APP}} tapped successfully" || \
             echo "❌ Failed to tap {{.APP}} not tapped"
-{% endraw %}

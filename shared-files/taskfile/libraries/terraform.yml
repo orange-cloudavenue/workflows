@@ -1,7 +1,4 @@
-{% include '../../common/header.yml.tmpl' %}
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
-{#- raw is used to avoid conflicts with the templating engine and go-task #}
-{% raw %}
 version: "3"
 
 vars:
@@ -40,17 +37,14 @@ tasks:
           APP: '{{.ITEM}}'
       - task: install:module
   
-  install:module:
-    desc: Install terraform module
-    {# preconditions:
-      - sh: test -f main.tf
-        msg: "No main.tf file found." #}
-    cmds:
-      - if: IS_MODULE == "true"
-        then:
-          - terraform init
-        else:
-          - echo "This is not a terraform module"
+  # install:module:
+  #   desc: Install terraform module
+  #   cmds:
+  #     - if: IS_MODULE == "true"
+  #       then:
+  #         - terraform init
+  #       else:
+  #         - echo "This is not a terraform module"
   
   # * Lint 
   lint:
@@ -92,4 +86,3 @@ tasks:
         msg: "No .tflint.hcl file found."
     cmds:
       - tflint
-{% endraw %}

@@ -21,6 +21,8 @@ group:
       orange-cloudavenue/terraform-provider-cloudavenue
       orange-cloudavenue/terraform-resource-templates
       orange-cloudavenue/terraform-module-template
+      orange-cloudavenue/terraform-cloudavenue-vdc
+
 
   # ALL Golang repositories
   - files:
@@ -205,10 +207,12 @@ group:
       - source: shared-files/pr-size/pull-request-size.yml.njk
         dest: .github/pull-request-size.yml
         template: true
-      # * TaskFile
+      # * TaskFiles
       - source: shared-files/taskfile/types/terraform-module.yml.njk
         dest: Taskfile.yml
         template: true
+      - source: shared-files/taskfile/libraries/
+        dest: .taskfiles/
       # * Pre-commit
       - source: shared-files/pre-commit/.pre-commit-config.yaml.njk
         dest: .pre-commit-config.yaml
@@ -225,8 +229,10 @@ group:
         template: true
       # ? Github action
       # TODO
+      # * Devcontainer
+      - source: shared-files/devcontainers/terraform-module
+        dest: .devcontainer/
     repos: |
-      orange-cloudavenue/terraform-module-template
       orange-cloudavenue/terraform-cloudavenue-vdc
 
   # Generic terraform repositories

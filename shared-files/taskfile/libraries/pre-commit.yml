@@ -1,7 +1,4 @@
-{% include '../../common/header.yml.tmpl' %}
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
-{#- raw is used to avoid conflicts with the templating engine and go-task #}
-{% raw %}
 version: "3"
 
 includes: 
@@ -36,4 +33,3 @@ tasks:
         task: internal:tools:brew
         vars:
           APP: '{{.ITEM}}'
-{% endraw %}
