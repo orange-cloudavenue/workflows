@@ -32,7 +32,7 @@ jobs:
       - name: Check if any files changed
         id: changed-files
         run: |
-          git diff --exit-code || echo "any_changed=true >> $GITHUB_OUTPUT"
+          git diff --exit-code || echo "any_changed=true" >> "$GITHUB_OUTPUT"
 
       - name: Commit and push changes
         if: steps.changed-files.outputs.any_changed == 'true'
