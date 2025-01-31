@@ -5,7 +5,12 @@ vars:
   IS_MODULE:
     # The pattern of terraform module name is terraform-cloudavenue-<nameofmodule>.
     # Detect if it's a module with the presence of the terraform-cloudavenue- keyword in the last part of the path
-    sh: awk -F/ '{print $NF}' <<< $(pwd) | grep -q "terraform-cloudavenue-" && echo "true" || echo "false"
+    sh: |
+      if [[ $IS_MODULE == "" ]]; then
+        awk -F/ '{print $NF}' <<< $(pwd) | grep -q "terraform-cloudavenue-" && echo "true" || echo "false"
+      else
+        echo $IS_MODULE
+      fi
 
 includes: 
   internal: internal.yml
@@ -15,6 +20,7 @@ tasks:
   init:
     desc: Initialize the terraform
     silent: true
+    internal: true
     cmds:
       - defer: "echo ✅ Terraform are initialized"
       - cmd: terraform init

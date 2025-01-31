@@ -29,6 +29,7 @@ tasks:
   init:
     desc: Initialize the license
     silent: true
+    internal: true
     cmds:
       - defer: echo "✅ License are initialized"
 

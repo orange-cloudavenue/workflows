@@ -4,6 +4,7 @@ version: "3"
 tasks:
   tools:brew:
     desc: brew install
+    internal: true
     silent: true
     preconditions:
       - sh: command -v brew
@@ -17,6 +18,7 @@ tasks:
 
   tools:brew:optional:
     desc: brew install
+    internal: true
     silent: true
     preconditions:
       - sh: command -v brew
@@ -32,6 +34,7 @@ tasks:
 
   tools:brew:tap:
     desc: brew tap
+    internal: true
     silent: true
     preconditions:
       - sh: command -v brew

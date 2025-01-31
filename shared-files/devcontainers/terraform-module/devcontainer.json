@@ -21,6 +21,7 @@
 	"containerUser": "vscode",
 	"containerEnv": {
 		"CLOUDAVENUE_VDC_VALIDATION": "false",
+		"IS_MODULE": "true",
 		"HOME": "/home/vscode",
 		// Username
 		"CLOUDAVENUE_USER": "${localEnv:CLOUDAVENUE_USER}",

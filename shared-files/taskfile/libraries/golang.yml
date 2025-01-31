@@ -39,6 +39,7 @@ tasks:
   init:
     desc: Initialize the golang
     silent: true
+    internal: true
     cmds:
       - defer: "echo ✅ Golang are initialized"
 
