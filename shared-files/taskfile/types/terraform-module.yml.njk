@@ -31,3 +31,9 @@ tasks:
     cmds:
       - task: license:lint
       - task: tf:lint
+
+  generate:
+    desc: Generate files
+    cmds:
+      - task: license:run
+      - task: tf:actions:docs

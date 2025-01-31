@@ -57,7 +57,7 @@ tasks:
     cmds:
       - for: [
           tf:fmt,
-          tf:vaildate,
+          tf:validate,
           tflint,
         ]
         task: lint:{{.ITEM}}
@@ -81,7 +81,7 @@ tasks:
     cmds:
       - find {{.DIRECTORY}} -name "*.tf" -exec terraform fmt {} \;
 
-  lint:tf:vaildate:
+  lint:tf:validate:
     desc: Run terraform validate
     internal: true
     preconditions:
@@ -100,7 +100,7 @@ tasks:
       - sh: test -f .tflint.hcl
         msg: "No .tflint.hcl file found."
     cmds:
-      - tflint --module
+      - tflint
 
   # * Actions
   actions:docs:
