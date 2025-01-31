@@ -13,6 +13,7 @@ permissions:
 
 jobs:
   check-test-requirements:
+    name: Check test requirements
     runs-on: arc-runners
     outputs:
       need-test: ${{ steps.filter.outputs.go }}
@@ -29,6 +30,7 @@ jobs:
   coverage:
     needs: check-test-requirements
     if: ${{ needs.check-test-requirements.outputs.need-test == 'true' }}
+    name: Run tests and send coverage
     runs-on: arc-runners
     strategy:
       fail-fast: false

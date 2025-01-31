@@ -17,6 +17,7 @@ permissions:
 
 jobs:
   check-test-requirements:
+    name: Check test requirements
     runs-on: arc-runners
     outputs:
       need-test: ${{ steps.filter.outputs.go }}
@@ -31,6 +32,7 @@ jobs:
               - 'go.mod'
 
   testsunit:
+    name: Run unit tests
     needs: check-test-requirements
     if: ${{ needs.check-test-requirements.outputs.need-test == 'true' }}
     runs-on: arc-runners
