@@ -9,7 +9,7 @@ on:
 jobs:
   generate-changelog:
     name: "Generate Changelog"
-    runs-on: [self-hosted, Linux]
+    runs-on: arc-runners
     steps:
       - uses: actions/checkout@v4
         with:

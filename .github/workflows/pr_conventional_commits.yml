@@ -13,7 +13,7 @@ permissions:
 jobs:
   validate-pr-title:
     name: "Validate"
-    runs-on: [self-hosted, Linux]
+    runs-on: arc-runners
     steps:
       - name: PR Conventional Commit Validation
         uses:  ytanikin/pr-conventional-commits@1.4.0

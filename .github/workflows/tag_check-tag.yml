@@ -11,7 +11,7 @@ on:
             type: string
 jobs:
   check-tag-already-exists:
-    runs-on: [self-hosted, Linux]
+    runs-on: arc-runners
     steps:
       - uses: actions/checkout@v4
         name: Checkout 

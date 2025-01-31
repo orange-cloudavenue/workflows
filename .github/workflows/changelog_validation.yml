@@ -8,7 +8,7 @@ on:
 
 jobs:
   check-changelog-is-present:
-    runs-on: [self-hosted, Linux]
+    runs-on: arc-runners
     name: "Check Changelog is present"
     outputs:
       is-present: ${{ steps.filter.outputs.changelog }}
@@ -26,7 +26,7 @@ jobs:
   notFound:
     if: ${{ needs.check-changelog-is-present.outputs.is-present == 'false' }}
     needs: check-changelog-is-present
-    runs-on: [self-hosted, Linux]
+    runs-on: arc-runners
     name: "Changelog not found"
     steps:
       - name: Comment on PR
@@ -42,7 +42,7 @@ jobs:
     strategy:
       matrix:
         file: ${{ fromJSON(needs.check-changelog-is-present.outputs.changelog_files) }}
-    runs-on: [self-hosted, Linux]
+    runs-on: arc-runners
     name: "Check changelog format"
     steps:
       - uses: actions/checkout@v4 # v3.5.3

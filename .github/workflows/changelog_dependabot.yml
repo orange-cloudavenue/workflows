@@ -7,7 +7,7 @@ on:
 
 jobs:
   changelog-dependabot:
-    runs-on: [self-hosted, Linux]
+    runs-on: arc-runners
     name: "Generate"
     if: ${{ github.event.pull_request.user.login == 'dependabot[bot]' }}
     steps:

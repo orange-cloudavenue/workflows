@@ -15,7 +15,7 @@ on:
             value: ${{ jobs.generate.outputs.artifact-name }}
 jobs:
   generate:
-    runs-on: [self-hosted, Linux]
+    runs-on: arc-runners
     outputs:
       artifact-name: ${{ steps.generate-release-notes.outputs.releasenoteartifact }}
     steps:

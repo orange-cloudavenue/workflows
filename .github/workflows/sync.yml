@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 jobs:
   sync:
-    runs-on: [self-hosted, Linux]
+    runs-on: arc-runners
     steps:
       - name: Checkout Repository
         uses: actions/checkout@master

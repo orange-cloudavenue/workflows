@@ -13,7 +13,7 @@ permissions:
 jobs:
   auto-label-size:
     name: "Calculate PR Size"
-    runs-on: [self-hosted, Linux]
+    runs-on: arc-runners
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4 

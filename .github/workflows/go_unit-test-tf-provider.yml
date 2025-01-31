@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   check-test-requirements:
-    runs-on: [self-hosted, Linux]
+    runs-on: arc-runners
     outputs:
       need-test: ${{ steps.filter.outputs.go }}
     steps:
@@ -33,7 +33,7 @@ jobs:
   testsunit:
     needs: check-test-requirements
     if: ${{ needs.check-test-requirements.outputs.need-test == 'true' }}
-    runs-on: [self-hosted, Linux]
+    runs-on: arc-runners
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5

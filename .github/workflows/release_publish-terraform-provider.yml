@@ -23,7 +23,7 @@ on:
             type: string
 jobs:
   publish-release:
-    runs-on: [self-hosted, Linux]
+    runs-on: arc-runners
     steps:
       - id: checkout
         uses: actions/checkout@v4
