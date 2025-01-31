@@ -17,6 +17,8 @@ tasks:
     silent: true
     cmds:
       - defer: "echo ✅ Terraform are initialized"
+      - cmd: terraform init
+      - cmd: tflint --init
 
   # * Install
   install:
@@ -42,7 +44,7 @@ tasks:
     internal: true
     cmds:
       - for: [
-          tflint,
+          terraform-docs,
         ]
         task: internal:tools:brew:optional
         vars:
@@ -55,6 +57,7 @@ tasks:
     cmds:
       - for: [
           tf:fmt,
+          tf:vaildate,
           tflint,
         ]
         task: lint:{{.ITEM}}
@@ -78,6 +81,15 @@ tasks:
     cmds:
       - find {{.DIRECTORY}} -name "*.tf" -exec terraform fmt {} \;
 
+  lint:tf:vaildate:
+    desc: Run terraform validate
+    internal: true
+    preconditions:
+      - sh: command -v terraform
+        msg: "terraform is not installed. Please run `task install`"
+    cmds:
+      - terraform validate
+
   # * Lint with tflint
   lint:tflint:
     desc: Run tflint
@@ -88,4 +100,10 @@ tasks:
       - sh: test -f .tflint.hcl
         msg: "No .tflint.hcl file found."
     cmds:
-      - tflint
+      - tflint --module
+
+  # * Actions
+  actions:docs:
+    desc: Generate terraform docs
+    cmds:
+      - terraform-docs markdown . > README.md

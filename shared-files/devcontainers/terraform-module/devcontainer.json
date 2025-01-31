@@ -20,6 +20,7 @@
 	"remoteUser": "vscode",
 	"containerUser": "vscode",
 	"containerEnv": {
+		"CLOUDAVENUE_VDC_VALIDATION": "false",
 		"HOME": "/home/vscode",
 		// Username
 		"CLOUDAVENUE_USER": "${localEnv:CLOUDAVENUE_USER}",
@@ -30,17 +31,7 @@
 		// Netbackup user
 		"NETBACKUP_USER": "${localEnv:NETBACKUP_USER}",
 		// Netbackup password
-		"NETBACKUP_PASSWORD": "${localEnv:NETBACKUP_PASSWORD}",
-		// HTTP_PROXY
-		"HTTP_PROXY": "${localEnv:HTTP_PROXY}",
-		// HTTPS_PROXY
-		"HTTPS_PROXY": "${localEnv:HTTPS_PROXY}",
-		// NO_PROXY
-		"NO_PROXY": "${localEnv:NO_PROXY}",
-		// http_proxy
-		"http_proxy": "${localEnv:HTTP_PROXY}",
-		// https_proxy
-		"https_proxy": "${localEnv:HTTPS_PROXY}"
+		"NETBACKUP_PASSWORD": "${localEnv:NETBACKUP_PASSWORD}"
 	},
 	"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
 	"workspaceFolder": "/workspace"
