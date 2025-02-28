@@ -27,7 +27,7 @@ tasks:
     desc: Run golangci-lint
     internal: true
     cmds:
-      - golangci-lint run --fix ./...
+      - golangci-lint run --fix -j 8 ./...
 
   lint:deps:verify:
     internal: true

@@ -1,8 +1,12 @@
 {% include '../common/header.yml.tmpl' %}
 
+default_install_hook_types:
+  - pre-commit
+  - commit-msg
+
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.6.0
+  rev: v5.0.0
   hooks:
     - id: check-merge-conflict
     - id: forbid-submodules
@@ -10,7 +14,7 @@ repos:
 {% if golang %}
 ## GOLANG
 - repo: https://github.com/golangci/golangci-lint
-  rev: v1.61.0
+  rev: v1.64.5
   hooks:
     - id: golangci-lint
       entry: bash -c 'exec golangci-lint run -j=6'
@@ -28,7 +32,7 @@ repos:
 {% if terraform %}
 ## TERRAFORM
 - repo: https://github.com/antonbabenko/pre-commit-terraform
-  rev: v1.96.3
+  rev: v1.97.4
   hooks:
     - id: terraform_fmt
     - id: terraform_docs
@@ -38,7 +42,7 @@ repos:
 {% endif %}
 ## GIT
 - repo: https://github.com/compilerla/conventional-pre-commit
-  rev: v3.2.0
+  rev: v4.0.0
   hooks:
     - id: conventional-pre-commit
       stages: [commit-msg]
@@ -46,6 +50,6 @@ repos:
 
 ## SECURITY
 - repo: https://github.com/gitleaks/gitleaks
-  rev: v8.19.2
+  rev: v8.24.0
   hooks:
     - id: gitleaks
