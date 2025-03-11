@@ -14,7 +14,6 @@ permissions:
 
 jobs:
   check-publish-requirements:
-    if: ${{ github.event_name != 'workflow_dispatch' }}
     runs-on: arc-runners
     outputs:
       need-publish: ${{ steps.filter.outputs.doc }}
