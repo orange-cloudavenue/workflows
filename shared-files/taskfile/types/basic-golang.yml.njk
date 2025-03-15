@@ -1,0 +1,43 @@
+{% include '../../common/header.yml.tmpl' %}
+
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+---
+version: "3"
+
+# * Import
+includes: 
+  go: ".taskfiles/golang.yml"
+  license: ".taskfiles/license.yml"
+  pre-commit: ".taskfiles/pre-commit.yml"
+  tf: ".taskfiles/terraform.yml"
+  yaml: ".taskfiles/yaml.yml"
+
+# * Tasks
+tasks:
+  install:
+    desc: Install required tools
+    cmds:
+      - task: go:install
+      - task: license:install
+      - task: pre-commit:install
+
+  init:
+    desc: Initialize the project
+    cmds:
+      - task: go:init
+      - task: license:init
+      - task: pre-commit:init
+
+  lint:
+    desc: Run linters
+    cmds:
+      - task: license:lint
+      - task: go:lint
+      - task: go:actions:deps
+      - task: go:actions:generate
+
+  generate:
+    desc: Generate code and docs
+    cmds:
+      - task: go:run
+      - task: license:run

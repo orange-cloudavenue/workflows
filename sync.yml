@@ -136,6 +136,12 @@ group:
       - source: shared-files/github-actions/release_created-golang.yml.njk
         dest: .github/workflows/release_created.yml
         template: true
+      # * TaskFiles
+      - source: shared-files/taskfile/types/basic-golang.yml.njk
+        dest: Taskfile.yml
+        template: true
+      - source: shared-files/taskfile/libraries/
+        dest: .taskfiles/
     repos: |
       orange-cloudavenue/terraform-plugin-framework-validators
       orange-cloudavenue/terraform-plugin-framework-planmodifiers
@@ -143,7 +149,6 @@ group:
       orange-cloudavenue/terraform-plugin-framework-superschema
       orange-cloudavenue/cloudavenue-sdk-go
       orange-cloudavenue/terraform-resource-templates
-
     
     # Generic repositories
   - files:
