@@ -71,6 +71,11 @@ linters:
     - wrapcheck
     - wsl
   settings:
+    {% if repo.name != 'cloudavenue-sdk-go' %}
+    gosec:
+      excludes:
+        - G115  # Potential integer overflow when converting between integer types
+    {% endif %}
     staticcheck:
       checks:
         - -QF1008
@@ -178,11 +183,6 @@ formatters:
     goimports:
       local-prefixes:
         - github.com/orange-cloudavenue/{{ repo.name }}
-    {% if repo.name == 'cloudavenue-sdk-go' %}
-    gosec:
-      excludes:
-        - G115
-    {% endif %}
   exclusions:
     generated: lax
     paths:
