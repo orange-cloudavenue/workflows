@@ -22,6 +22,7 @@ group:
       orange-cloudavenue/terraform-resource-templates
       orange-cloudavenue/terraform-module-template
       orange-cloudavenue/terraform-cloudavenue-vdc
+      orange-cloudavenue/terraform-cloudavenue-edgegateway-services
       orange-cloudavenue/orange-cloudavenue.github.io
 
 
@@ -237,7 +238,11 @@ group:
         dest: .tflint.hcl
         template: true
       # ? Github action
-      # TODO
+      # * Release
+      - source: shared-files/github-actions/release.yml.njk
+        dest: .github/workflows/release.yml
+        template: 
+          golang: false
       # * Devcontainer
       - source: shared-files/devcontainers/terraform-module
         dest: .devcontainer/
