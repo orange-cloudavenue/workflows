@@ -149,7 +149,9 @@ group:
       orange-cloudavenue/terraform-plugin-framework-superschema
       orange-cloudavenue/cloudavenue-sdk-go
       orange-cloudavenue/terraform-resource-templates
-    
+
+  # Golang repositories with goreleaser
+
     # Generic repositories
   - files:
       # * Snippet changelog
@@ -245,6 +247,7 @@ group:
         dest: .devcontainer/
     repos: |
       orange-cloudavenue/terraform-cloudavenue-vdc
+      orange-cloudavenue/terraform-cloudavenue-edgegateway-services
 
   # Generic terraform repositories
   - files:
