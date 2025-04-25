@@ -231,10 +231,6 @@ group:
         dest: .github/dependabot.yml
         template: 
           terraform: true
-      # * Terraform docs
-      - source: shared-files/terraform/terraform-docs.yml.njk
-        dest: .terraform-docs.yml
-        template: true
       # * Tflint
       # ? Config file
       - source: shared-files/terraform/tflint.hcl.njk
