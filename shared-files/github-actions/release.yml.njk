@@ -36,10 +36,15 @@ jobs:
     {% else %}
     {% include './common/golang/unit-test.tmpl' %}
     {% endif %}
-{% endif %}
+  {% endif %}
 
   tag:
-    needs: [golang-ci-lint, tests]
+    {% if golang %}
+    needs: [golang-ci-lint, tests]{% endif %}
+    {% if not golang %}
+    needs: [pre-check]
+    {% endif %}
+
     name: Tag
     uses: orange-cloudavenue/workflows/.github/workflows/tag_create-tag.yml@main
     with:
