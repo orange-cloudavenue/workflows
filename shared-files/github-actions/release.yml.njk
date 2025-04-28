@@ -40,7 +40,8 @@ jobs:
 
   tag:
     {% if golang %}
-    needs: [golang-ci-lint, tests]{% endif %}
+    needs: [golang-ci-lint, tests]
+    {% endif %}
     {% if not golang %}
     needs: [pre-check]
     {% endif %}
