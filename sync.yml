@@ -24,6 +24,7 @@ group:
       orange-cloudavenue/terraform-cloudavenue-vdc
       orange-cloudavenue/terraform-cloudavenue-edgegateway-services
       orange-cloudavenue/orange-cloudavenue.github.io
+      orange-cloudavenue/common-go
 
 
   # ALL Golang repositories
@@ -57,6 +58,7 @@ group:
       orange-cloudavenue/terraform-provider-cloudavenue
       orange-cloudavenue/cloudavenue-sdk-go
       orange-cloudavenue/terraform-resource-templates
+      orange-cloudavenue/common-go
 
   # Terraform provider repositories
   - files:
@@ -150,6 +152,7 @@ group:
       orange-cloudavenue/terraform-plugin-framework-superschema
       orange-cloudavenue/cloudavenue-sdk-go
       orange-cloudavenue/terraform-resource-templates
+      orange-cloudavenue/common-go
 
   # Golang repositories with goreleaser
 
