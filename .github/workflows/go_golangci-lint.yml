@@ -36,7 +36,7 @@ jobs:
         shell: bash 
         run: go mod download
       - name: Run linters
-        uses: golangci/golangci-lint-action@v7
+        uses: golangci/golangci-lint-action@v8
         with:
           args: --timeout=10m 
           version: latest
