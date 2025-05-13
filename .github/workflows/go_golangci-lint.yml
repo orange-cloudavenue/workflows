@@ -29,11 +29,20 @@ jobs:
     name: "GolangCI Lint"
     steps:
       - uses: actions/checkout@v4
+
+      - name: Check if go.work exists
+        id: check-go-work
+        shell: bash
+        run: |
+          if [ -f "go.work" ]; then
+            echo "go_version_file=go.work" >> $GITHUB_ENV
+          else
+            echo "go_version_file=go.mod" >> $GITHUB_ENV
+
       - uses: actions/setup-go@v5
         with:
-          # Needs to use the Go work path to find the go.mod file
-          # and set the Go version
-          go-version-file: "go.work"
+           # Dynamically set the Go version file
+          go-version-file: ${{ env.go_version_file }}
       - name: Install dependencies
         shell: bash 
         run: go mod download
