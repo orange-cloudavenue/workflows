@@ -252,6 +252,7 @@ group:
     repos: |
       orange-cloudavenue/terraform-cloudavenue-vdc
       orange-cloudavenue/terraform-cloudavenue-edgegateway-services
+      orange-cloudavenue/terraform-cloudavenue-nats
 
   # Generic terraform repositories
   - files:
