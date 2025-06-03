@@ -67,6 +67,11 @@ group:
         dest: .vscode/changelog.code-snippets
         template: 
           terraform_provider: true
+      # * Project
+      - source: shared-files/github-actions/project.yml.njk
+        dest: .github/workflows/project.yml
+        template: 
+          terraform_provider: true
       # * PR Open
       - source: shared-files/github-actions/pr_open.yml.njk
         dest: .github/workflows/pr_open.yml
@@ -111,6 +116,11 @@ group:
       # * Release
       - source: shared-files/github-actions/release.yml.njk
         dest: .github/workflows/release.yml
+        template: 
+          golang: true
+      # * Project
+      - source: shared-files/github-actions/project.yml.njk
+        dest: .github/workflows/project.yml
         template: 
           golang: true
       # * PR Open
@@ -162,6 +172,10 @@ group:
       - source: shared-files/changelog/vscode/changelog.code-snippets.njk
         dest: .vscode/changelog.code-snippets
         template: true
+      # * Project
+      - source: shared-files/github-actions/project.yml.njk
+        dest: .github/workflows/project.yml
+        template: true
       # * PR Open
       - source: shared-files/github-actions/pr_open.yml.njk
         dest: .github/workflows/pr_open.yml
@@ -193,6 +207,10 @@ group:
       # * Snippet changelog
       - source: shared-files/changelog/vscode/changelog.code-snippets.njk
         dest: .vscode/changelog.code-snippets
+        template: true
+      # * Project
+      - source: shared-files/github-actions/project.yml.njk
+        dest: .github/workflows/project.yml
         template: true
       # * PR Open
       - source: shared-files/github-actions/pr_open.yml.njk
