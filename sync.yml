@@ -279,5 +279,9 @@ group:
         dest: .pre-commit-config.yaml
         template: 
           terraform: true
+      # * Project
+      - source: shared-files/github-actions/project.yml.njk
+        dest: .github/workflows/project.yml
+        template: true
     repos: |
       orange-cloudavenue/k0s-infra
