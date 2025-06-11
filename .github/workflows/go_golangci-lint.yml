@@ -38,7 +38,7 @@ jobs:
             echo "go_version_file=go.work" >> $GITHUB_ENV
           else
             echo "go_version_file=go.mod" >> $GITHUB_ENV
-
+          fi
       - uses: actions/setup-go@v5
         with:
            # Dynamically set the Go version file
