@@ -15,6 +15,7 @@ group:
     repos: |
       orange-cloudavenue/terraform-plugin-framework-validators
       orange-cloudavenue/cloudavenue-sdk-go
+      orange-cloudavenue/cloudavenue-sdk-go-v2
       orange-cloudavenue/terraform-plugin-framework-planmodifiers
       orange-cloudavenue/terraform-plugin-framework-supertypes
       orange-cloudavenue/terraform-plugin-framework-superschema
@@ -57,6 +58,7 @@ group:
       orange-cloudavenue/terraform-plugin-framework-superschema
       orange-cloudavenue/terraform-provider-cloudavenue
       orange-cloudavenue/cloudavenue-sdk-go
+      orange-cloudavenue/cloudavenue-sdk-go-v2
       orange-cloudavenue/terraform-resource-templates
       orange-cloudavenue/common-go
 
@@ -161,6 +163,7 @@ group:
       orange-cloudavenue/terraform-plugin-framework-supertypes
       orange-cloudavenue/terraform-plugin-framework-superschema
       orange-cloudavenue/cloudavenue-sdk-go
+      orange-cloudavenue/cloudavenue-sdk-go-v2
       orange-cloudavenue/terraform-resource-templates
       orange-cloudavenue/common-go
 
