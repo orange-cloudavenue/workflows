@@ -1,0 +1,14 @@
+{
+    {% if golang %}
+    "gopls": {
+        "ui.semanticTokens": true,
+        "formatting.local": "github.com/orange-cloudavenue/{{ repo.name }}",
+    },
+    "go.lintTool": "golangci-lint",
+    "go.lintFlags": [
+        "--fast",
+        "--fix"
+    ],
+    "go.lintOnSave": "package",
+    {% endif %}
+}

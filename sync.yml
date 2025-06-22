@@ -30,6 +30,11 @@ group:
 
   # ALL Golang repositories
   - files:
+      # * Settings VSCode
+      - source: shared-files/vscode/settings.json.njk
+        dest: .vscode/settings.json
+        template: 
+          golang: true
       # * GolangCI Lint
       - source: shared-files/golang/.golangci.yml.njk
         dest: .golangci.yml
@@ -65,7 +70,7 @@ group:
   # Terraform provider repositories
   - files:
       # * Snippet changelog
-      - source: shared-files/changelog/vscode/changelog.code-snippets.njk
+      - source: shared-files/vscode/changelog.code-snippets.njk
         dest: .vscode/changelog.code-snippets
         template: 
           terraform_provider: true
@@ -112,7 +117,7 @@ group:
   # Generic golang repositories
   - files:
       # * Snippet changelog
-      - source: shared-files/changelog/vscode/changelog.code-snippets.njk
+      - source: shared-files/vscode/changelog.code-snippets.njk
         dest: .vscode/changelog.code-snippets
         template: true
       # * Release
@@ -172,7 +177,7 @@ group:
     # Generic repositories
   - files:
       # * Snippet changelog
-      - source: shared-files/changelog/vscode/changelog.code-snippets.njk
+      - source: shared-files/vscode/changelog.code-snippets.njk
         dest: .vscode/changelog.code-snippets
         template: true
       # * Project
@@ -208,7 +213,7 @@ group:
   # Generic terraform modules repositories
   - files:
       # * Snippet changelog
-      - source: shared-files/changelog/vscode/changelog.code-snippets.njk
+      - source: shared-files/vscode/changelog.code-snippets.njk
         dest: .vscode/changelog.code-snippets
         template: true
       # * Project
