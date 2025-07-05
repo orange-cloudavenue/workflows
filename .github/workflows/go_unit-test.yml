@@ -61,20 +61,23 @@ jobs:
       - name: Install dependencies & run tests
         shell: bash 
         run: find . -name go.mod -execdir pwd \; | xargs -I {} bash -c 'cd {} && go mod download && go test -v -coverprofile=profile.cov ./...'
-      - if: inputs.send-coverage == 'true'
-        name: Send coverage
-        uses: shogo82148/actions-goveralls@v1
+      
+      - name: Coveralls Parallel
+        if: inputs.send-coverage == 'true'
+        uses: coverallsapp/github-action@v2
         with:
-          path-to-profile: profile.cov
-          flag-name: Go-${{ matrix.go }}
+          flag-name: run-${{ join(matrix.*, '-') }}
           parallel: true
+          file: profile.cov
 
   # notifies that all test jobs are finished.
   coverage-finish:
-    if: inputs.send-coverage == 'true'
-    needs: coverage
-    runs-on: arc-runners
+    needs: test
+    if: ${{ inputs.send-coverage == 'true' && always() }}
+    runs-on: ubuntu-latest
     steps:
-      - uses: shogo82148/actions-goveralls@v1
-        with:
-          parallel-finished: true
+    - name: Coveralls Finished
+      uses: coverallsapp/github-action@v2
+      with:
+        parallel-finished: true
+        carryforward: "run-${{ join(needs.test.outputs.matrix.go, '-') }}"
