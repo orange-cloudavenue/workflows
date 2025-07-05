@@ -43,7 +43,6 @@ jobs:
       TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
 
   pr-conventional-commits:
-    if: github.event.action == 'opened' || github.event.action == 'edited'
     name: "Conventional Commits"
     uses: orange-cloudavenue/workflows/.github/workflows/pr_conventional_commits.yml@main
     secrets:
