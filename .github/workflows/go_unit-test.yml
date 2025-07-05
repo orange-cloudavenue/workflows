@@ -38,7 +38,7 @@ jobs:
               - '**/*.go'
               - 'go.mod'
 
-  coverage:
+  tests:
     needs: check-test-requirements
     if: ${{ needs.check-test-requirements.outputs.need-test == 'true' }}
     name: Run tests and send coverage
@@ -72,7 +72,7 @@ jobs:
 
   # notifies that all test jobs are finished.
   coverage-finish:
-    needs: test
+    needs: tests
     if: ${{ inputs.send-coverage == 'true' && always() }}
     runs-on: ubuntu-latest
     steps:
