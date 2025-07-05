@@ -2,6 +2,15 @@ name: "PR Size"
 
 on:
   workflow_call:
+    inputs:
+      ref:
+        description: 'Git reference to checkout (eg: {{github.ref}})'
+        required: true
+        type: string
+      repository:
+        description: 'Repository to checkout (eg: {{github.repository}})'
+        required: true
+        type: string
     secrets:
       TOKEN:
         required: true
@@ -17,6 +26,9 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4 
+        with:
+          ref: ${{ inputs.ref }}
+          repository: ${{ inputs.repository }}
       - name: Label PR based on size
         uses: cbrgm/pr-size-labeler-action@main
         with:

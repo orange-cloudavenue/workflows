@@ -2,6 +2,15 @@ name: "Golang Unit Test Terraform Provider"
 
 on:
   workflow_call:
+    inputs:
+      ref:
+        description: 'Git reference to checkout (eg: {{github.ref}})'
+        required: true
+        type: string
+      repository:
+        description: 'Repository to checkout (eg: {{github.repository}})'
+        required: true
+        type: string
     secrets:
       CLOUDAVENUE_ORG:
         required: true
@@ -23,6 +32,8 @@ jobs:
       need-test: ${{ steps.filter.outputs.go }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
       - uses: dorny/paths-filter@v3
         id: filter
         with:
@@ -38,6 +49,8 @@ jobs:
     runs-on: arc-runners
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
       - uses: actions/setup-go@v5
         with:
           go-version-file: 'go.mod'

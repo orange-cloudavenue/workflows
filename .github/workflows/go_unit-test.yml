@@ -7,6 +7,10 @@ on:
         description: 'Send coverage to coveralls'
         required: false
         type: boolean
+      ref:
+        description: 'Git reference to checkout (eg: {{github.ref}})'
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -19,6 +23,9 @@ jobs:
       need-test: ${{ steps.filter.outputs.go }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+          repository: ${{ inputs.repository }}
       - uses: dorny/paths-filter@v3
         id: filter
         with:
@@ -41,6 +48,9 @@ jobs:
           - '1.21'
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+          repository: ${{ inputs.repository }}
       - uses: actions/setup-go@v5
         with:
           go-version: ${{ matrix.go }}

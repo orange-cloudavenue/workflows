@@ -2,6 +2,15 @@ name: "GolangCI Lint"
 
 on:
   workflow_call:
+    inputs:
+      ref:
+        description: 'Git reference to checkout (eg: {{github.ref}})'
+        required: true
+        type: string
+      repository:
+        description: 'Repository to checkout (eg: {{github.repository}})'
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -14,6 +23,9 @@ jobs:
       need-lint: ${{ steps.filter.outputs.go }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+          repository: ${{ inputs.repository }}
       - uses: dorny/paths-filter@v3
         id: filter
         with:
@@ -29,7 +41,9 @@ jobs:
     name: "GolangCI Lint"
     steps:
       - uses: actions/checkout@v4
-
+        with:
+          ref: ${{ inputs.ref }}
+          repository: ${{ inputs.repository }}
       - name: Check if go.work exists
         id: check-go-work
         shell: bash

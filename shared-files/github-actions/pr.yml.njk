@@ -4,7 +4,7 @@ name: PR All events
 
 on:
   pull_request_target:
-    types: [ opened, reopened, synchronize ]
+    types: [ opened, reopened, synchronize, edited ]
 
 
 concurrency:
@@ -32,13 +32,18 @@ jobs:
       {#TOKEN: {% raw %}${{ secrets.GITHUB_TOKEN }}{% endraw %} #}
 
   pr-size:
+    if: event.type != 'edited'
     name: "PR Size"
     uses: orange-cloudavenue/workflows/.github/workflows/pr_label_size.yml@main
+    with:
+      ref: {% raw %}${{ github.ref }}{% endraw %}
+      repository: {% raw %}${{ github.repository }}{% endraw %}
     secrets:
       {#- raw is used to avoid conflicts with the templating engine and github action #}
       TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
 
   pr-conventional-commits:
+    if: event.type == 'opened' || event.type == 'edited'
     name: "Conventional Commits"
     uses: orange-cloudavenue/workflows/.github/workflows/pr_conventional_commits.yml@main
     secrets:
@@ -46,17 +51,27 @@ jobs:
       TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
 
   pr-license:
+    if: event.type != 'edited' && github.event.pull_request.draft == false
     name: "License Check"
     uses: orange-cloudavenue/workflows/.github/workflows/pr_license.yml@main
+    with:
+      ref: {% raw %}${{ github.ref }}{% endraw %}
+      repository: {% raw %}${{ github.repository }}{% endraw %}
 
 {% if golang %}
   golang-ci-lint:
+    if: event.type != 'edited' && github.event.pull_request.draft == false
     {% include './common/golang/lint.tmpl' %}
 
   tests:
+    if: event.type != 'edited' && github.event.pull_request.draft == false
     {% if terraform_provider %}
     {% include './common/golang/unit-test-tf-provider.tmpl' %}
     {% else %}
     {% include './common/golang/unit-test.tmpl' %}
+    {% if repo.name == 'cloudavenue-sdk-go-v2' %}
+    with:
+      send-coverage: true
+    {% endif %}
     {% endif %}
 {% endif %}
