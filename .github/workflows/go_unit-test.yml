@@ -61,7 +61,7 @@ jobs:
       - name: Install dependencies & run tests
         shell: bash 
         run: find . -name go.mod -execdir pwd \; | xargs -I {} bash -c 'cd {} && go mod download && go test -v -coverprofile=profile.cov ./...'
-      - if: inputs.send-covegage == 'true'
+      - if: inputs.send-coverage == 'true'
         name: Send coverage
         uses: shogo82148/actions-goveralls@v1
         with:
