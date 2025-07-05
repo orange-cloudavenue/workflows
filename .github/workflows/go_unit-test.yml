@@ -71,7 +71,7 @@ jobs:
 
   # notifies that all test jobs are finished.
   coverage-finish:
-    if: inputs.send-covegage == 'true'
+    if: inputs.send-coverage == 'true'
     needs: coverage
     runs-on: arc-runners
     steps:
