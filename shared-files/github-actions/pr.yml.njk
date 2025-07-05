@@ -66,24 +66,12 @@ jobs:
   tests:
     if: event.type != 'edited' && github.event.pull_request.draft == false
     {% if terraform_provider %}
-    name: "Unit Tests"
-    uses: orange-cloudavenue/workflows/.github/workflows/go_unit-test-tf-provider.yml@main
-    with:
-      ref: {% raw %}${{ github.ref }}{% endraw %}
-      repository: {% raw %}${{ github.repository }}{% endraw %}
-    secrets:
-      CLOUDAVENUE_ORG: {% raw %}${{ secrets.CLOUDAVENUE_ORG }}{% endraw %}
-      CLOUDAVENUE_USER: {% raw %}${{ secrets.CLOUDAVENUE_USER }}{% endraw %}
-      CLOUDAVENUE_PASSWORD: {% raw %}${{ secrets.CLOUDAVENUE_PASSWORD }}{% endraw %}
-      CLOUDAVENUE_VDC: {% raw %}${{ secrets.CLOUDAVENUE_VDC }}{% endraw %}
+    {% include './common/golang/unit-test-tf-provider.tmpl' %}
     {% else %}
-    name: "Unit Tests"
-    uses: orange-cloudavenue/workflows/.github/workflows/go_unit-test.yml@main
-    with:
-      ref: {% raw %}${{ github.ref }}{% endraw %}
-      repository: {% raw %}${{ github.repository }}{% endraw %}
+    {% include './common/golang/unit-test.tmpl' %}
     {% if repo.name == 'cloudavenue-sdk-go-v2' %}
       send-coverage: true
+    {% endif %}
     {% endif %}
     {% endif %}
 {% endif %}

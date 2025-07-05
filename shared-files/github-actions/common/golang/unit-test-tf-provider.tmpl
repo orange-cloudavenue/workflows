@@ -1,0 +1,10 @@
+    name: "Unit Tests"
+    uses: orange-cloudavenue/workflows/.github/workflows/go_unit-test-tf-provider.yml@main
+    with:
+        ref: {% raw %}${{ github.ref }}{% endraw %}
+        repository: {% raw %}${{ github.repository }}{% endraw %}
+    secrets:
+        CLOUDAVENUE_ORG: {% raw %}${{ secrets.CLOUDAVENUE_ORG }}{% endraw %}
+        CLOUDAVENUE_USER: {% raw %}${{ secrets.CLOUDAVENUE_USER }}{% endraw %}
+        CLOUDAVENUE_PASSWORD: {% raw %}${{ secrets.CLOUDAVENUE_PASSWORD }}{% endraw %}
+        CLOUDAVENUE_VDC: {% raw %}${{ secrets.CLOUDAVENUE_VDC }}{% endraw %}
