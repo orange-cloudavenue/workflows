@@ -3,7 +3,7 @@ name: "Golang Unit Test"
 on:
   workflow_call:
     inputs:
-      send-covegage:
+      send-coverage:
         description: 'Send coverage to coveralls'
         required: false
         type: boolean
