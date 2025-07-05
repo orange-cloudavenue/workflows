@@ -11,6 +11,10 @@ on:
         description: 'Git reference to checkout (eg: {{github.ref}})'
         required: true
         type: string
+      repository:
+        description: 'Repository to checkout (eg: {{github.repository}})'
+        required: true
+        type: string
 
 permissions:
   contents: read
