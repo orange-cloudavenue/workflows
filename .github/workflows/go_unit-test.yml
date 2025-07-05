@@ -63,7 +63,7 @@ jobs:
         run: find . -name go.mod -execdir pwd \; | xargs -I {} bash -c 'cd {} && go mod download && go test -v -coverprofile=profile.cov ./...'
       
       - name: Coveralls Parallel
-        if: inputs.send-coverage == 'true'
+        if: inputs.send-coverage == true
         uses: coverallsapp/github-action@v2
         with:
           flag-name: run-${{ join(matrix.*, '-') }}
@@ -73,7 +73,7 @@ jobs:
   # notifies that all test jobs are finished.
   coverage-finish:
     needs: tests
-    if: ${{ inputs.send-coverage == 'true' && always() }}
+    if: ${{ inputs.send-coverage == true && always() }}
     runs-on: ubuntu-latest
     steps:
     - name: Coveralls Finished
