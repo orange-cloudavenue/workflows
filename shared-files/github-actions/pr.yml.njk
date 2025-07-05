@@ -61,11 +61,7 @@ jobs:
 {% if golang %}
   golang-ci-lint:
     if: event.type != 'edited' && github.event.pull_request.draft == false
-    name: "Lint"
-    uses: orange-cloudavenue/workflows/.github/workflows/go_golangci-lint.yml@main
-    with:
-      ref: {% raw %}${{ github.ref }}{% endraw %}
-      repository: {% raw %}${{ github.repository }}{% endraw %}
+    {% include './common/golang/lint.tmpl' %}
 
   tests:
     if: event.type != 'edited' && github.event.pull_request.draft == false
