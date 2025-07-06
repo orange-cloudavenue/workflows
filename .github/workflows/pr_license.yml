@@ -26,6 +26,10 @@ jobs:
        ! github.event.pull_request.head.repo.fork &&
        github.actor != 'dependabot[bot]'
     steps:
+      # https://github.com/actions/setup-go/issues/424#issuecomment-2796487736
+      - name: Setup tar default options
+        shell: bash
+        run: echo "TAR_OPTIONS=--skip-old-files" >> $GITHUB_ENV
       - name: Checkout Repository
         uses: actions/checkout@v4 
         with:

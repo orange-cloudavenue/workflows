@@ -51,6 +51,10 @@ jobs:
           - '1.22'
           - '1.21'
     steps:
+      # https://github.com/actions/setup-go/issues/424#issuecomment-2796487736
+      - name: Setup tar default options
+        shell: bash
+        run: echo "TAR_OPTIONS=--skip-old-files" >> $GITHUB_ENV
       - uses: actions/checkout@v4
         with:
           ref: ${{ inputs.ref }}
