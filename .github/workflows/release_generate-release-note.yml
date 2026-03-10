@@ -15,7 +15,7 @@ on:
             value: ${{ jobs.generate.outputs.artifact-name }}
 jobs:
   generate:
-    runs-on: arc-runners
+    runs-on: ubuntu-latest
     outputs:
       artifact-name: ${{ steps.generate-release-notes.outputs.releasenoteartifact }}
     steps:

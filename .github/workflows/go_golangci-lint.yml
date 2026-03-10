@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   check-lint-requirements:
-    runs-on: arc-runners
+    runs-on: ubuntu-latest
     name: "Check Lint Requirements"
     outputs:
       need-lint: ${{ steps.filter.outputs.go }}
@@ -36,7 +36,7 @@ jobs:
   golangci-lint:
     if: ${{ needs.check-lint-requirements.outputs.need-lint == 'true' }}
     needs: check-lint-requirements
-    runs-on: arc-runners
+    runs-on: ubuntu-latest
     timeout-minutes: 10
     name: "GolangCI Lint"
     steps:

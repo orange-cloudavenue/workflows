@@ -8,7 +8,7 @@ permissions:
   
 jobs:
   refresh-go-report-card:
-    runs-on: arc-runners
+    runs-on: ubuntu-latest
     name: "Refresh"
     steps:
       - uses: creekorful/goreportcard-action@v1.0

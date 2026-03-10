@@ -8,7 +8,7 @@ permissions:
   
 jobs:
   refresh:
-    runs-on: arc-runners
+    runs-on: ubuntu-latest
     name: "Refresh Go Proxy"
     steps:
       - uses: andrewslotin/go-proxy-pull-action@master

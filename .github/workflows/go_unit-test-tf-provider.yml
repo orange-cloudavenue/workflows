@@ -27,7 +27,7 @@ permissions:
 jobs:
   check-test-requirements:
     name: Check test requirements
-    runs-on: arc-runners
+    runs-on: ubuntu-latest
     outputs:
       need-test: ${{ steps.filter.outputs.go }}
     steps:
@@ -46,7 +46,7 @@ jobs:
     name: Run unit tests
     needs: check-test-requirements
     if: ${{ needs.check-test-requirements.outputs.need-test == 'true' }}
-    runs-on: arc-runners
+    runs-on: ubuntu-latest
     steps:
       # https://github.com/actions/setup-go/issues/424#issuecomment-2796487736
       - name: Setup tar default options

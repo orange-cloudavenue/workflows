@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   check-publish-requirements:
-    runs-on: arc-runners
+    runs-on: ubuntu-latest
     outputs:
       need-publish: ${{ steps.filter.outputs.doc }}
     steps:
@@ -28,7 +28,7 @@ jobs:
     if: ${{ needs.check-publish-requirements.outputs.need-publish == 'true' || github.event_name == 'workflow_dispatch' }}
     needs: check-publish-requirements
     name: github page
-    runs-on: arc-runners
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Configure Git Credentials

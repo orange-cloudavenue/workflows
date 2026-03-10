@@ -22,7 +22,7 @@ permissions:
 jobs:
   check-test-requirements:
     name: Check test requirements
-    runs-on: arc-runners
+    runs-on: ubuntu-latest
     outputs:
       need-test: ${{ steps.filter.outputs.go }}
     steps:
@@ -42,7 +42,7 @@ jobs:
     needs: check-test-requirements
     if: ${{ needs.check-test-requirements.outputs.need-test == 'true' }}
     name: Run tests and send coverage
-    runs-on: arc-runners
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:

@@ -13,7 +13,7 @@ permissions:
 jobs:
   validate-pr-title:
     name: "Validate"
-    runs-on: arc-runners
+    runs-on: ubuntu-latest
     steps:
       - name: PR Conventional Commit Validation
         uses:  ytanikin/pr-conventional-commits@1.4.1

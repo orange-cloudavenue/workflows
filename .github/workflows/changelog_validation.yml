@@ -8,7 +8,7 @@ on:
 
 jobs:
   check-changelog-is-present:
-    runs-on: arc-runners
+    runs-on: ubuntu-latest
     name: "Check Changelog is present"
     outputs:
       is-present: ${{ steps.filter.outputs.changelog }}
@@ -26,7 +26,7 @@ jobs:
   notFound:
     if: ${{ needs.check-changelog-is-present.outputs.is-present == 'false' }}
     needs: check-changelog-is-present
-    runs-on: arc-runners
+    runs-on: ubuntu-latest
     name: "Changelog not found"
     steps:
       - name: Comment on PR
@@ -42,7 +42,7 @@ jobs:
     strategy:
       matrix:
         file: ${{ fromJSON(needs.check-changelog-is-present.outputs.changelog_files) }}
-    runs-on: arc-runners
+    runs-on: ubuntu-latest
     name: "Check changelog format"
     steps:
       # https://github.com/actions/setup-go/issues/424#issuecomment-2796487736

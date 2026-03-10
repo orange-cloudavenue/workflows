@@ -19,7 +19,7 @@ permissions:
 jobs:
   header-license:
     name: "Check License Header"
-    runs-on: arc-runners
+    runs-on: ubuntu-latest
     # Not run on draft PRs or PRs from forks or dependabot
     if: |
        github.event.pull_request.draft == false &&
