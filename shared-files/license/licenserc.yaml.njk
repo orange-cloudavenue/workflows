@@ -5,7 +5,7 @@ header: # `header` section is configurations for source codes license header.
     copyright-owner: Orange # the copyright owner to replace the [owner] in the `spdx-id` template.
     {% if license == "Apache-2.0" %}
     spdx-id: Apache-2.0 # the spdx id of the license, it's convenient when your license is standard SPDX license.
-    context: |
+    content: |
       SPDX-FileCopyrightText: Copyright (c) [year] [owner]
       SPDX-License-Identifier: Apache-2.0
       
@@ -13,7 +13,7 @@ header: # `header` section is configurations for source codes license header.
       see the "LICENSE" file for more details
 
     pattern: |
-      SPDX-FileCopyrightText: Copyright (c) [year] [owner]
+      SPDX-FileCopyrightText: Copyright (c) \d{4} Orange
       SPDX-License-Identifier: Apache-2.0
       
       This software is distributed under the Apache 2.0 License,
@@ -29,7 +29,7 @@ header: # `header` section is configurations for source codes license header.
       or see the "LICENSE" file for more details.
 
     pattern: |
-      SPDX-FileCopyrightText: Copyright (c) [year] [owner]
+      SPDX-FileCopyrightText: Copyright (c) \d{4} Orange
       SPDX-License-Identifier: Mozilla Public License 2.0
 
       This software is distributed under the MPL-2.0 license.
@@ -81,6 +81,7 @@ header: # `header` section is configurations for source codes license header.
     - ".tflint.yml"
     - "go.work"
     - "go.work.sum"
+    - "**/*.txt"
 
 
   comment: on-failure # on what condition license-eye will comment on the pull request, `on-failure`, `always`, `never`.
