@@ -1,0 +1,14 @@
+name: Test Check Tag
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to test (e.g. v0.99.99-test)'
+        required: true
+jobs:
+  test:
+    uses: ./.github/workflows/tag_check-tag.yml
+    with:
+      tag: ${{ github.event.inputs.tag }}
+    secrets:
+      TOKEN: ${{ secrets.GITHUB_TOKEN }}
