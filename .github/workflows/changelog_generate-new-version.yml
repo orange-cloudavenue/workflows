@@ -9,13 +9,13 @@ on:
             description: 'Tag version number (Eg: v0.1.0)'
             required: true
             type: string
-            
+
 jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        name: Checkout 
+      - uses: actions/checkout@v6
+        name: Checkout
         with:
           token: ${{ secrets.TOKEN }}
           fetch-depth: 0

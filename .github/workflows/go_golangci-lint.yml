@@ -22,7 +22,7 @@ jobs:
     outputs:
       need-lint: ${{ steps.filter.outputs.go }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ inputs.ref }}
           repository: ${{ inputs.repository }}
@@ -44,7 +44,7 @@ jobs:
       - name: Setup tar default options
         shell: bash
         run: echo "TAR_OPTIONS=--skip-old-files" >> $GITHUB_ENV
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ inputs.ref }}
           repository: ${{ inputs.repository }}
@@ -62,10 +62,10 @@ jobs:
            # Dynamically set the Go version file
           go-version-file: ${{ env.go_version_file }}
       - name: Install dependencies
-        shell: bash 
+        shell: bash
         run: go mod download
       - name: Run linters
         uses: golangci/golangci-lint-action@v8
         with:
-          args: --timeout=10m 
+          args: --timeout=10m
           version: latest

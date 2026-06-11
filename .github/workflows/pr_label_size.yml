@@ -25,14 +25,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4 
+        uses: actions/checkout@v6
         with:
           ref: ${{ inputs.ref }}
           repository: ${{ inputs.repository }}
       - name: Label PR based on size
         uses: cbrgm/pr-size-labeler-action@main
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }} 
-          github_repository: ${{ github.repository }} 
-          github_pr_number: ${{ github.event.number }} 
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_repository: ${{ github.repository }}
+          github_pr_number: ${{ github.event.number }}
           config_file_path: '.github/pull-request-size.yml'
