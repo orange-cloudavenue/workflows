@@ -31,7 +31,7 @@ jobs:
         shell: bash
         run: echo "TAR_OPTIONS=--skip-old-files" >> $GITHUB_ENV
       - name: Checkout Repository
-        uses: actions/checkout@v4 
+        uses: actions/checkout@v6
         with:
           ref: ${{ inputs.ref }}
           repository: ${{ inputs.repository }}

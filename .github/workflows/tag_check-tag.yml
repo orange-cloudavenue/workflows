@@ -13,8 +13,8 @@ jobs:
   check-tag-already-exists:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        name: Checkout 
+      - uses: actions/checkout@v6
+        name: Checkout
         with:
           token: ${{ secrets.TOKEN }}
       - name: Check if tag is valid

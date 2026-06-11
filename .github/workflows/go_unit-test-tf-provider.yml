@@ -31,7 +31,7 @@ jobs:
     outputs:
       need-test: ${{ steps.filter.outputs.go }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ inputs.ref }}
       - uses: dorny/paths-filter@v3
@@ -52,7 +52,7 @@ jobs:
       - name: Setup tar default options
         shell: bash
         run: echo "TAR_OPTIONS=--skip-old-files" >> $GITHUB_ENV
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ inputs.ref }}
       - uses: actions/setup-go@v5

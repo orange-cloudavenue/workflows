@@ -20,8 +20,8 @@ jobs:
       artifact-name: ${{ steps.generate-release-notes.outputs.releasenoteartifact }}
     steps:
       - id: checkout
-        uses: actions/checkout@v4
-        name: Checkout 
+        uses: actions/checkout@v6
+        name: Checkout
         with:
           token: ${{ secrets.TOKEN }}
           fetch-depth: 0
