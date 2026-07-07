@@ -13,6 +13,8 @@ on:
         artifact-name:
             description: 'Release note artifact name'
             value: ${{ jobs.generate.outputs.artifact-name }}
+permissions:
+  contents: read
 jobs:
   generate:
     runs-on: ubuntu-latest
