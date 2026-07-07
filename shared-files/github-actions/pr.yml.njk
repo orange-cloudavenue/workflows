@@ -62,8 +62,5 @@ jobs:
     {% else %}
     {% include './common/golang/unit-test.tmpl' %}
 
-    {% if repo.name == 'cloudavenue-sdk-go-v2' %}
-      send-coverage: true
-    {% endif %}
     {% endif %}
 {% endif %}
