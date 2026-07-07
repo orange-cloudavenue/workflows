@@ -17,5 +17,8 @@ jobs:
           GH_PAT: ${{ secrets.CHANGELOG_PAT }}
           CONFIG_PATH: sync.yml
           COMMIT_PREFIX: "chore:"
+          PR_LABELS: |
+            sync
+            automerge
           GIT_EMAIL: "github-actions[bot]@users.noreply.github.com"
           GIT_USERNAME: "github-actions[bot]"

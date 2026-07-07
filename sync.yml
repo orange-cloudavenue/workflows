@@ -111,6 +111,10 @@ group:
         template: 
           golang: true
           terraform_provider: true
+      # * Auto-merge Sync PRs
+      - source: shared-files/github-actions/auto-merge-sync.yml.njk
+        dest: .github/workflows/auto-merge-sync.yml
+        template: true
     repos: |
       orange-cloudavenue/terraform-provider-cloudavenue
       
@@ -162,6 +166,10 @@ group:
         template: true
       - source: shared-files/taskfile/libraries/
         dest: .taskfiles/
+      # * Auto-merge Sync PRs
+      - source: shared-files/github-actions/auto-merge-sync.yml.njk
+        dest: .github/workflows/auto-merge-sync.yml
+        template: true
     repos: |
       orange-cloudavenue/terraform-plugin-framework-validators
       orange-cloudavenue/terraform-plugin-framework-planmodifiers
@@ -206,6 +214,10 @@ group:
       # * PR Size
       - source: shared-files/pr-size/pull-request-size.yml.njk
         dest: .github/pull-request-size.yml
+        template: true
+      # * Auto-merge Sync PRs
+      - source: shared-files/github-actions/auto-merge-sync.yml.njk
+        dest: .github/workflows/auto-merge-sync.yml
         template: true
     repos: |
       orange-cloudavenue/orange-cloudavenue.github.io
@@ -275,6 +287,10 @@ group:
       # * Devcontainer
       - source: shared-files/devcontainers/terraform-module
         dest: .devcontainer/
+      # * Auto-merge Sync PRs
+      - source: shared-files/github-actions/auto-merge-sync.yml.njk
+        dest: .github/workflows/auto-merge-sync.yml
+        template: true
     repos: |
       orange-cloudavenue/terraform-cloudavenue-vdc
       orange-cloudavenue/terraform-cloudavenue-edgegateway-services
