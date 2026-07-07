@@ -24,13 +24,6 @@ jobs:
       {#- raw is used to avoid conflicts with the templating engine and github action #}
       TOKEN: {% raw %}${{ secrets.GITHUB_TOKEN }}{% endraw %}
 
-  {# changelog-validation:
-    name: "Changelog Validation"
-    uses: orange-cloudavenue/workflows/.github/workflows/changelog_validation.yml@main
-    secrets:
-      {#- raw is used to avoid conflicts with the templating engine and github action #}
-      {#TOKEN: {% raw %}${{ secrets.GITHUB_TOKEN }}{% endraw %} #}
-
   pr-size:
     if: github.event.action != 'edited'
     name: "PR Size"
