@@ -17,16 +17,15 @@ jobs:
         name: Checkout
         with:
           token: ${{ secrets.TOKEN }}
-      - name: Check if tag is valid
-        run : |
-          # Check if the tag start with 'v', if not, add it
-          if [[ ! ${{ inputs.tag }} =~ ^v.* ]]; then
-            echo "Error tag format is invalid. The format is vx.x.x" >> "$GITHUB_OUTPUT"
+      - name: Check tag validity and existence
+        env:
+          TAG: ${{ inputs.tag }}
+        run: |
+          if [[ ! "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Error: invalid tag format. Expected vx.x.x" >&2
             exit 1
           fi
-      - name: Check if tag not already exists
-        run: |
-          if git rev-parse ${{ inputs.tag }} >/dev/null 2>&1; then
-            echo "Tag ${{ inputs.tag }} already exists" >> "$GITHUB_OUTPUT"
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists" >&2
             exit 1
           fi
