@@ -78,7 +78,7 @@ jobs:
       GPG_PRIVATE_KEY: {% raw %}${{ secrets.GPG_PRIVATE_KEY }}{% endraw %}
       PASSPHRASE: {% raw %}${{ secrets.PASSPHRASE }}{% endraw %}
       METRICS_TARGET: {% raw %}${{ secrets.METRICS_TARGET }}{% endraw %}
-      METRICS_TOKEN: {% raw %}${{ secrets.METRICS_TOKEN }}{% endraw %} 
+      METRICS_TOKEN: {% raw %}${{ secrets.METRICS_TOKEN }}{% endraw %}
 {% else %}
   make-release:
     needs: [release-notes]
@@ -100,7 +100,7 @@ jobs:
     secrets:
       {#- raw is used to avoid conflicts with the templating engine and github action #}
       TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
-  
+
   publish-doc:
     {#- Publish documentation if mkdocs.yml exists #}
     needs: [make-release]
