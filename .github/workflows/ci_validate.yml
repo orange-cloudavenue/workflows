@@ -1,0 +1,138 @@
+name: CI Validate
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  validate-templates:
+    name: Validate Nunjucks templates
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install Nunjucks CLI
+        run: npm install -g nunjucks
+      - name: Check Nunjucks template syntax
+        run: |
+          errors=0
+          while IFS= read -r -d '' file; do
+            # Basic syntax check: ensure {% and {# blocks are properly closed
+            opens_if=$(grep -c '{%\s*if ' "$file" 2>/dev/null || true)
+            closes_if=$(grep -c '{%\s*endif' "$file" 2>/dev/null || true)
+            opens_for=$(grep -c '{%\s*for ' "$file" 2>/dev/null || true)
+            closes_for=$(grep -c '{%\s*endfor' "$file" 2>/dev/null || true)
+            opens_raw=$(grep -c '{%\s*raw' "$file" 2>/dev/null || true)
+            closes_raw=$(grep -c '{%\s*endraw' "$file" 2>/dev/null || true)
+            opens_comment=$(grep -c '{#' "$file" 2>/dev/null || true)
+            closes_comment=$(grep -c '#}' "$file" 2>/dev/null || true)
+            
+            if [ "$opens_if" != "$closes_if" ]; then
+              echo "ERROR: $file has $opens_if {% if %} but $closes_if {% endif %}"
+              errors=$((errors + 1))
+            fi
+            if [ "$opens_for" != "$closes_for" ]; then
+              echo "ERROR: $file has $opens_for {% for %} but $closes_for {% endfor %}"
+              errors=$((errors + 1))
+            fi
+            if [ "$opens_raw" != "$closes_raw" ]; then
+              echo "ERROR: $file has $opens_raw {% raw %} but $closes_raw {% endraw %}"
+              errors=$((errors + 1))
+            fi
+            if [ "$opens_comment" != "$closes_comment" ]; then
+              echo "ERROR: $file has $opens_comment {# but $closes_comment #}"
+              errors=$((errors + 1))
+            fi
+          done < <(find shared-files -name '*.njk' -print0)
+          if [ "$errors" -gt 0 ]; then
+            echo "Found $errors template syntax errors"
+            exit 1
+          fi
+          echo "All Nunjucks templates have balanced tags"
+
+  validate-sync-yml:
+    name: Validate sync.yml structure
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Validate sync.yml is valid YAML
+        run: |
+          python3 -c "
+import yaml, sys
+try:
+    with open('sync.yml') as f:
+        data = yaml.safe_load(f)
+    print('sync.yml: valid YAML')
+    # Check structure
+    groups = data.get('group', [])
+    for i, group in enumerate(groups):
+        files = group.get('files', [])
+        repos = group.get('repos', '')
+        print(f'  Group {i+1}: {len(files)} files, {len(repos.splitlines())} repos')
+        for f in files:
+            source = f.get('source', '')
+            if source.startswith('shared-files/'):
+                import os
+                if not os.path.exists(source):
+                    print(f'  WARNING: source file not found: {source}')
+    print('Structure validation passed')
+except yaml.YAMLError as e:
+    print(f'YAML Error: {e}')
+    sys.exit(1)
+"
+      - name: Verify workflow references exist
+        run: |
+          errors=0
+          while IFS= read -r -d '' file; do
+            while IFS= read -r line; do
+              if echo "$line" | grep -qE "uses:\s+orange-cloudavenue/workflows/"; then
+                ref=$(echo "$line" | sed 's/.*uses:\s*//' | sed 's/@main//' | sed 's/@v[0-9.]*//' | tr -d ' ')
+                # Extract workflow path from ref
+                workflow_path=$(echo "$ref" | sed 's|orange-cloudavenue/workflows/|.github/workflows/|')
+                if [ ! -f "$workflow_path" ]; then
+                  echo "ERROR: $file references non-existent workflow: $ref"
+                  errors=$((errors + 1))
+                fi
+              fi
+            done < "$file"
+          done < <(find .github/workflows -name '*.yml' -print0)
+          if [ "$errors" -gt 0 ]; then
+            echo "Found $errors broken workflow references"
+            exit 1
+          fi
+          echo "All workflow references verified"
+
+  validate-includes:
+    name: Validate template includes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Check template include references
+        run: |
+          errors=0
+          while IFS= read -r -d '' file; do
+            while IFS= read -r line; do
+              if echo "$line" | grep -qE "{%\s*include\s+"; then
+                # Extract the path from include directive
+                inc_path=$(echo "$line" | sed "s/.*{%[[:space:]]*include[[:space:]]*'//" | sed "s/'.*//")
+                # Resolve relative to the template file
+                dir=$(dirname "$file")
+                resolved="$dir/$inc_path"
+                if [ ! -f "$resolved" ] && [ ! -f "$inc_path" ]; then
+                  echo "ERROR: $file includes non-existent template: $inc_path"
+                  errors=$((errors + 1))
+                fi
+              fi
+            done < "$file"
+          done < <(find shared-files -name '*.njk' -o -name '*.tmpl' | head -100 | while IFS= read -r f; do printf '%s\0' "$f"; done)
+          if [ "$errors" -gt 0 ]; then
+            echo "Found $errors broken include references"
+            exit 1
+          fi
+          echo "All template includes verified"

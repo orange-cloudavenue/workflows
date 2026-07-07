@@ -70,7 +70,7 @@ jobs:
         if: ${{ env.errormsg != '' }}
         uses: thollander/actions-comment-pull-request@v3
         with:
-          file-path: /.changelog/${{ matrix.file }}
+          file-path: .changelog/${{ matrix.file }}
           message: |
             Changelog format is invalid !
             ${{ env.errormsg }}
