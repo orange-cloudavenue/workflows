@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
       - name: Install Nunjucks CLI
         run: npm install -g nunjucks
       - name: Check Nunjucks template syntax
@@ -64,28 +64,28 @@ jobs:
       - name: Validate sync.yml is valid YAML
         run: |
           python3 -c "
-import yaml, sys
-try:
-    with open('sync.yml') as f:
-        data = yaml.safe_load(f)
-    print('sync.yml: valid YAML')
-    # Check structure
-    groups = data.get('group', [])
-    for i, group in enumerate(groups):
-        files = group.get('files', [])
-        repos = group.get('repos', '')
-        print(f'  Group {i+1}: {len(files)} files, {len(repos.splitlines())} repos')
-        for f in files:
-            source = f.get('source', '')
-            if source.startswith('shared-files/'):
-                import os
-                if not os.path.exists(source):
-                    print(f'  WARNING: source file not found: {source}')
-    print('Structure validation passed')
-except yaml.YAMLError as e:
-    print(f'YAML Error: {e}')
-    sys.exit(1)
-"
+          import yaml, sys
+          try:
+              with open('sync.yml') as f:
+                  data = yaml.safe_load(f)
+              print('sync.yml: valid YAML')
+              # Check structure
+              groups = data.get('group', [])
+              for i, group in enumerate(groups):
+                  files = group.get('files', [])
+                  repos = group.get('repos', '')
+                  print(f'  Group {i+1}: {len(files)} files, {len(repos.splitlines())} repos')
+                  for f in files:
+                      source = f.get('source', '')
+                      if source.startswith('shared-files/'):
+                          import os
+                          if not os.path.exists(source):
+                              print(f'  WARNING: source file not found: {source}')
+              print('Structure validation passed')
+          except yaml.YAMLError as e:
+              print(f'YAML Error: {e}')
+              sys.exit(1)
+          "
       - name: Verify workflow references exist
         run: |
           errors=0
