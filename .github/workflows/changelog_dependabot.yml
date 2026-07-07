@@ -13,8 +13,8 @@ jobs:
     steps:
       - name: Fetch dependabot metadata
         id: dependabot-metadata
-        uses: dependabot/fetch-metadata@v2
-      - uses: actions/checkout@v6
+        uses: dependabot/fetch-metadata@v3
+      - uses: actions/checkout@v7
         name: Checkout
         with:
           token: ${{ secrets.TOKEN }}
@@ -34,7 +34,7 @@ jobs:
           DEP_PREV_VERSION: ${{ steps.dependabot-metadata.outputs.previous-version }}
           DEP_NEXT_VERSION: ${{ steps.dependabot-metadata.outputs.new-version }}
       - name: Commit and push changes
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "chore: Add changelog for #${{ github.event.pull_request.number }}"
           commit_options: '--no-verify --signoff'

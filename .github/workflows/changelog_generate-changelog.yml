@@ -11,7 +11,7 @@ jobs:
     name: "Generate Changelog"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           token: ${{ secrets.TOKEN }}
           fetch-depth: 0
@@ -20,7 +20,7 @@ jobs:
       - name: Script to generate changelog
         uses: orange-cloudavenue/generate-changelog-action@v0.1.9
       - name: Commit and push changes
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           branch: main
           commit_message: "chore: Update CHANGELOG.md"

@@ -30,7 +30,7 @@ jobs:
         shell: bash
         run: echo "TAR_OPTIONS=--skip-old-files" >> $GITHUB_ENV
       - id: checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         name: Checkout
         with:
           token: ${{ secrets.TOKEN }}
@@ -38,15 +38,15 @@ jobs:
           ref: ${{ inputs.tag }}
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+        uses: docker/setup-qemu-action@v4
 
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version-file: 'go.mod'
 
       - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v6
+        uses: crazy-max/ghaction-import-gpg@v7
         id: import_gpg
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
@@ -54,13 +54,13 @@ jobs:
 
       - id: release-notes-download
         name: Release Notes Download
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
             name: ${{ inputs.artifact-name }}
             path: /tmp
 
       - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v6.1.0
+        uses: goreleaser/goreleaser-action@v7.2.3
         if: success()
         with:
           distribution: goreleaser
