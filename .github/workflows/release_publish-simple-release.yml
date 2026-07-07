@@ -32,7 +32,7 @@ jobs:
             path: /tmp
       - id: release-action
         name: Publish Release
-        uses: ncipollo/release-action@v1.14.0
+        uses: ncipollo/release-action@v1.21.0
         with:
             tag: ${{ inputs.tag }}
             bodyFile: "${{ steps.release-notes-download.outputs.download-path }}/${{ inputs.artifact-name }}"
