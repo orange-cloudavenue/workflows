@@ -16,7 +16,7 @@ jobs:
   check-publish-requirements:
     runs-on: ubuntu-latest
     outputs:
-      need-publish: ${{ steps.filter.outputs.exists }}
+      need-publish: ${{ steps.filter.outputs.files_exists }}
     steps:
       - uses: actions/checkout@v6
       - name: 'Check File Existence'
