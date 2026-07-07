@@ -9,6 +9,8 @@ on:
             description: 'Tag version number (Eg: v0.1.0)'
             required: true
             type: string
+permissions:
+  contents: read
 jobs:
   check-tag-already-exists:
     runs-on: ubuntu-latest

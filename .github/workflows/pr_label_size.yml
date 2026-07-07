@@ -30,7 +30,7 @@ jobs:
           ref: ${{ inputs.ref }}
           repository: ${{ inputs.repository }}
       - name: Label PR based on size
-        uses: cbrgm/pr-size-labeler-action@main
+        uses: cbrgm/pr-size-labeler-action@v1.13.10
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           github_repository: ${{ github.repository }}

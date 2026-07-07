@@ -6,6 +6,9 @@ on:
       TOKEN:
         required: true
 
+permissions:
+  contents: write
+
 jobs:
   generate-changelog:
     name: "Generate Changelog"

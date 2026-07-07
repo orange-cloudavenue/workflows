@@ -5,6 +5,9 @@ on:
       TOKEN:
         required: true
 
+permissions:
+  contents: write
+
 jobs:
   changelog-dependabot:
     runs-on: ubuntu-latest
