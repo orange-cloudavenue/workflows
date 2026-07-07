@@ -84,4 +84,4 @@ jobs:
       uses: coverallsapp/github-action@v2
       with:
         parallel-finished: true
-        carryforward: "run-${{ join(needs.test.outputs.matrix.go, '-') }}"
+        carryforward: "run-1.23,run-1.22,run-1.21"
