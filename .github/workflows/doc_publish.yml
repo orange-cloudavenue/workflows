@@ -16,10 +16,11 @@ jobs:
   check-publish-requirements:
     runs-on: ubuntu-latest
     outputs:
-      need-publish: ${{ steps.filter.outputs.doc }}
+      need-publish: ${{ steps.filter.outputs.exists }}
     steps:
       - uses: actions/checkout@v6
       - name: 'Check File Existence'
+        id: filter
         uses: andstor/file-existence-action@v3
         with:
           files: 'mkdocs.yml'
