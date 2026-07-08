@@ -37,7 +37,7 @@ jobs:
           DEP_PREV_VERSION: ${{ steps.dependabot-metadata.outputs.previous-version }}
           DEP_NEXT_VERSION: ${{ steps.dependabot-metadata.outputs.new-version }}
       - name: Commit and push changes
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "chore: Add changelog for #${{ github.event.pull_request.number }}"
           commit_options: '--no-verify --signoff'

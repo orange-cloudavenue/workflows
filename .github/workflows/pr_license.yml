@@ -50,7 +50,7 @@ jobs:
 
       - name: Commit and push changes
         if: steps.changed-files.outputs.any_changed == 'true'
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "chore: Update License Headers"
           commit_user_name: github-actions[bot]
