@@ -1,0 +1,22 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Update GitHub Actions pinned versions in Nunjucks templates",
+      "fileMatch": ["(^|/)shared-files/.+\\.njk$"],
+      "matchStrings": ["uses: (?<depName>[^@\\s]+)@v(?<currentValue>\\d+(?:\\.\\d+)*)"],
+      "datasourceTemplate": "github-tags"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "Group all .njk GitHub Actions bumps into one PR",
+      "matchFileNames": ["shared-files/**/*.njk"],
+      "groupName": "GitHub Actions in Nunjucks templates"
+    }
+  ]
+}
