@@ -11,11 +11,13 @@ permissions:
 
 jobs:
   go-report-card:
-    if: ${{ !github.event.release.prerelease }}
+    {#- raw is used to avoid conflicts with the templating engine and github action #}
+    if: {% raw %}${{ !github.event.release.prerelease }}{% endraw %}
     name: "Go report card"
     uses: orange-cloudavenue/workflows/.github/workflows/go_report-card.yml@main
 
   go-proxy-refresh:
-    if: ${{ !github.event.release.prerelease }}
+    {#- raw is used to avoid conflicts with the templating engine and github action #}
+    if: {% raw %}${{ !github.event.release.prerelease }}{% endraw %}
     name: "Go proxy refresh"
     uses: orange-cloudavenue/workflows/.github/workflows/go_proxy-refresh.yml@main
