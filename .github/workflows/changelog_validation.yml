@@ -30,7 +30,7 @@ jobs:
         with:
           ref: ${{ inputs.ref }}
           repository: ${{ inputs.repository }}
-      - uses: dorny/paths-filter@v3
+      - uses: dorny/paths-filter@v4
         id: filter
         with:
           list-files: json
