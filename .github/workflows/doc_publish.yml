@@ -26,7 +26,7 @@ jobs:
     outputs:
       need-publish: ${{ steps.filter.outputs.files_exists }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           ref: ${{ inputs.ref }}
           repository: ${{ inputs.repository }}
@@ -42,7 +42,7 @@ jobs:
     name: github page
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           ref: ${{ inputs.ref }}
           repository: ${{ inputs.repository }}
