@@ -91,6 +91,7 @@ group:
         template: 
           golang: true
           terraform_provider: true
+          changelog_validation: true
       # * PR Close
       - source: shared-files/github-actions/pr_close.yml.njk
         dest: .github/workflows/pr_close.yml
@@ -140,6 +141,7 @@ group:
         dest: .github/workflows/pr.yml
         template: 
           golang: true
+          changelog_validation: true
       # * PR Close
       - source: shared-files/github-actions/pr_close.yml.njk
         dest: .github/workflows/pr_close.yml
@@ -191,7 +193,8 @@ group:
       # * PR All events
       - source: shared-files/github-actions/pr.yml.njk
         dest: .github/workflows/pr.yml
-        template: true
+        template:
+          changelog_validation: true
       # * PR Close
       - source: shared-files/github-actions/pr_close.yml.njk
         dest: .github/workflows/pr_close.yml
@@ -227,7 +230,8 @@ group:
       # * PR All events
       - source: shared-files/github-actions/pr.yml.njk
         dest: .github/workflows/pr.yml
-        template: true
+        template:
+          changelog_validation: true
       # * PR Close
       - source: shared-files/github-actions/pr_close.yml.njk
         dest: .github/workflows/pr_close.yml
