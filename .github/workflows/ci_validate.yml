@@ -13,7 +13,7 @@ jobs:
     name: Validate Nunjucks templates
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
@@ -60,7 +60,7 @@ jobs:
     name: Validate sync.yml structure
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Validate sync.yml is valid YAML
         run: |
           python3 -c "
@@ -112,7 +112,7 @@ jobs:
     name: Validate template includes
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Check template include references
         run: |
           errors=0

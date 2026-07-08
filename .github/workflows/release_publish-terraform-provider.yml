@@ -37,7 +37,7 @@ jobs:
         shell: bash
         run: echo "TAR_OPTIONS=--skip-old-files" >> $GITHUB_ENV
       - id: checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         name: Checkout
         with:
           token: ${{ secrets.TOKEN }}
