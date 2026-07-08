@@ -33,7 +33,7 @@ jobs:
           repository: ${{ inputs.repository }}
       - id: release-notes-download
         name: Release Notes Download
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
             name: ${{ inputs.artifact-name }}
             path: /tmp
