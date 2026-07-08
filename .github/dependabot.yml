@@ -9,6 +9,4 @@ updates:
         update-types:
           - "minor"
           - "patch"
-      github-actions-major:
-        update-types:
-          - "major"
+
