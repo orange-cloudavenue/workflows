@@ -20,6 +20,8 @@ jobs:
     with:
       {#- raw is used to avoid conflicts with the templating engine and github action #}
       tag: {% raw %}${{ github.event.inputs.tag }}{% endraw %}
+      ref: {% raw %}${{ github.ref }}{% endraw %}
+      repository: {% raw %}${{ github.repository }}{% endraw %}
     secrets:
       {#- raw is used to avoid conflicts with the templating engine and github action #}
       TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
@@ -50,6 +52,8 @@ jobs:
     with:
       {#- raw is used to avoid conflicts with the templating engine and github action #}
       tag: {% raw %}${{ github.event.inputs.tag }}{% endraw %}
+      ref: {% raw %}${{ github.ref }}{% endraw %}
+      repository: {% raw %}${{ github.repository }}{% endraw %}
     secrets:
       {#- raw is used to avoid conflicts with the templating engine and github action #}
       TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
@@ -61,6 +65,7 @@ jobs:
     with:
       {#- raw is used to avoid conflicts with the templating engine and github action #}
       tag: {% raw %}${{ github.event.inputs.tag }}{% endraw %}
+      repository: {% raw %}${{ github.repository }}{% endraw %}
     secrets:
       {#- raw is used to avoid conflicts with the templating engine and github action #}
       TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
@@ -73,6 +78,7 @@ jobs:
       {#- raw is used to avoid conflicts with the templating engine and github action #}
       tag: {% raw %}${{ github.event.inputs.tag }}{% endraw %}
       artifact-name: {% raw %}${{ needs.release-notes.outputs.artifact-name }}{% endraw %}
+      repository: {% raw %}${{ github.repository }}{% endraw %}
     secrets:
       TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
       GPG_PRIVATE_KEY: {% raw %}${{ secrets.GPG_PRIVATE_KEY }}{% endraw %}
@@ -87,6 +93,7 @@ jobs:
       {#- raw is used to avoid conflicts with the templating engine and github action #}
       tag: {% raw %}${{ github.event.inputs.tag }}{% endraw %}
       artifact-name: {% raw %}${{ needs.release-notes.outputs.artifact-name }}{% endraw %}
+      repository: {% raw %}${{ github.repository }}{% endraw %}
     secrets:
       TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
 {% endif %}
@@ -106,3 +113,6 @@ jobs:
     needs: [make-release]
     name: "Publish Documentation"
     uses: orange-cloudavenue/workflows/.github/workflows/doc_publish.yml@main
+    with:
+      ref: {% raw %}${{ github.ref }}{% endraw %}
+      repository: {% raw %}${{ github.repository }}{% endraw %}

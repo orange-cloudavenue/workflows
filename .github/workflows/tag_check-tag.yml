@@ -9,6 +9,14 @@ on:
             description: 'Tag version number (Eg: v0.1.0)'
             required: true
             type: string
+        ref:
+            description: 'Git reference to checkout'
+            required: true
+            type: string
+        repository:
+            description: 'Repository to checkout'
+            required: true
+            type: string
 permissions:
   contents: read
 jobs:
@@ -19,6 +27,8 @@ jobs:
         name: Checkout
         with:
           token: ${{ secrets.TOKEN }}
+          ref: ${{ inputs.ref }}
+          repository: ${{ inputs.repository }}
       - name: Check tag validity and existence
         env:
           TAG: ${{ inputs.tag }}

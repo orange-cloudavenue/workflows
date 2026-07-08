@@ -9,6 +9,10 @@ on:
             description: 'Tag version number (Eg: v0.1.0)'
             required: true
             type: string
+        repository:
+            description: 'Repository to checkout'
+            required: true
+            type: string
     outputs:
         artifact-name:
             description: 'Release note artifact name'
@@ -28,6 +32,7 @@ jobs:
           token: ${{ secrets.TOKEN }}
           fetch-depth: 0
           ref: ${{ inputs.tag }}
+          repository: ${{ inputs.repository }}
       - id: generate-release-notes
         name: Generate Release Notes
         run: |

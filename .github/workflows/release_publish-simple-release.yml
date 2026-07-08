@@ -13,6 +13,10 @@ on:
             description: 'Tag version number (Eg: v0.1.0)'
             required: true
             type: string
+        repository:
+            description: 'Repository to checkout'
+            required: true
+            type: string
 permissions:
   contents: write
 jobs:
@@ -26,6 +30,7 @@ jobs:
           token: ${{ secrets.TOKEN }}
           fetch-depth: 0
           ref: ${{ inputs.tag }}
+          repository: ${{ inputs.repository }}
       - id: release-notes-download
         name: Release Notes Download
         uses: actions/download-artifact@v4
