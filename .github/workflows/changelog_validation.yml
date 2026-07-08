@@ -17,8 +17,8 @@ jobs:
       is-present: ${{ steps.filter.outputs.changelog }}
       changelog_files: ${{ steps.filter.outputs.changelog_files }}
     steps:
-      - uses: actions/checkout@v6
-      - uses: dorny/paths-filter@v3
+      - uses: actions/checkout@v7
+      - uses: dorny/paths-filter@v4
         id: filter
         with:
           list-files: json
@@ -52,12 +52,12 @@ jobs:
       - name: Setup tar default options
         shell: bash
         run: echo "TAR_OPTIONS=--skip-old-files" >> $GITHUB_ENV
-      - uses: actions/checkout@v6 # v3.5.3
+      - uses: actions/checkout@v7 # v3.5.3
         with:
           token: ${{ secrets.TOKEN }}
           fetch-depth: 0
           submodules: true
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@v6
         with:
           go-version: 'stable'
       - name: Install changelog-check

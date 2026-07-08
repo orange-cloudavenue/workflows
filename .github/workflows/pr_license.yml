@@ -31,11 +31,11 @@ jobs:
         shell: bash
         run: echo "TAR_OPTIONS=--skip-old-files" >> $GITHUB_ENV
       - name: Checkout Repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: ${{ inputs.ref }}
           repository: ${{ inputs.repository }}
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@v6
         with:
           go-version: 1.23
 
@@ -50,7 +50,7 @@ jobs:
 
       - name: Commit and push changes
         if: steps.changed-files.outputs.any_changed == 'true'
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "chore: Update License Headers"
           commit_user_name: github-actions[bot]
