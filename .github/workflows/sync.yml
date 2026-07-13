@@ -16,7 +16,7 @@ jobs:
       - name: Run Repo File Sync Action
         uses: BetaHuhn/repo-file-sync-action@2da9fa866f117b06abec3e4c61c5e96ef86c142f
         with:
-          GH_PAT: ${{ secrets.CHANGELOG_PAT }}
+          GH_PAT: ${{ secrets.SYNC_PAT }}
           CONFIG_PATH: sync.yml
           COMMIT_PREFIX: "chore:"
           GIT_EMAIL: "github-actions[bot]@users.noreply.github.com"

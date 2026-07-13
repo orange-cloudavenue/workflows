@@ -18,4 +18,4 @@ jobs:
     uses: orange-cloudavenue/workflows/.github/workflows/project.yml@main
     secrets:
       {#- raw is used to avoid conflicts with the templating engine and github action #}
-      TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
+      TOKEN: {% raw %}${{ secrets.PR_CI_PAT }}{% endraw %}

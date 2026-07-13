@@ -24,7 +24,7 @@ jobs:
       repository: {% raw %}${{ github.repository }}{% endraw %}
     secrets:
       {#- raw is used to avoid conflicts with the templating engine and github action #}
-      TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
+      TOKEN: {% raw %}${{ secrets.RELEASE_CI_PAT }}{% endraw %}
 
 {% if golang %}
   golang-ci-lint:
@@ -56,7 +56,7 @@ jobs:
       repository: {% raw %}${{ github.repository }}{% endraw %}
     secrets:
       {#- raw is used to avoid conflicts with the templating engine and github action #}
-      TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
+      TOKEN: {% raw %}${{ secrets.RELEASE_CI_PAT }}{% endraw %}
 
   release-notes:
     needs: [pre-check]
@@ -68,7 +68,7 @@ jobs:
       repository: {% raw %}${{ github.repository }}{% endraw %}
     secrets:
       {#- raw is used to avoid conflicts with the templating engine and github action #}
-      TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
+      TOKEN: {% raw %}${{ secrets.RELEASE_CI_PAT }}{% endraw %}
 
 {% if terraform_provider %}
   make-release:
@@ -80,7 +80,7 @@ jobs:
       artifact-name: {% raw %}${{ needs.release-notes.outputs.artifact-name }}{% endraw %}
       repository: {% raw %}${{ github.repository }}{% endraw %}
     secrets:
-      TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
+      TOKEN: {% raw %}${{ secrets.RELEASE_CI_PAT }}{% endraw %}
       GPG_PRIVATE_KEY: {% raw %}${{ secrets.GPG_PRIVATE_KEY }}{% endraw %}
       PASSPHRASE: {% raw %}${{ secrets.PASSPHRASE }}{% endraw %}
       METRICS_TARGET: {% raw %}${{ secrets.METRICS_TARGET }}{% endraw %}
@@ -95,7 +95,7 @@ jobs:
       artifact-name: {% raw %}${{ needs.release-notes.outputs.artifact-name }}{% endraw %}
       repository: {% raw %}${{ github.repository }}{% endraw %}
     secrets:
-      TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
+      TOKEN: {% raw %}${{ secrets.RELEASE_CI_PAT }}{% endraw %}
 {% endif %}
 
   changelog-newversion:
@@ -106,7 +106,7 @@ jobs:
       tag: {% raw %}${{ github.event.inputs.tag }}{% endraw %}
     secrets:
       {#- raw is used to avoid conflicts with the templating engine and github action #}
-      TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
+      TOKEN: {% raw %}${{ secrets.RELEASE_CI_PAT }}{% endraw %}
 
   publish-doc:
     {#- Publish documentation if mkdocs.yml exists #}

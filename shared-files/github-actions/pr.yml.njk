@@ -33,14 +33,14 @@ jobs:
       repository: {% raw %}${{ github.repository }}{% endraw %}
     secrets:
       {#- raw is used to avoid conflicts with the templating engine and github action #}
-      TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
+      TOKEN: {% raw %}${{ secrets.PR_CI_PAT }}{% endraw %}
 
   pr-conventional-commits:
     name: "Conventional Commits"
     uses: orange-cloudavenue/workflows/.github/workflows/pr_conventional_commits.yml@main
     secrets:
       {#- raw is used to avoid conflicts with the templating engine and github action #}
-      TOKEN: {% raw %}${{ secrets.CHANGELOG_PAT }}{% endraw %}
+      TOKEN: {% raw %}${{ secrets.PR_CI_PAT }}{% endraw %}
 
   pr-license:
     if: github.event.action != 'edited' && github.event.pull_request.draft == false
