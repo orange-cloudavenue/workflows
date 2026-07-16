@@ -42,7 +42,7 @@ jobs:
           sed -n -e "1{/^## /d;}" -e "2{/^$/d;}" -e "/^## $PREV_VERSION/{q}" -e "p" CHANGELOG.md >> release-notes.txt
           echo "releasenoteartifact=release-notes.txt" >> $GITHUB_OUTPUT
       - id: upload-release-notes
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ steps.generate-release-notes.outputs.releasenoteartifact }}
           path: ${{ steps.generate-release-notes.outputs.releasenoteartifact }}
