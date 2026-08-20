@@ -42,6 +42,6 @@ jobs:
           commit_message: "chore: Add changelog for #${{ github.event.pull_request.number }}"
           commit_options: '--no-verify --signoff'
           file_pattern: .changelog/${{ github.event.pull_request.number }}.txt
-          commit_user_name: github-actions[bot]
-          commit_user_email: github-actions[bot]@users.noreply.github.com
-          commit_author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
+          commit_user_name: dependabot[bot]
+          commit_user_email: 49699333+dependabot[bot]@users.noreply.github.com
+          commit_author: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>

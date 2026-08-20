@@ -48,8 +48,8 @@ jobs:
           repository: ${{ inputs.repository }}
       - name: Configure Git Credentials
         run: |
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git config user.name cloudavenue-docs-bot
+          git config user.email 205752564+cloudavenue-bot@users.noreply.github.com
       - uses: actions/setup-python@v6
         with:
           python-version: 3.x

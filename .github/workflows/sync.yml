@@ -19,5 +19,5 @@ jobs:
           GH_PAT: ${{ secrets.SYNC_PAT }}
           CONFIG_PATH: sync.yml
           COMMIT_PREFIX: "chore:"
-          GIT_EMAIL: "github-actions[bot]@users.noreply.github.com"
-          GIT_USERNAME: "github-actions[bot]"
+          GIT_EMAIL: "205752564+cloudavenue-bot@users.noreply.github.com"
+          GIT_USERNAME: "cloudavenue-sync-bot"
