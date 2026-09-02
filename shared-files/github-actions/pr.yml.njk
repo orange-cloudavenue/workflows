@@ -51,6 +51,16 @@ jobs:
       repository: {% raw %}${{ github.repository }}{% endraw %}
 
 {% if golang %}
+  go-license-check:
+    if: github.event.action != 'edited' && github.event.pull_request.draft == false
+    name: "Go Dependency License Check"
+    uses: orange-cloudavenue/workflows/.github/workflows/go_license-check.yml@main
+    with:
+      ref: {% raw %}${{ github.ref }}{% endraw %}
+      repository: {% raw %}${{ github.repository }}{% endraw %}
+{% endif %}
+
+{% if golang %}
   golang-ci-lint:
     if: github.event.action != 'edited' && github.event.pull_request.draft == false
     {% include './common/golang/lint.tmpl' %}
