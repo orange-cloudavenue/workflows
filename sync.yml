@@ -56,6 +56,15 @@ group:
       - source: shared-files/pr-size/pull-request-size.yml.njk
         dest: .github/pull-request-size.yml
         template: true
+      # * Plumber CI/CD Security Scan
+      - source: shared-files/github-actions/plumber.yml.njk
+        dest: .github/workflows/plumber.yml
+        template: true
+      # * Go License Check
+      - source: shared-files/github-actions/go_license-check.yml.njk
+        dest: .github/workflows/go_license-check.yml
+        template:
+          golang: true
     repos: |
       orange-cloudavenue/terraform-plugin-framework-validators
       orange-cloudavenue/terraform-plugin-framework-planmodifiers
@@ -75,7 +84,7 @@ group:
         template: 
           terraform_provider: true
       # * Project
-      - source: shared-files/github-actions/project.yml.njk
+      - source: shared-files/github-actions/project_composite.yml.njk
         dest: .github/workflows/project.yml
         template: 
           terraform_provider: true
@@ -127,7 +136,7 @@ group:
         template: 
           golang: true
       # * Project
-      - source: shared-files/github-actions/project.yml.njk
+      - source: shared-files/github-actions/project_composite.yml.njk
         dest: .github/workflows/project.yml
         template: 
           golang: true
@@ -164,6 +173,10 @@ group:
         template: true
       - source: shared-files/taskfile/libraries/
         dest: .taskfiles/
+      # * Plumber CI/CD Security Scan
+      - source: shared-files/github-actions/plumber.yml.njk
+        dest: .github/workflows/plumber.yml
+        template: true
     repos: |
       orange-cloudavenue/terraform-plugin-framework-validators
       orange-cloudavenue/terraform-plugin-framework-planmodifiers
@@ -183,7 +196,7 @@ group:
         dest: .vscode/changelog.code-snippets
         template: true
       # * Project
-      - source: shared-files/github-actions/project.yml.njk
+      - source: shared-files/github-actions/project_composite.yml.njk
         dest: .github/workflows/project.yml
         template: true
       # * PR Open
@@ -210,6 +223,10 @@ group:
       - source: shared-files/pr-size/pull-request-size.yml.njk
         dest: .github/pull-request-size.yml
         template: true
+      # * Plumber CI/CD Security Scan
+      - source: shared-files/github-actions/plumber.yml.njk
+        dest: .github/workflows/plumber.yml
+        template: true
     repos: |
       orange-cloudavenue/orange-cloudavenue.github.io
 
@@ -220,7 +237,7 @@ group:
         dest: .vscode/changelog.code-snippets
         template: true
       # * Project
-      - source: shared-files/github-actions/project.yml.njk
+      - source: shared-files/github-actions/project_composite.yml.njk
         dest: .github/workflows/project.yml
         template: true
       # * PR Open
@@ -279,6 +296,10 @@ group:
       # * Devcontainer
       - source: shared-files/devcontainers/terraform-module
         dest: .devcontainer/
+      # * Plumber CI/CD Security Scan
+      - source: shared-files/github-actions/plumber.yml.njk
+        dest: .github/workflows/plumber.yml
+        template: true
     repos: |
       orange-cloudavenue/terraform-cloudavenue-vdc
       orange-cloudavenue/terraform-cloudavenue-edgegateway-services
@@ -292,8 +313,12 @@ group:
         template: 
           terraform: true
       # * Project
-      - source: shared-files/github-actions/project.yml.njk
+      - source: shared-files/github-actions/project_composite.yml.njk
         dest: .github/workflows/project.yml
+        template: true
+      # * Plumber CI/CD Security Scan
+      - source: shared-files/github-actions/plumber.yml.njk
+        dest: .github/workflows/plumber.yml
         template: true
     repos: |
       orange-cloudavenue/k0s-infra
