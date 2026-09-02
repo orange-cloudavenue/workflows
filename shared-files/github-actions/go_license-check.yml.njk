@@ -1,0 +1,48 @@
+{% include '../common/header.yml.tmpl' %}
+
+name: "Golang License Check"
+
+on:
+  workflow_call:
+    inputs:
+      ref:
+        description: 'Git reference to checkout (eg: {{github.ref}})'
+        required: true
+        type: string
+      repository:
+        description: 'Repository to checkout (eg: {{github.repository}})'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  dependency-license:
+    name: "Check Dependency Licenses"
+    runs-on: ubuntu-latest
+    # Not run on draft PRs or PRs from forks or dependabot
+    if: |
+       github.event.pull_request.draft == false &&
+       ! github.event.pull_request.head.repo.fork &&
+       github.actor != 'dependabot[bot]'
+    steps:
+      # https://github.com/actions/setup-go/issues/424#issuecomment-2796487736
+      - name: Setup tar default options
+        shell: bash
+        run: echo "TAR_OPTIONS=--skip-old-files" >> $GITHUB_ENV
+      - name: Checkout Repository
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.ref }}
+          repository: ${{ inputs.repository }}
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Install go-licence-detector
+        run: go install go.elastic.co/go-licence-detector@latest
+
+      - name: Check dependency licenses
+        run: |
+          go list -m -json all | go-licence-detector -includeIndirect -rules .go-licence-detector-rules.json
