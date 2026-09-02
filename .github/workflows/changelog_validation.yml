@@ -30,7 +30,7 @@ jobs:
         with:
           ref: ${{ inputs.ref }}
           repository: ${{ inputs.repository }}
-      - uses: dorny/paths-filter@v4
+      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d
         id: filter
         with:
           list-files: json
@@ -45,7 +45,7 @@ jobs:
     name: "Changelog not found"
     steps:
       - name: Comment on PR
-        uses: thollander/actions-comment-pull-request@v3
+        uses: thollander/actions-comment-pull-request@24bffb9b452ba05a4f3f77933840a6a841d1b32b
         with:
           message: |
             Changelog file not found. Please add a changelog file to the PR
@@ -85,7 +85,7 @@ jobs:
       # If the previous step fails, then the changelog is invalid and publish the error message
       - name: Comment on PR
         if: ${{ env.errormsg != '' }}
-        uses: thollander/actions-comment-pull-request@v3
+        uses: thollander/actions-comment-pull-request@24bffb9b452ba05a4f3f77933840a6a841d1b32b
         with:
           file-path: .changelog/${{ matrix.file }}
           message: |
@@ -96,7 +96,7 @@ jobs:
         run: exit 1
       - name: Delete comment on PR
         if: ${{ env.errormsg == '' }}
-        uses: thollander/actions-comment-pull-request@v3
+        uses: thollander/actions-comment-pull-request@24bffb9b452ba05a4f3f77933840a6a841d1b32b
         with:
           mode: delete
           comment-tag: changelog
