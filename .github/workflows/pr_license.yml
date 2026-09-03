@@ -40,9 +40,7 @@ jobs:
           go-version: 1.23
 
       - name: Install reuse
-        run: |
-          curl -sSL https://github.com/fsfe/reuse-tool/releases/latest/download/reuse-linux-amd64 -o /usr/local/bin/reuse
-          chmod +x /usr/local/bin/reuse
+        run: sudo apt-get update && sudo apt-get install -y reuse
 
       - name: Fix old license identifiers
         run: |
