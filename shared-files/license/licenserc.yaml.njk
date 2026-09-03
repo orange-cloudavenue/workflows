@@ -10,9 +10,8 @@ header: # `header` section is configurations for source codes license header.
       SPDX-License-Identifier: Apache-2.0
 
     pattern: |
-      # Matches both old format (Apache License 2.0) and new SPDX format (Apache-2.0)
-      SPDX-FileCopyrightText: Copyright (c) \d{4}(-\d{4})? Orange
-      SPDX-License-Identifier: (Apache-2\.0|Apache License 2\.0)
+      # Matches /* */ block style headers with both old and new license identifiers
+      /\*[\s\S]*?SPDX-FileCopyrightText: Copyright \(c\) \d{4}(-\d{4})? Orange[\s\S]*?SPDX-License-Identifier: (Apache-2\.0|Apache License 2\.0)[\s\S]*?\*/
     {% elif license == "MPL-2.0" %}
     spdx-id: MPL-2.0
     content: |
@@ -20,9 +19,8 @@ header: # `header` section is configurations for source codes license header.
       SPDX-License-Identifier: MPL-2.0
 
     pattern: |
-      # Matches both old format (Mozilla Public License 2.0) and new SPDX format (MPL-2.0)
-      SPDX-FileCopyrightText: Copyright (c) \d{4}(-\d{4})? Orange
-      SPDX-License-Identifier: (MPL-2\.0|Mozilla Public License 2\.0)
+      # Matches /* */ block style headers with both old and new license identifiers
+      /\*[\s\S]*?SPDX-FileCopyrightText: Copyright \(c\) \d{4}(-\d{4})? Orange[\s\S]*?SPDX-License-Identifier: (MPL-2\.0|Mozilla Public License 2\.0)[\s\S]*?\*/
     {% endif %}
 
   paths: # `paths` are the path list that will be checked (and fixed) by license-eye, default is ['**'].
