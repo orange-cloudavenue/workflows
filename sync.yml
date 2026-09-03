@@ -60,6 +60,10 @@ group:
         dest: .github/workflows/go_license-check.yml
         template:
           golang: true
+      # * Go License Rules
+      - source: shared-files/github-actions/go-license-rules.json
+        dest: .go-license-rules.json
+        template: false
     repos: |
       orange-cloudavenue/terraform-plugin-framework-validators
       orange-cloudavenue/terraform-plugin-framework-planmodifiers
