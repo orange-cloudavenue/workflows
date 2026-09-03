@@ -39,8 +39,20 @@ jobs:
         with:
           go-version: 1.23
 
-      - name: Install reuse
-        run: sudo apt-get update && sudo apt-get install -y reuse
+      - run: go install github.com/apache/skywalking-eyes/cmd/license-eye@latest
 
-      - name: REUSE Compliance Check
-        run: reuse lint --lines
+      - run: license-eye header fix
+
+      - name: Check if any files changed
+        id: changed-files
+        run: |
+          git diff --exit-code || echo "any_changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and push changes
+        if: steps.changed-files.outputs.any_changed == 'true'
+        uses: stefanzweifel/git-auto-commit-action@4a55954c782fc1ea30b9056cd3e7a2b40ca8887d
+        with:
+          commit_message: "chore: Update License Headers"
+          commit_user_name: github-actions[bot]
+          commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com
+          commit_author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
