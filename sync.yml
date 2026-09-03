@@ -63,7 +63,7 @@ group:
         template:
           golang: true
       # * Go License Rules
-      - source: shared-files/github-actions/go-license-rules.json
+      - source: .go-license-rules.json
         dest: .go-license-rules.json
         template: false
     repos: |
