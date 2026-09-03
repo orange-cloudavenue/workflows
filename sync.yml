@@ -7,11 +7,9 @@ group:
       # * License
       - source: shared-files/license/licenses/MPL/LICENSE
         dest: LICENSE
-      # * LicenseRC
-      - source: shared-files/license/licenserc.yaml.njk
-        dest: .licenserc.yaml
-        template: 
-          license: MPL-2.0
+      # * REUSE compliance
+      - source: shared-files/license/REUSE.toml
+        dest: REUSE.toml
     repos: |
       orange-cloudavenue/terraform-plugin-framework-validators
       orange-cloudavenue/cloudavenue-sdk-go

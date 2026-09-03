@@ -14,7 +14,7 @@ shared-files/
   github-actions/           # Nunjucks templates synced to target repos
     *.yml.njk               # Composite workflow templates
   license/
-    licenserc.yaml.njk      # License header config (MPL-2.0)
+    REUSE.toml      # License header config (MPL-2.0)
 sync.yml                    # Repo-file-sync-action configuration
 .plumber.yaml               # Plumber CI/CD security scanner config
 ```
@@ -45,7 +45,7 @@ sync.yml                    # Repo-file-sync-action configuration
 
 ### License Headers
 - All source files must have MPL-2.0 SPDX headers
-- Use `license-eye` or `reuse-annotate` to add headers
+- Use `reuse` to add headers
 - Year format: `2024` or `2020-2024` (creation year, not modification year)
 
 ### Plumber

@@ -13,7 +13,7 @@ shared-files/
   github-actions/           # Nunjucks templates synced to target repos
     *.yml.njk               # Composite workflow templates
   license/
-    licenserc.yaml.njk      # License header config (MPL-2.0)
+    REUSE.toml      # License header config (MPL-2.0)
 sync.yml                    # Repo-file-sync-action configuration
 .plumber.yaml               # Plumber CI/CD security scanner config
 ```

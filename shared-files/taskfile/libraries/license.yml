@@ -18,12 +18,12 @@ tasks:
     desc: Run license header
     internal: true
     preconditions:
-      - sh: command -v license-eye
-        msg: "license-eye is not installed. Please run `task license:install`"
-      - sh: test -f .licenserc.yaml
-        msg: "No .licenserc.yaml file found."
+      - sh: command -v reuse
+        msg: "reuse is not installed. Please run `task license:install`"
+      - sh: test -f REUSE.toml
+        msg: "No REUSE.toml file found."
     cmds:
-      - license-eye header check
+      - reuse lint
 
   # * Init
   init:
@@ -38,7 +38,7 @@ tasks:
     desc: Install required tools
     cmds:
       - for: [
-          license-eye,
+          reuse,
         ]
         task: internal:tools:brew
         vars:
@@ -58,9 +58,9 @@ tasks:
     desc: Run license header
     internal: true
     preconditions:
-      - sh: command -v license-eye
-        msg: "license-eye is not installed. Please run `task license:install`"
-      - sh: test -f .licenserc.yaml
-        msg: "No .licenserc.yaml file found.`"
+      - sh: command -v reuse
+        msg: "reuse is not installed. Please run `task license:install`"
+      - sh: test -f REUSE.toml
+        msg: "No REUSE.toml file found."
     cmds:
-      - license-eye header fix
+      - reuse annotate --recursive
