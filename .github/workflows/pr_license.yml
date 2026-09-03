@@ -39,9 +39,18 @@ jobs:
         with:
           go-version: 1.23
 
-      - run: go install github.com/apache/skywalking-eyes/cmd/license-eye@latest
+      - name: Install reuse
+        run: |
+          curl -sSL https://github.com/fsfe/reuse-tool/releases/latest/download/reuse-linux-amd64 -o /usr/local/bin/reuse
+          chmod +x /usr/local/bin/reuse
 
-      - run: license-eye header fix
+      - name: Fix old license identifiers
+        run: |
+          find . -type f \( -name "*.go" -o -name "*.yml" -o -name "*.yaml" -o -name "*.njk" -o -name "*.tmpl" \) \
+            -not -path "./.git/*" \
+            -exec sed -i -e 's/Mozilla Public License 2\.0/MPL-2.0/g' -e 's/Apache License 2\.0/Apache-2.0/g' {} +
+
+      - run: reuse annotate --recursive
 
       - name: Check if any files changed
         id: changed-files
