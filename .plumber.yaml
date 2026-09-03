@@ -8,6 +8,7 @@ github:
       trustedOwners:
       - actions
       - github
+      - orange-cloudavenue
 
     # Actions must come from authorized sources
     githubActionMustComeFromAuthorizedSources:
