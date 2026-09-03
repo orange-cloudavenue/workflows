@@ -51,11 +51,16 @@ jobs:
         run: |
           git diff --exit-code || echo "any_changed=true" >> "$GITHUB_OUTPUT"
           
-      - name: Commit and push changes
+      - name: Create Pull Request
         if: steps.changed-files.outputs.any_changed == 'true'
-        uses: stefanzweifel/git-auto-commit-action@4a55954c782fc1ea30b9056cd3e7a2b40ca8887d
+        uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676
         with:
-          commit_message: "chore: fix piled license headers"
-          commit_user_name: github-actions[bot]
-          commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com
-          commit_author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: fix piled license headers"
+          branch: fix/license-headers
+          title: "chore: fix piled license headers"
+          body: |
+            Fixes piled/duplicated license headers that were created by the old license-eye pattern.
+            
+            This PR removes duplicate headers and normalizes all files to the correct SPDX format.
+          delete-branch: true
