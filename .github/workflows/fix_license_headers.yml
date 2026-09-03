@@ -46,6 +46,9 @@ jobs:
       - name: Run license-eye header fix
         run: license-eye header fix
           
+      - name: Format Go files
+        run: gofmt -w .
+          
       - name: Check if any files changed
         id: changed-files
         run: |
