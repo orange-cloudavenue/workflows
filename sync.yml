@@ -56,10 +56,7 @@ group:
       - source: shared-files/pr-size/pull-request-size.yml.njk
         dest: .github/pull-request-size.yml
         template: true
-      # * Plumber CI/CD Security Scan
-      - source: shared-files/github-actions/plumber.yml.njk
-        dest: .github/workflows/plumber.yml
-        template: true
+
       # * Go License Check
       - source: shared-files/github-actions/go_license-check.yml.njk
         dest: .github/workflows/go_license-check.yml
@@ -173,10 +170,7 @@ group:
         template: true
       - source: shared-files/taskfile/libraries/
         dest: .taskfiles/
-      # * Plumber CI/CD Security Scan
-      - source: shared-files/github-actions/plumber.yml.njk
-        dest: .github/workflows/plumber.yml
-        template: true
+
     repos: |
       orange-cloudavenue/terraform-plugin-framework-validators
       orange-cloudavenue/terraform-plugin-framework-planmodifiers
@@ -223,10 +217,7 @@ group:
       - source: shared-files/pr-size/pull-request-size.yml.njk
         dest: .github/pull-request-size.yml
         template: true
-      # * Plumber CI/CD Security Scan
-      - source: shared-files/github-actions/plumber.yml.njk
-        dest: .github/workflows/plumber.yml
-        template: true
+
     repos: |
       orange-cloudavenue/orange-cloudavenue.github.io
 
@@ -296,10 +287,7 @@ group:
       # * Devcontainer
       - source: shared-files/devcontainers/terraform-module
         dest: .devcontainer/
-      # * Plumber CI/CD Security Scan
-      - source: shared-files/github-actions/plumber.yml.njk
-        dest: .github/workflows/plumber.yml
-        template: true
+
     repos: |
       orange-cloudavenue/terraform-cloudavenue-vdc
       orange-cloudavenue/terraform-cloudavenue-edgegateway-services
@@ -316,9 +304,6 @@ group:
       - source: shared-files/github-actions/project_composite.yml.njk
         dest: .github/workflows/project.yml
         template: true
-      # * Plumber CI/CD Security Scan
-      - source: shared-files/github-actions/plumber.yml.njk
-        dest: .github/workflows/plumber.yml
-        template: true
+
     repos: |
       orange-cloudavenue/k0s-infra
