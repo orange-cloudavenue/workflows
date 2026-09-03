@@ -48,7 +48,13 @@ jobs:
             -not -path "./.git/*" \
             -exec sed -i -e 's/Mozilla Public License 2\.0/MPL-2.0/g' -e 's/Apache License 2\.0/Apache-2.0/g' {} +
 
-      - run: reuse annotate --recursive --license MPL-2.0 --copyright "Orange" .
+      - name: Annotate license headers
+        run: |
+          if [ -f REUSE.toml ]; then
+            reuse annotate --recursive .
+          else
+            reuse annotate --recursive --license MPL-2.0 --copyright "Orange" .
+          fi
 
       - name: Check if any files changed
         id: changed-files
