@@ -1,0 +1,22 @@
+name: Plumber
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  plumber:
+    name: "Plumber CI/CD Security Scan"
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: getplumber/plumber@e815e0bff47f9170e8e0a056df0a851124634ae2
+        with:
+          min-score: A

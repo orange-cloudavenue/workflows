@@ -26,7 +26,7 @@ jobs:
         with:
           ref: ${{ inputs.ref }}
           repository: ${{ inputs.repository }}
-      - uses: dorny/paths-filter@v4
+      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d
         id: filter
         with:
           filters: |
@@ -65,7 +65,7 @@ jobs:
         shell: bash
         run: go mod download
       - name: Run linters
-        uses: golangci/golangci-lint-action@v9
+        uses: golangci/golangci-lint-action@ba0d7d2ec06a0ea1cb5fa41b2e4a3ab91d21278a
         with:
           args: --timeout=10m
           version: latest

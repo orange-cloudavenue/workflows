@@ -1,0 +1,354 @@
+version: "2.0"
+
+github:
+  controls:
+    # Actions must be pinned by commit SHA
+    actionsMustBePinnedByCommitSha:
+      enabled: true
+      trustedOwners:
+      - actions
+      - github
+
+    # Actions must come from authorized sources
+    githubActionMustComeFromAuthorizedSources:
+      enabled: true
+      trustGithubOfficialActions: true
+      trustSameOrgActions: true
+      minimumStars: 20000
+      trustedGithubActions:
+        # Cloud providers
+        - aws-actions/*
+        - google-github-actions/*
+        - googleapis/*
+        - Azure/*
+        - cloudflare/*
+        - hashicorp/*
+        - pulumi/*
+        - digitalocean/*
+        - ibm/*
+        - oracle-actions/*
+        - canonical/*
+        - fastly/*
+        # Container / build / release / CI tooling
+        - docker/*
+        - gradle/*
+        - goreleaser/*
+        - bazel-contrib/*
+        - jfrog/*
+        - dagger/*
+        - buildkite/*
+        - CircleCI-Public/*
+        - earthly/*
+        # Language & packaging ecosystems
+        - pypa/*
+        - ruby/*
+        - denoland/*
+        - oven-sh/*
+        - astral-sh/*
+        - golangci/*
+        - dart-lang/*
+        - erlef/*
+        - haskell-actions/*
+        - julia-actions/*
+        - ocaml/*
+        - conda-incubator/*
+        - r-lib/*
+        - sbt/*
+        - VirtusLab/*
+        - gleam-lang/*
+        # Security vendors & supply-chain projects
+        - getplumber/*
+        - step-security/*
+        - ossf/*
+        - sigstore/*
+        - slsa-framework/*
+        - aquasecurity/*
+        - anchore/*
+        - snyk/*
+        - SonarSource/*
+        - trufflesecurity/*
+        - gitleaks/*
+        - chainguard-dev/*
+        - GitGuardian/*
+        - bridgecrewio/*
+        - zaproxy/*
+        - Checkmarx/*
+        - veracode/*
+        - tenable/*
+        - semgrep/*
+        - in-toto/*
+        - sonatype/*
+        - sonatype-nexus-community/*
+        - checkmarx-ts/*
+        - Qualys/*
+        - orcasecurity/*
+        - oxsecurity/*
+        # Dev platforms / SaaS
+        - codecov/*
+        - getsentry/*
+        - DataDog/*
+        - cypress-io/*
+        - JetBrains/*
+        - microsoft/*
+        - atlassian/*
+        - Shopify/*
+        - netlify/*
+        - planetscale/*
+        - supabase/*
+        - expo/*
+        - grafana/*
+        - honeycombio/*
+        - newrelic/*
+        - saucelabs/*
+        - mongodb/*
+        - adobe/*
+        - facebook/*
+        # CNCF / infrastructure foundations
+        - helm/*
+        - kubernetes-sigs/*
+        - opentofu/*
+        - ansible/*
+        - ansible-community/*
+        # Project orgs & widely-adopted publishers
+        - pnpm/*
+        - anthropics/*
+        - openai/*
+        - slackapi/*
+        - google/*
+        - golang/*
+        - dependabot/*
+        - rubygems/*
+        - apple-actions/*
+        - redhat-actions/*
+        - graalvm/*
+        - arduino/*
+        - msys2/*
+        - android-actions/*
+        - changesets/*
+        - tauri-apps/*
+        - biomejs/*
+        - bufbuild/*
+        - reviewdog/*
+        - hadolint/*
+        - gittools/*
+        - fsfe/*
+        - cachix/*
+        - nix-community/*
+        - DeterminateSystems/*
+        - 1Password/*
+        - tailscale/*
+        - octokit/*
+        - NuGet/*
+        - depot/*
+        - chromaui/*
+        - signpath/*
+        - rust-lang/*
+        - apache/*
+        - Homebrew/*
+        - PyO3/*
+        - EmbarkStudios/*
+        - bytecodealliance/*
+        - emscripten-core/*
+        - devcontainers/*
+        - renovatebot/*
+        - prefix-dev/*
+        - scientific-python/*
+        - browserstack/*
+        - digicert/*
+        - zizmorcore/*
+        - go-task/*
+        - namespacelabs/*
+        - voidzero-dev/*
+        - crowdin/*
+        - linear/*
+        - qltysh/*
+        - flatpak/*
+        - peter-evans/*
+        # Orange CloudAvenue workflow dependencies
+        - stefanzweifel/*
+        - dorny/*
+        - thollander/*
+        - andstor/*
+        - creekorful/*
+        - coverallsapp/*
+        - toshimaru/*
+        - ytanikin/*
+        - cbrgm/*
+        - ncipollo/*
+        - crazy-max/*
+        - rickstaa/*
+        - andrewslotin/*
+        - BetaHuhn/*
+        # Lowercase case-aliases
+        - azure/*
+        - sonarsource/*
+        - datadog/*
+        - jetbrains/*
+        - shopify/*
+        - gitguardian/*
+        - checkmarx/*
+        - qualys/*
+        - circleci-public/*
+        - virtuslab/*
+        - nuget/*
+        - determinatesystems/*
+        - 1password/*
+        - apple-Actions/*
+        - embarkstudios/*
+        - pyo3/*
+        - homebrew/*
+
+    # Container images must not use forbidden tags
+    containerImageMustNotUseForbiddenTags:
+      enabled: true
+      tags:
+      - latest
+      - dev
+      - development
+      - staging
+      - main
+      - master
+      containerImagesMustBePinnedByDigest: true
+
+    # Pipeline must not use Docker-in-Docker
+    pipelineMustNotUseDockerInDocker:
+      enabled: true
+      detectInsecureDaemon: true
+
+    # Pipeline must not execute unverified scripts
+    pipelineMustNotExecuteUnverifiedScripts:
+      enabled: true
+      trustedUrls: []
+
+    # Reusable workflows must not inherit secrets
+    reusableWorkflowsMustNotInheritSecrets:
+      enabled: true
+
+    # Checkout must not persist credentials
+    checkoutMustNotPersistCredentials:
+      enabled: true
+
+    # Workflow must not export the entire secrets context
+    workflowMustNotExportEntireSecretsContext:
+      enabled: true
+
+    # Security jobs must not be weakened
+    securityJobsMustNotBeWeakened:
+      enabled: true
+      securityJobPatterns:
+      - "*codeql*"
+      - "*dependency-review*"
+      - "*trufflehog*"
+      - "*gitleaks*"
+      - "*osv-scanner*"
+      - "*semgrep*"
+      - "*trivy*"
+      - "*snyk*"
+      - "*-sast"
+      - "*-sast-*"
+      - "*-scan"
+      - "*scan*"
+      - "*-security"
+      - "*-security-*"
+      - "*-audit"
+      - "*-audit-*"
+      - "*secret*detect*"
+      allowFailureMustBeFalse:
+        enabled: true
+      rulesMustNotBeRedefined:
+        enabled: true
+      whenMustNotBeManual:
+        enabled: true
+
+    # Workflow must not inject user input in scripts
+    workflowMustNotInjectUserInputInScripts:
+      enabled: true
+
+    # Workflow must not write untrusted content to $GITHUB_ENV
+    workflowMustNotWriteUntrustedContentToGitHubEnv:
+      enabled: true
+
+    # Workflow must not use dangerous triggers
+    workflowMustNotUseDangerousTriggers:
+      enabled: true
+
+    # Workflows must declare permissions
+    workflowsMustDeclarePermissions:
+      enabled: true
+
+    # Branch must be protected — disabled (can't fix from config file)
+    branchMustBeProtected:
+      enabled: false
+      defaultMustBeProtected: true
+
+    # Workflow must not grant write-all permissions
+    workflowMustNotGrantPermissionsWriteAll:
+      enabled: true
+
+    # Actions must not use ambiguous tag/branch refs
+    externalRefsMustNotCollide:
+      enabled: true
+
+    # Actions must not reference archived repositories
+    actionsMustNotBeArchived:
+      enabled: true
+
+    # Actions must pin commits that exist upstream
+    actionRefsMustExistUpstream:
+      enabled: true
+
+    # Actions must not carry known CVEs
+    actionsMustNotCarryKnownCVEs:
+      enabled: true
+
+    # Actions must not execute mutable remote code
+    actionsMustNotExecuteMutableRemoteCode:
+      enabled: true
+
+    # Release workflows must not restore an untrusted cache
+    releaseWorkflowsMustNotRestoreUntrustedCache:
+      enabled: true
+      publishActions:
+      - pypa/gh-action-pypi-publish
+      - JS-DevTools/npm-publish
+      - gradle/publish-plugin
+      - softprops/action-gh-release
+      - ncipollo/release-action
+      - goreleaser/goreleaser-action
+      - crazy-max/ghaction-docker-buildx
+      - changesets/action
+      cacheActions:
+      - { action: actions/cache, mode: always }
+      - { action: actions/cache/restore, mode: always }
+      - { action: Swatinem/rust-cache, mode: always }
+      - { action: actions/setup-go, mode: default, disableInput: cache, disableValue: false }
+      - { action: gradle/actions/setup-gradle, mode: default, disableInput: cache-disabled, disableValue: true }
+      - { action: actions/setup-node, mode: opt-in, enableInput: cache }
+      - { action: actions/setup-python, mode: opt-in, enableInput: cache }
+      - { action: actions/setup-java, mode: opt-in, enableInput: cache }
+      - { action: pnpm/action-setup, mode: opt-in, enableInput: cache }
+      - { action: docker/build-push-action, mode: opt-in, enableInput: cache-from, enableContains: type=gha }
+      publishScriptPatterns:
+      - '(?i)(npm|pnpm|yarn|bun)\s+publish'
+      - '(?i)cargo\s+publish'
+      - '(?i)twine\s+upload'
+      - '(?i)poetry\s+publish'
+      - '(?i)gh\s+release\s+create'
+      - '(?i)goreleaser\s+release'
+      - '(?i)semantic-release'
+      - '(?i)gradlew?\b[^\n]*\bpublish'
+      - '(?i)\bmvnw?\b[^\n]*\bdeploy\b'
+      - '(?i)dotnet\s+nuget\s+push'
+      - '(?i)gem\s+push'
+      - '(?i)docker\s+push'
+      publishScriptExcludePatterns:
+      - '(?i)--dry-run'
+      - '(?i)publishToMavenLocal'
+      allowedJobs: []
+
+    # Pipeline must not enable debug trace
+    pipelineMustNotEnableDebugTrace:
+      enabled: true
+      forbiddenVariables:
+      - ACTIONS_STEP_DEBUG
+      - ACTIONS_RUNNER_DEBUG
