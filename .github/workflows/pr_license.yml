@@ -42,30 +42,5 @@ jobs:
       - name: Install reuse
         run: sudo apt-get update && sudo apt-get install -y reuse
 
-      - name: Fix old license identifiers
-        run: |
-          find . -type f \( -name "*.go" -o -name "*.yml" -o -name "*.yaml" -o -name "*.njk" -o -name "*.tmpl" \) \
-            -not -path "./.git/*" \
-            -exec sed -i -e 's/Mozilla Public License 2\.0/MPL-2.0/g' -e 's/Apache License 2\.0/Apache-2.0/g' {} +
-
-      - name: Annotate license headers
-        run: |
-          if [ -f REUSE.toml ]; then
-            reuse annotate --recursive .
-          else
-            reuse annotate --recursive --license MPL-2.0 --copyright "Orange" .
-          fi
-
-      - name: Check if any files changed
-        id: changed-files
-        run: |
-          git diff --exit-code || echo "any_changed=true" >> "$GITHUB_OUTPUT"
-
-      - name: Commit and push changes
-        if: steps.changed-files.outputs.any_changed == 'true'
-        uses: stefanzweifel/git-auto-commit-action@4a55954c782fc1ea30b9056cd3e7a2b40ca8887d
-        with:
-          commit_message: "chore: Update License Headers"
-          commit_user_name: github-actions[bot]
-          commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com
-          commit_author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+      - name: REUSE Compliance Check
+        run: reuse lint --lines

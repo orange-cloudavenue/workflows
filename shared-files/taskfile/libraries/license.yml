@@ -15,15 +15,15 @@ tasks:
         task: lint:{{.ITEM}}
 
   lint:license-header:
-    desc: Run license header
+    desc: Run license header check
     internal: true
     preconditions:
       - sh: command -v reuse
-        msg: "reuse is not installed. Please run `task license:install`"
+        msg: "reuse is not installed. Please run `task install`"
       - sh: test -f REUSE.toml
         msg: "No REUSE.toml file found."
     cmds:
-      - reuse lint
+      - reuse lint --lines
 
   # * Init
   init:
@@ -43,24 +43,3 @@ tasks:
         task: internal:tools:brew
         vars:
           APP: '{{.ITEM}}'
-
-  # * Actions 
-  run: 
-    desc: Run license actions
-    cmds:
-      - for: [
-          license-header-fix,
-        ]
-        task: actions:{{.ITEM}}
-
-  # ? Generate
-  actions:license-header-fix:
-    desc: Run license header
-    internal: true
-    preconditions:
-      - sh: command -v reuse
-        msg: "reuse is not installed. Please run `task license:install`"
-      - sh: test -f REUSE.toml
-        msg: "No REUSE.toml file found."
-    cmds:
-      - reuse annotate --recursive
