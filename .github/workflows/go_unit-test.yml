@@ -47,9 +47,9 @@ jobs:
       fail-fast: false
       matrix:
         go:
-          - '1.23'
-          - '1.22'
-          - '1.21'
+          - 'latest'
+          - 'stable'
+          - '1.25'
     steps:
       # https://github.com/actions/setup-go/issues/424#issuecomment-2796487736
       - name: Setup tar default options
