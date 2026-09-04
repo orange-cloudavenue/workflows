@@ -23,37 +23,37 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  #v7.0.1
         with:
           repository: ${{ inputs.repository }}
           ref: ${{ inputs.ref }}
           persist-credentials: false
-          
+
       - name: Setup Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
         with:
           go-version: stable
-          
+
       - name: Install license-eye
         run: go install github.com/apache/skywalking-eyes/cmd/license-eye@latest
-          
+
       - name: Fix old license identifiers
         run: |
           find . -type f -name "*.go" \
             -not -path "./.git/*" \
             -exec sed -i -e 's/Mozilla Public License 2\.0/MPL-2.0/g' -e 's/Apache License 2\.0/Apache-2.0/g' {} +
-          
+
       - name: Run license-eye header fix
         run: license-eye header fix
-          
+
       - name: Format Go files
         run: gofmt -w .
-          
+
       - name: Check if any files changed
         id: changed-files
         run: |
           git diff --exit-code || echo "any_changed=true" >> "$GITHUB_OUTPUT"
-          
+
       - name: Create Pull Request
         if: steps.changed-files.outputs.any_changed == 'true'
         uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676
@@ -64,6 +64,6 @@ jobs:
           title: "chore: fix piled license headers"
           body: |
             Fixes piled/duplicated license headers that were created by the old license-eye pattern.
-            
+
             This PR removes duplicate headers and normalizes all files to the correct SPDX format.
           delete-branch: true

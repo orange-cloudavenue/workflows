@@ -26,7 +26,7 @@ jobs:
       artifact-name: ${{ steps.generate-release-notes.outputs.releasenoteartifact }}
     steps:
       - id: checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  #v7.0.1
         name: Checkout
         with:
           token: ${{ secrets.TOKEN }}
@@ -42,7 +42,7 @@ jobs:
           sed -n -e "1{/^## /d;}" -e "2{/^$/d;}" -e "/^## $PREV_VERSION/{q}" -e "p" CHANGELOG.md >> release-notes.txt
           echo "releasenoteartifact=release-notes.txt" >> $GITHUB_OUTPUT
       - id: upload-release-notes
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: ${{ steps.generate-release-notes.outputs.releasenoteartifact }}
           path: ${{ steps.generate-release-notes.outputs.releasenoteartifact }}

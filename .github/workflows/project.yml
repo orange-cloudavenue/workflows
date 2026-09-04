@@ -14,7 +14,7 @@ jobs:
     name: Add issue/PR to project
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/add-to-project@v2.0.0
+      - uses: actions/add-to-project@5afcf98fcd03f1c2f92c3c83f58ae24323cc57fd
         with:
           # You can target a project in a different organization
           # to the issue

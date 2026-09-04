@@ -13,8 +13,8 @@ jobs:
     name: Validate Nunjucks templates
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  #v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version: '24'
       - name: Install Nunjucks CLI
@@ -32,7 +32,7 @@ jobs:
             closes_raw=$(grep -c '{%\s*endraw' "$file" 2>/dev/null || true)
             opens_comment=$(grep -c '{#' "$file" 2>/dev/null || true)
             closes_comment=$(grep -c '#}' "$file" 2>/dev/null || true)
-            
+
             if [ "$opens_if" != "$closes_if" ]; then
               echo "ERROR: $file has $opens_if {% if %} but $closes_if {% endif %}"
               errors=$((errors + 1))
@@ -60,7 +60,7 @@ jobs:
     name: Validate sync.yml structure
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  #v7.0.1
       - name: Validate sync.yml is valid YAML
         run: |
           python3 -c "
@@ -112,7 +112,7 @@ jobs:
     name: Validate template includes
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  #v7.0.1
       - name: Check template include references
         run: |
           errors=0
