@@ -17,6 +17,6 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  #v7.0.1
         with:
           persist-credentials: false
-      - uses: getplumber/plumber@e815e0bff47f9170e8e0a056df0a851124634ae2
+      - uses: getplumber/plumber@c85c712bca3c9f547a88c66bb2541db179a1a79e
         with:
           min-score: A
