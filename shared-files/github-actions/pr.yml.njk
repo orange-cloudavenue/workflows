@@ -5,6 +5,12 @@ name: PR All events
 on:
   pull_request:
     types: [ opened, reopened, synchronize, edited ]
+{% if terraform_provider %}
+  # Trusted triggers required by the tests job below.
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+{% endif %}
 
 
 concurrency:
@@ -18,6 +24,9 @@ permissions:
 
 jobs:
   changelog-dependabot:
+{% if terraform_provider %}
+    if: github.event_name == 'pull_request'
+{% endif %}
     name: "Changelog Dependabot"
     uses: orange-cloudavenue/workflows/.github/workflows/changelog_dependabot.yml@main
     secrets:
@@ -25,7 +34,11 @@ jobs:
       TOKEN: {% raw %}${{ secrets.GITHUB_TOKEN }}{% endraw %}
 
   pr-size:
+{% if terraform_provider %}
+    if: github.event.action != 'edited' && github.event_name == 'pull_request'
+{% else %}
     if: github.event.action != 'edited'
+{% endif %}
     name: "PR Size"
     uses: orange-cloudavenue/workflows/.github/workflows/pr_label_size.yml@main
     with:
@@ -36,6 +49,9 @@ jobs:
       TOKEN: {% raw %}${{ secrets.PR_CI_PAT }}{% endraw %}
 
   pr-conventional-commits:
+{% if terraform_provider %}
+    if: github.event_name == 'pull_request'
+{% endif %}
     name: "Conventional Commits"
     uses: orange-cloudavenue/workflows/.github/workflows/pr_conventional_commits.yml@main
     secrets:
@@ -66,10 +82,12 @@ jobs:
     {% include './common/golang/lint.tmpl' %}
 
   tests:
-    if: github.event.action != 'edited' && github.event.pull_request.draft == false
     {% if terraform_provider %}
+    # Privileged integration tests: trusted-trigger runs only.
+    if: github.event_name != 'pull_request'
     {% include './common/golang/unit-test-tf-provider.tmpl' %}
     {% else %}
+    if: github.event.action != 'edited' && github.event.pull_request.draft == false
     {% include './common/golang/unit-test.tmpl' %}
 
     {% endif %}
