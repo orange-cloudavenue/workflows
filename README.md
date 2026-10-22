@@ -65,6 +65,12 @@ sync.yml                    # Repo-file-sync-action configuration
 | Generic terraform modules | Terraform modules |
 | Generic terraform | Terraform repos |
 
+## Consumer versioning
+
+Downstream repos consume reusable workflows by version tag (`@vX`), not `@main`.
+The release/rollout/rollback contract and migration plan are defined in
+[docs/consumer-versioning.md](docs/consumer-versioning.md) (status: proposed).
+
 ## Security
 
 - All third-party actions are pinned by commit SHA
