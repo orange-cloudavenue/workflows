@@ -71,6 +71,11 @@ Downstream repos consume reusable workflows by version tag (`@vX`), not `@main`.
 The release/rollout/rollback contract and migration plan are defined in
 [docs/consumer-versioning.md](docs/consumer-versioning.md) (status: proposed).
 
+## Bot / token model
+
+Bot personas, PAT duties, blast radius, and the commit-attribution policy are
+inventoried in [docs/bot-token-model.md](docs/bot-token-model.md) (status: proposed).
+
 ## Security
 
 - All third-party actions are pinned by commit SHA
