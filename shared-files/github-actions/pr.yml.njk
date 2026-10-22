@@ -62,7 +62,7 @@ jobs:
 
 {% if changelog_validation %}
   changelog-validation:
-    if: github.event.action != 'edited' && github.event.pull_request.draft == false
+    if: github.event.action != 'edited' && github.event.pull_request.draft == false && !contains(github.event.pull_request.labels.*.name, 'skip-changelog')
     name: "Changelog Validation"
     uses: orange-cloudavenue/workflows/.github/workflows/changelog_validation.yml@main
     with:
