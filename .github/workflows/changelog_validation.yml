@@ -75,7 +75,7 @@ jobs:
         with:
           go-version: '1.26'
       - name: Install changelog-check
-        run: go install github.com/hashicorp/go-changelog/cmd/changelog-check@latest
+        run: go install github.com/hashicorp/go-changelog/cmd/changelog-check@10b1aebc564c6f12443e09e7273b0cf78fca969c  # v0.0.0-20260907110944
       - name: Run changelog-check
         continue-on-error: true
         # If no output, then the changelog is valid
