@@ -9,4 +9,9 @@ updates:
         update-types:
           - "minor"
           - "patch"
+      # Batch major bumps into one PR (mirrors the downstream dependabot template);
+      # proposed tag refs are converted to SHA pins manually after merge.
+      github-actions-major:
+        update-types:
+          - "major"
 
