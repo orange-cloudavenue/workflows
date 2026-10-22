@@ -79,8 +79,10 @@ jobs:
       - name: Run changelog-check
         continue-on-error: true
         # If no output, then the changelog is valid
+        env:
+          CHANGELOG_FILE: ${{ matrix.file }}
         run: |
-          msg="$(changelog-check ${{ matrix.file }})"
+          msg="$(changelog-check "$CHANGELOG_FILE")"
           echo "errormsg=$msg">> $GITHUB_ENV
       # If the previous step fails, then the changelog is invalid and publish the error message
       - name: Comment on PR
