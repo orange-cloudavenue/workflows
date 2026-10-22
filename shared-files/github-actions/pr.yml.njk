@@ -60,6 +60,17 @@ jobs:
       ref: {% raw %}${{ github.ref }}{% endraw %}
       repository: {% raw %}${{ github.repository }}{% endraw %}
 
+{% if changelog_validation %}
+  changelog-validation:
+    if: github.event.action != 'edited' && github.event.pull_request.draft == false
+    name: "Changelog Validation"
+    uses: orange-cloudavenue/workflows/.github/workflows/changelog_validation.yml@main
+    with:
+      ref: {% raw %}${{ github.ref }}{% endraw %}
+      repository: {% raw %}${{ github.repository }}{% endraw %}
+    secrets:
+      TOKEN: {% raw %}${{ secrets.PR_CI_PAT }}{% endraw %}
+{% endif %}
 {% if golang %}
   go-license-check:
     if: github.event.action != 'edited' && github.event.pull_request.draft == false

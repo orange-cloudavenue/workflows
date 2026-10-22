@@ -39,11 +39,23 @@ jobs:
     {% else %}
     {% include './common/golang/unit-test.tmpl' %}
     {% endif %}
+
+{% if changelog_validation %}
+  changelog-validation:
+    needs: [pre-check]
+    name: "Changelog Validation"
+    uses: orange-cloudavenue/workflows/.github/workflows/changelog_validation.yml@main
+    with:
+      ref: {% raw %}${{ github.ref }}{% endraw %}
+      repository: {% raw %}${{ github.repository }}{% endraw %}
+    secrets:
+      TOKEN: {% raw %}${{ secrets.RELEASE_CI_PAT }}{% endraw %}
+{% endif %}
   {% endif %}
 
   tag:
     {% if golang %}
-    needs: [golang-ci-lint, tests]
+    needs: [golang-ci-lint, tests{% if changelog_validation %}, changelog-validation{% endif %}]
     {% endif %}
     {% if not golang %}
     needs: [pre-check]
