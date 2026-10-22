@@ -73,7 +73,7 @@ jobs:
         if: success()
         with:
           distribution: goreleaser
-          version: latest
+          version: v2.18.3
           args: release --clean -f .goreleaser.yml --release-notes=${{ steps.release-notes-download.outputs.download-path }}/${{ inputs.artifact-name }}
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}

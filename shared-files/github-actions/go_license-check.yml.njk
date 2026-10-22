@@ -41,7 +41,7 @@ jobs:
           go-version-file: go.mod
 
       - name: Install go-licence-detector
-        run: go install go.elastic.co/go-licence-detector@latest
+        run: go install go.elastic.co/go-licence-detector@1629a841f26141067941aebe9328789358b90460  # v0.11.1
 
       - name: Check dependency licenses
         run: |
