@@ -44,9 +44,6 @@ jobs:
     with:
       ref: {% raw %}${{ github.ref }}{% endraw %}
       repository: {% raw %}${{ github.repository }}{% endraw %}
-    secrets:
-      {#- raw is used to avoid conflicts with the templating engine and github action #}
-      TOKEN: {% raw %}${{ secrets.PR_CI_PAT }}{% endraw %}
 
   pr-conventional-commits:
 {% if terraform_provider %}
@@ -54,9 +51,6 @@ jobs:
 {% endif %}
     name: "Conventional Commits"
     uses: orange-cloudavenue/workflows/.github/workflows/pr_conventional_commits.yml@main
-    secrets:
-      {#- raw is used to avoid conflicts with the templating engine and github action #}
-      TOKEN: {% raw %}${{ secrets.PR_CI_PAT }}{% endraw %}
 
   pr-license:
     if: github.event.action != 'edited' && github.event.pull_request.draft == false
