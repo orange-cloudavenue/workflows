@@ -117,6 +117,7 @@ group:
         template: 
           golang: true
           terraform_provider: true
+          changelog_validation: true
     repos: |
       orange-cloudavenue/terraform-provider-cloudavenue
       
@@ -131,6 +132,7 @@ group:
         dest: .github/workflows/release.yml
         template: 
           golang: true
+          changelog_validation: true
       # * Project
       - source: shared-files/github-actions/project_composite.yml.njk
         dest: .github/workflows/project.yml
