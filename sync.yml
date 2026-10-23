@@ -57,11 +57,6 @@ group:
         dest: .github/pull-request-size.yml
         template: true
 
-      # * Go License Check
-      - source: shared-files/github-actions/go_license-check.yml.njk
-        dest: .github/workflows/go_license-check.yml
-        template:
-          golang: true
       # * Go License Rules
       - source: .go-license-rules.json
         dest: .go-license-rules.json
