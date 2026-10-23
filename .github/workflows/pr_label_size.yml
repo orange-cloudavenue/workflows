@@ -11,9 +11,6 @@ on:
         description: 'Repository to checkout (eg: {{github.repository}})'
         required: true
         type: string
-    secrets:
-      TOKEN:
-        required: true
 
 permissions:
   pull-requests: write
