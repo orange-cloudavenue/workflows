@@ -39,7 +39,7 @@ jobs:
               - added|modified: '.changelog/*.txt'
 
   notFound:
-    if: ${{ needs.check-changelog-is-present.outputs.is-present == 'false' }}
+    if: ${{ needs.check-changelog-is-present.outputs.is-present == 'false' && github.event_name == 'pull_request' }}
     needs: check-changelog-is-present
     runs-on: ubuntu-latest
     name: "Changelog not found"
@@ -87,7 +87,7 @@ jobs:
           { echo "errormsg<<$DELIM"; echo "$msg"; echo "$DELIM"; } >> "$GITHUB_ENV"
       # If the previous step fails, then the changelog is invalid and publish the error message
       - name: Comment on PR
-        if: ${{ env.errormsg != '' }}
+        if: ${{ env.errormsg != '' && github.event_name == 'pull_request' }}
         uses: thollander/actions-comment-pull-request@24bffb9b452ba05a4f3f77933840a6a841d1b32b
         with:
           file-path: .changelog/${{ matrix.file }}
@@ -98,7 +98,7 @@ jobs:
       - if : ${{ env.errormsg != '' }}
         run: exit 1
       - name: Delete comment on PR
-        if: ${{ env.errormsg == '' }}
+        if: ${{ env.errormsg == '' && github.event_name == 'pull_request' }}
         uses: thollander/actions-comment-pull-request@24bffb9b452ba05a4f3f77933840a6a841d1b32b
         with:
           mode: delete
