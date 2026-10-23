@@ -1,4 +1,12 @@
 {% include '../common/header.yml.tmpl' %}
+{#- Every PR-only job must check the event name explicitly: absent
+    `github.event.pull_request.*` fields evaluate to null on non-PR events and
+    `null == false` is true, so draft/label conditions silently pass on push or
+    dispatch runs whatever triggers the consuming workflow declares. -#}
+{%- set is_pr = "github.event_name == 'pull_request'" %}
+{#- Template-sync PRs (repo-file-sync-action, branches `repo-sync/*`) carry no
+    source changes and can never include a changelog entry. -#}
+{%- set not_sync = "!startsWith(github.event.pull_request.head.ref, 'repo-sync/')" %}
 
 name: PR All events
 
@@ -24,9 +32,7 @@ permissions:
 
 jobs:
   changelog-dependabot:
-{% if terraform_provider %}
-    if: github.event_name == 'pull_request'
-{% endif %}
+    if: {{ is_pr | safe }}
     name: "Changelog Dependabot"
     uses: orange-cloudavenue/workflows/.github/workflows/changelog_dependabot.yml@main
     secrets:
@@ -34,11 +40,7 @@ jobs:
       TOKEN: {% raw %}${{ secrets.GITHUB_TOKEN }}{% endraw %}
 
   pr-size:
-{% if terraform_provider %}
-    if: github.event.action != 'edited' && github.event_name == 'pull_request'
-{% else %}
-    if: github.event.action != 'edited'
-{% endif %}
+    if: github.event.action != 'edited' && {{ is_pr | safe }}
     name: "PR Size"
     uses: orange-cloudavenue/workflows/.github/workflows/pr_label_size.yml@main
     with:
@@ -46,14 +48,12 @@ jobs:
       repository: {% raw %}${{ github.repository }}{% endraw %}
 
   pr-conventional-commits:
-{% if terraform_provider %}
-    if: github.event_name == 'pull_request'
-{% endif %}
+    if: {{ is_pr | safe }}
     name: "Conventional Commits"
     uses: orange-cloudavenue/workflows/.github/workflows/pr_conventional_commits.yml@main
 
   pr-license:
-    if: github.event.action != 'edited' && github.event.pull_request.draft == false
+    if: github.event.action != 'edited' && github.event.pull_request.draft == false && {{ is_pr | safe }}
     name: "License Check"
     uses: orange-cloudavenue/workflows/.github/workflows/pr_license.yml@main
     with:
@@ -62,7 +62,7 @@ jobs:
 
 {% if changelog_validation %}
   changelog-validation:
-    if: github.event.action != 'edited' && github.event.pull_request.draft == false && !contains(github.event.pull_request.labels.*.name, 'skip-changelog')
+    if: github.event.action != 'edited' && github.event.pull_request.draft == false && !contains(github.event.pull_request.labels.*.name, 'skip-changelog') && {{ is_pr | safe }} && {{ not_sync | safe }}
     name: "Changelog Validation"
     uses: orange-cloudavenue/workflows/.github/workflows/changelog_validation.yml@main
     with:
@@ -73,7 +73,7 @@ jobs:
 {% endif %}
 {% if golang %}
   go-license-check:
-    if: github.event.action != 'edited' && github.event.pull_request.draft == false
+    if: github.event.action != 'edited' && github.event.pull_request.draft == false && {{ is_pr | safe }}
     name: "Go Dependency License Check"
     uses: orange-cloudavenue/workflows/.github/workflows/go_license-check.yml@main
     with:
@@ -83,7 +83,7 @@ jobs:
 
 {% if golang %}
   golang-ci-lint:
-    if: github.event.action != 'edited' && github.event.pull_request.draft == false
+    if: github.event.action != 'edited' && github.event.pull_request.draft == false && {{ is_pr | safe }}
     {% include './common/golang/lint.tmpl' %}
 
   tests:
@@ -92,7 +92,7 @@ jobs:
     if: github.event_name != 'pull_request'
     {% include './common/golang/unit-test-tf-provider.tmpl' %}
     {% else %}
-    if: github.event.action != 'edited' && github.event.pull_request.draft == false
+    if: github.event.action != 'edited' && github.event.pull_request.draft == false && {{ is_pr | safe }}
     {% include './common/golang/unit-test.tmpl' %}
 
     {% endif %}
