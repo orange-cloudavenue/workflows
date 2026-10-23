@@ -69,7 +69,7 @@ linters:
     - thelper
     - varnamelen
     - wrapcheck
-    - wsl
+    - wsl_v5
   settings:
     {% if repo.name != 'cloudavenue-sdk-go' %}
     gosec:
@@ -194,7 +194,9 @@ formatters:
       custom-order: true
     gofumpt:
       module-path: github.com/orange-cloudavenue/{{ repo.name }}
-      extra-rules: true
+      extra:
+        group-params: true
+        clothe-returns: true
     goimports:
       local-prefixes:
         - github.com/orange-cloudavenue/{{ repo.name }}
