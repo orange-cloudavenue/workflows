@@ -1,3 +1,4 @@
+# Privileged: invoke from trusted-trigger runs only (never pull_request).
 name: "Golang Unit Test Terraform Provider"
 
 on:
