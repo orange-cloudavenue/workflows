@@ -25,6 +25,8 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       need-test: ${{ steps.filter.outputs.go }}
+      go-matrix: ${{ steps.go-versions.outputs.go-matrix }}
+      coverage-flags: ${{ steps.go-versions.outputs.coverage-flags }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  #v7.0.1
         with:
@@ -37,6 +39,22 @@ jobs:
             go:
               - '**/*.go'
               - 'go.mod'
+      # Bump Go versions here only: tests matrix and carryforward flags are derived from this list.
+      - name: Define Go version matrix
+        id: go-versions
+        shell: bash
+        run: |
+          versions=('1.26' '1.27')
+          go_json=''
+          flags=''
+          for v in "${versions[@]}"; do
+            go_json+="${go_json:+,}\"$v\""
+            flags+="${flags:+,}run-$v"
+          done
+          {
+            echo "go-matrix=[${go_json}]"
+            echo "coverage-flags=${flags}"
+          } >> "$GITHUB_OUTPUT"
 
   tests:
     needs: check-test-requirements
@@ -46,9 +64,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        go:
-          - '1.26'
-          - '1.27'
+        go: ${{ fromJSON(needs.check-test-requirements.outputs.go-matrix) }}
     steps:
       # https://github.com/actions/setup-go/issues/424#issuecomment-2796487736
       - name: Setup tar default options
@@ -79,13 +95,14 @@ jobs:
         if: inputs.send-coverage == true
         uses: coverallsapp/github-action@8d6379e14d29928660c4ba802d8e85393440b329
         with:
-          flag-name: run-${{ join(matrix.*, '-') }}
+          # matrix is single-dimensional (go), so matrix.go == join(matrix.*, '-')
+          flag-name: run-${{ matrix.go }}
           parallel: true
           file: profile.cov
 
   # notifies that all test jobs are finished.
   coverage-finish:
-    needs: tests
+    needs: [check-test-requirements, tests]
     if: ${{ inputs.send-coverage == true && always() }}
     runs-on: ubuntu-latest
     steps:
@@ -93,4 +110,4 @@ jobs:
       uses: coverallsapp/github-action@8d6379e14d29928660c4ba802d8e85393440b329
       with:
         parallel-finished: true
-        carryforward: "run-1.23,run-1.22,run-1.21"
+        carryforward: ${{ needs.check-test-requirements.outputs.coverage-flags }}
