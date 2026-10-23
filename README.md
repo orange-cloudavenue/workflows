@@ -52,7 +52,7 @@ sync.yml                    # Repo-file-sync-action configuration
 - `pr_open.yml.njk` — PR opened actions
 - `pr_close.yml.njk` — PR closed actions
 - `release.yml.njk` — Release pipeline
-- `labeler.yml.njk` — Auto-label issues/PRs
+- `labeler.yml.njk` — Sync label definitions from `.github/labels.yml` (not issue/PR auto-labeling)
 - `project_composite.yml.njk` — Project management composite
 
 ## Sync groups
