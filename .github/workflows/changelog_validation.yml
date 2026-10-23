@@ -75,13 +75,16 @@ jobs:
         with:
           go-version: '1.26'
       - name: Install changelog-check
-        run: go install github.com/hashicorp/go-changelog/cmd/changelog-check@latest
+        run: go install github.com/hashicorp/go-changelog/cmd/changelog-check@10b1aebc564c6f12443e09e7273b0cf78fca969c  # v0.0.0-20260907110944
       - name: Run changelog-check
         continue-on-error: true
         # If no output, then the changelog is valid
+        env:
+          CHANGELOG_FILE: ${{ matrix.file }}
         run: |
-          msg="$(changelog-check ${{ matrix.file }})"
-          echo "errormsg=$msg">> $GITHUB_ENV
+          msg="$(changelog-check "$CHANGELOG_FILE")"
+          DELIM="EOF_$(openssl rand -hex 8)"
+          { echo "errormsg<<$DELIM"; echo "$msg"; echo "$DELIM"; } >> "$GITHUB_ENV"
       # If the previous step fails, then the changelog is invalid and publish the error message
       - name: Comment on PR
         if: ${{ env.errormsg != '' }}
