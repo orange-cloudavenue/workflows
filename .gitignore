@@ -1,2 +1,3 @@
 # Override global gitignore for this repo
 !AGENTS.md
+node_modules/

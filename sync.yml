@@ -12,6 +12,9 @@ group:
         dest: .licenserc.yaml
         template: 
           license: MPL-2.0
+      # * License header cleaner (dedup piled headers; run via `task license:clean`)
+      - source: shared-files/license/clean-license-headers.mjs
+        dest: scripts/clean-license-headers.mjs
     repos: |
       orange-cloudavenue/terraform-plugin-framework-validators
       orange-cloudavenue/cloudavenue-sdk-go
