@@ -77,11 +77,6 @@ jobs:
         with:
           args: --timeout=10m
           version: v2.15.0
-      # Advisory (non-blocking): findings appear in the job log without failing the check.
-      - name: Run advisory linters
-        if: ${{ !cancelled() }}
-        continue-on-error: true
-        run: golangci-lint run --enable-only=paralleltest --timeout=5m ./...
 
   security:
     if: ${{ needs.check-lint-requirements.outputs.need-lint == 'true' }}
