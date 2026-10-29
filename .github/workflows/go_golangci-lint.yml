@@ -26,18 +26,25 @@ jobs:
         with:
           ref: ${{ inputs.ref }}
           repository: ${{ inputs.repository }}
-      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d
+          persist-credentials: false
+      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d  #v4.0.3
         id: filter
         with:
           filters: |
             go:
               - '**/*.go'
+              - 'go.mod'
+              - 'go.sum'
+              - '.golangci.yml'
 
   golangci-lint:
     if: ${{ needs.check-lint-requirements.outputs.need-lint == 'true' }}
     needs: check-lint-requirements
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
+    concurrency:
+      group: lint-${{ inputs.repository }}-${{ github.ref }}
+      cancel-in-progress: true
     name: "GolangCI Lint"
     steps:
       # https://github.com/actions/setup-go/issues/424#issuecomment-2796487736
@@ -48,6 +55,7 @@ jobs:
         with:
           ref: ${{ inputs.ref }}
           repository: ${{ inputs.repository }}
+          persist-credentials: false
       - name: Check if go.work exists
         id: check-go-work
         shell: bash
@@ -69,3 +77,4 @@ jobs:
         with:
           args: --timeout=10m
           version: v2.15.0
+
