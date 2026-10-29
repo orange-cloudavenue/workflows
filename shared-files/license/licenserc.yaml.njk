@@ -60,7 +60,8 @@ header: # `header` section is configurations for source codes license header.
     - 'NOTICE'
     - "**/CODEOWNERS"
     - '**/**.svg'
-    - "**/zz_generated*.go"
+    - "**/*.excalidraw"
+    - "**/zz_*.go"
     - "GNUmakefile"
     - "Makefile"
     - "**/*.json"
@@ -109,7 +110,7 @@ header: # `header` section is configurations for source codes license header.
       comment_style_id: Hashtag
 
 {% if golang %}
-dependency: 
-  files: 
+dependency:
+  files:
     - go.mod
 {% endif %}
