@@ -18,5 +18,5 @@ jobs:
         with:
           # You can target a project in a different organization
           # to the issue
-          project-url: https://github.com/orgs/orange-cloudavenue/projects/12
+          project-url: https://github.com/orgs/orange-cloudavenue/projects/18
           github-token: ${{ secrets.TOKEN }}
