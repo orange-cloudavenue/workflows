@@ -106,6 +106,12 @@ group:
         template: 
           golang: true
           terraform_provider: true
+      # * Generate (verify generated code is committed)
+      - source: shared-files/github-actions/generate.yml.njk
+        dest: .github/workflows/generate.yml
+        template:
+          golang: true
+          terraform_provider: true
       # * Labeler
       - source: shared-files/labeler/labels.yml.njk
         dest: .github/labels.yml
