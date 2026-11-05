@@ -51,6 +51,7 @@ sync.yml                    # Repo-file-sync-action configuration
 - `pr.yml.njk` — Full PR pipeline (license, lint, tests, go-license-check for Go repos)
 - `pr_open.yml.njk` — PR opened actions
 - `pr_close.yml.njk` — PR closed actions
+- `generate.yml.njk` — Verify generated code is committed (Terraform providers)
 - `release.yml.njk` — Release pipeline
 - `labeler.yml.njk` — Sync label definitions from `.github/labels.yml` (not issue/PR auto-labeling)
 - `project_composite.yml.njk` — Project management composite
