@@ -119,11 +119,22 @@ jobs:
             Opened by `workflows/.github/workflows/bump_go_version.yml`; review the resulting `go.mod` diff before merging, and let the CI of this repository prove the module still builds.
           delete-branch: true
 
+      - name: Checkout pull request branch
+        if: steps.create-pull-request.outputs.pull-request-number != ''
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  #v7.0.1
+        with:
+          repository: ${{ inputs.repository }}
+          ref: ${{ steps.create-pull-request.outputs.pull-request-branch }}
+          token: ${{ secrets.SYNC_PAT }}
+          persist-credentials: true
+          fetch-depth: 0
+
       - name: Add changelog entry
         if: steps.create-pull-request.outputs.pull-request-number != ''
         shell: bash
         run: |
           mkdir -p .changelog
+          find .changelog -maxdepth 1 -type f -name 'bump-go-version-*.txt' -delete
           changelog_file=.changelog/${{ steps.create-pull-request.outputs.pull-request-number }}.txt
           {
             echo '```release-note:dependency'
@@ -131,23 +142,16 @@ jobs:
             echo '```'
           } > "$changelog_file"
 
-      - name: Update Pull Request with changelog entry
+      - name: Commit and push changelog entry
         if: steps.create-pull-request.outputs.pull-request-number != ''
-        uses: peter-evans/create-pull-request@15733dbdfeedb4f7fdb73d13c6f5ac83b710fab8
-        with:
-          token: ${{ secrets.SYNC_PAT }}
-          add-paths: .changelog/${{ steps.create-pull-request.outputs.pull-request-number }}.txt
-          commit-message: "chore: add changelog for #${{ steps.create-pull-request.outputs.pull-request-number }}"
-          branch: chore/bump-go-version-${{ inputs.go-version }}
-          title: "chore(deps): bump Go version to ${{ inputs.go-version }}"
-          body: |
-            Sets the Go version to `${{ inputs.go-version }}` in every `go.mod` / `go.work` of this repository.
-
-            - `go` directives updated with the Go toolchain itself in ${{ steps.bump.outputs.files-rewritten }} file(s)
-            - existing `toolchain` directives optionally rewritten to `go${{ inputs.go-version }}`; none added where the module did not declare one
-
-            Opened by `workflows/.github/workflows/bump_go_version.yml`; review the resulting `go.mod` diff before merging, and let the CI of this repository prove the module still builds.
-          delete-branch: true
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add .changelog/${{ steps.create-pull-request.outputs.pull-request-number }}.txt
+          git diff --cached --quiet && exit 0
+          git commit -m "chore: add changelog for #${{ steps.create-pull-request.outputs.pull-request-number }}"
+          git push origin HEAD:${{ steps.create-pull-request.outputs.pull-request-branch }}
 
       - name: Nothing to do
         if: steps.changed-files.outputs.any_changed != 'true'
