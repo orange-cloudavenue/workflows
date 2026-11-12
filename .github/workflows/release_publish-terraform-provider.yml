@@ -48,10 +48,21 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@1f40c72289eff860ee54a304f1438e3cff362e0a
 
+      - name: Check if go.work exists
+        id: check-go-work
+        shell: bash
+        run: |
+          if [ -f "go.work" ]; then
+            echo "go_version_file=go.work" >> $GITHUB_ENV
+          else
+            echo "go_version_file=go.mod" >> $GITHUB_ENV
+          fi
+
       - name: Set up Go
         uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
         with:
-          go-version-file: 'go.mod'
+          check-latest: true
+          go-version-file: ${{ env.go_version_file }}
           cache: false
 
       - name: Import GPG key

@@ -35,9 +35,19 @@ jobs:
           ref: ${{ inputs.ref }}
           repository: ${{ inputs.repository }}
           persist-credentials: false
+      - name: Check if go.work exists
+        id: check-go-work
+        shell: bash
+        run: |
+          if [ -f "go.work" ]; then
+            echo "go_version_file=go.work" >> $GITHUB_ENV
+          else
+            echo "go_version_file=go.mod" >> $GITHUB_ENV
+          fi
       - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
         with:
-          go-version-file: go.mod
+          check-latest: true
+          go-version-file: ${{ env.go_version_file }}
 
       - name: Install go-licence-detector
         run: go install go.elastic.co/go-licence-detector@1629a841f26141067941aebe9328789358b90460  # v0.11.1

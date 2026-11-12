@@ -67,7 +67,8 @@ jobs:
           fi
       - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
         with:
-           # Dynamically set the Go version file
+          # Dynamically set the Go version file
+          check-latest: true
           go-version-file: ${{ env.go_version_file }}
       - name: Install dependencies
         shell: bash
@@ -108,6 +109,7 @@ jobs:
           fi
       - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
         with:
+          check-latest: true
           go-version-file: ${{ env.go_version_file }}
       - name: Verify module integrity
         run: go mod verify

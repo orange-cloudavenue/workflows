@@ -39,7 +39,8 @@ jobs:
             go:
               - '**/*.go'
               - 'go.mod'
-      # Bump Go versions here only: tests matrix and carryforward flags are derived from this list.
+      # Keep a stable major/minor matrix while letting the Go command auto-upgrade
+      # to the exact patch required by each module or workspace.
       - name: Define Go version matrix
         id: go-versions
         shell: bash
@@ -77,6 +78,7 @@ jobs:
       - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
         with:
           go-version: ${{ matrix.go }}
+          check-latest: true
       - name: Install dependencies & run tests
         shell: bash
         run: |

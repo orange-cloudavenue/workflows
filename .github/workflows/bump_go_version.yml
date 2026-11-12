@@ -38,11 +38,13 @@ jobs:
           ref: ${{ inputs.ref }}
           persist-credentials: false
 
-      # The `go` directive takes a release series (X.Y) or an exact toolchain
-      # (X.Y.Z); a toolchain line only pins the minimum, so rewriting it is
-      # pointless - and wrong - when the module never declared one.
+      # `go get go@X.Y.Z` is the supported way to update Go module/workspace
+      # metadata coherently: it preserves patch versions where declared and keeps
+      # the surrounding requirements in sync. A toolchain line is only updated
+      # when already present; the workflow still never adds one implicitly.
       - name: Rewrite go / toolchain directives
         id: bump
+        shell: bash
         run: |
           set -euo pipefail
 
@@ -51,16 +53,23 @@ jobs:
             echo "::error::go-version '$version' is not X.Y or X.Y.Z"
             exit 1
           fi
-          series="$(printf '%s' "$version" | cut -d. -f1-2)"
-          echo "go-series=$series" >> "$GITHUB_OUTPUT"
 
           updated=0
-          for file in $(find . \( -name go.mod -o -name go.work \) \
-                        -not -path '*/vendor/*' -not -path '*/.git/*' | sort); do
+          while IFS= read -r file; do
+            dir="$(dirname "$file")"
             before="$(cat "$file")"
 
-            if grep -Eq '^go [0-9]' "$file"; then
-              sed -i -E "s/^go [0-9].*$/go ${series}/" "$file"
+            if [ "$(basename "$file")" = 'go.work' ]; then
+              (
+                cd "$dir"
+                GOWORK=off go work edit -go="$version"
+              )
+            elif grep -Eq '^module ' "$file"; then
+              (
+                cd "$dir"
+                GOWORK=off go get go@"$version"
+                GOWORK=off go mod tidy
+              )
             else
               continue
             fi
@@ -73,7 +82,15 @@ jobs:
               echo "rewritten: $file"
               updated=$((updated + 1))
             fi
-          done
+          done < <(find . \( -name go.mod -o -name go.work \) -not -path '*/vendor/*' -not -path '*/.git/*' | sort)
+
+          while IFS= read -r workfile; do
+            dir="$(dirname "$workfile")"
+            (
+              cd "$dir"
+              GOWORK=off go work sync
+            )
+          done < <(find . -name go.work -not -path '*/vendor/*' -not -path '*/.git/*' | sort)
 
           echo "files-rewritten=$updated" >> "$GITHUB_OUTPUT"
 
@@ -95,8 +112,8 @@ jobs:
           body: |
             Sets the Go version to `${{ inputs.go-version }}` in every `go.mod` / `go.work` of this repository.
 
-            - `go` directive rewritten to `${{ steps.bump.outputs.go-series }}` in ${{ steps.bump.outputs.files-rewritten }} file(s)
-            - `toolchain` directives already present rewritten to `go${{ inputs.go-version }}`; none added where the module did not declare one
+            - `go` directives updated with the Go toolchain itself in ${{ steps.bump.outputs.files-rewritten }} file(s)
+            - existing `toolchain` directives optionally rewritten to `go${{ inputs.go-version }}`; none added where the module did not declare one
 
             Opened by `workflows/.github/workflows/bump_go_version.yml`; review the resulting `go.mod` diff before merging, and let the CI of this repository prove the module still builds.
           delete-branch: true
