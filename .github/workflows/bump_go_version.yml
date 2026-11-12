@@ -104,7 +104,7 @@ jobs:
       - name: Create Pull Request
         id: create-pull-request
         if: steps.changed-files.outputs.any_changed == 'true'
-        uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676
+        uses: peter-evans/create-pull-request@2b80376d29704dbd3e0db5d8e33d64c9e1f8d169
         with:
           token: ${{ secrets.SYNC_PAT }}
           commit-message: "chore(deps): bump go version to ${{ inputs.go-version }}"
@@ -133,7 +133,7 @@ jobs:
 
       - name: Update Pull Request with changelog entry
         if: steps.create-pull-request.outputs.pull-request-number != ''
-        uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676
+        uses: peter-evans/create-pull-request@2b80376d29704dbd3e0db5d8e33d64c9e1f8d169
         with:
           token: ${{ secrets.SYNC_PAT }}
           add-paths: .changelog/${{ steps.create-pull-request.outputs.pull-request-number }}.txt
