@@ -124,17 +124,19 @@ jobs:
         shell: bash
         run: |
           mkdir -p .changelog
-          cat << EOF > .changelog/${{ steps.create-pull-request.outputs.pull-request-number }}.txt
-          ```release-note:dependency
-          deps: bump Go version to ${{ inputs.go-version }}
-          ```
-          EOF
+          changelog_file=.changelog/${{ steps.create-pull-request.outputs.pull-request-number }}.txt
+          {
+            echo '```release-note:dependency'
+            echo 'deps: bump Go version to ${{ inputs.go-version }}'
+            echo '```'
+          } > "$changelog_file"
 
       - name: Update Pull Request with changelog entry
         if: steps.create-pull-request.outputs.pull-request-number != ''
         uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676
         with:
           token: ${{ secrets.SYNC_PAT }}
+          add-paths: .changelog/${{ steps.create-pull-request.outputs.pull-request-number }}.txt
           commit-message: "chore: add changelog for #${{ steps.create-pull-request.outputs.pull-request-number }}"
           branch: chore/bump-go-version-${{ inputs.go-version }}
           title: "chore(deps): bump Go version to ${{ inputs.go-version }}"
