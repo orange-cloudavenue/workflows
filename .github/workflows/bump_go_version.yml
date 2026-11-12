@@ -102,11 +102,40 @@ jobs:
           fi
 
       - name: Create Pull Request
+        id: create-pull-request
         if: steps.changed-files.outputs.any_changed == 'true'
         uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676
         with:
           token: ${{ secrets.SYNC_PAT }}
           commit-message: "chore(deps): bump go version to ${{ inputs.go-version }}"
+          branch: chore/bump-go-version-${{ inputs.go-version }}
+          title: "chore(deps): bump Go version to ${{ inputs.go-version }}"
+          body: |
+            Sets the Go version to `${{ inputs.go-version }}` in every `go.mod` / `go.work` of this repository.
+
+            - `go` directives updated with the Go toolchain itself in ${{ steps.bump.outputs.files-rewritten }} file(s)
+            - existing `toolchain` directives optionally rewritten to `go${{ inputs.go-version }}`; none added where the module did not declare one
+
+            Opened by `workflows/.github/workflows/bump_go_version.yml`; review the resulting `go.mod` diff before merging, and let the CI of this repository prove the module still builds.
+          delete-branch: true
+
+      - name: Add changelog entry
+        if: steps.create-pull-request.outputs.pull-request-number != ''
+        shell: bash
+        run: |
+          mkdir -p .changelog
+          cat << EOF > .changelog/${{ steps.create-pull-request.outputs.pull-request-number }}.txt
+          ```release-note:dependency
+          deps: bump Go version to ${{ inputs.go-version }}
+          ```
+          EOF
+
+      - name: Update Pull Request with changelog entry
+        if: steps.create-pull-request.outputs.pull-request-number != ''
+        uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676
+        with:
+          token: ${{ secrets.SYNC_PAT }}
+          commit-message: "chore: add changelog for #${{ steps.create-pull-request.outputs.pull-request-number }}"
           branch: chore/bump-go-version-${{ inputs.go-version }}
           title: "chore(deps): bump Go version to ${{ inputs.go-version }}"
           body: |
