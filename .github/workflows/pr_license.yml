@@ -35,7 +35,7 @@ jobs:
         with:
           ref: ${{ inputs.ref }}
           repository: ${{ inputs.repository }}
-      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
+      - uses: actions/setup-go@d8cbb8045d7f43706b9177cceb36c1f91a6644d5
         with:
           check-latest: true
           go-version: '1.26'
@@ -51,7 +51,7 @@ jobs:
 
       - name: Commit and push changes
         if: steps.changed-files.outputs.any_changed == 'true'
-        uses: stefanzweifel/git-auto-commit-action@4a55954c782fc1ea30b9056cd3e7a2b40ca8887d
+        uses: stefanzweifel/git-auto-commit-action@d0b01107b5db882071f96de5dd4b54961ea93f4c
         with:
           commit_message: "chore: Update License Headers"
           commit_user_name: github-actions[bot]
